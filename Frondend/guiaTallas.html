@@ -4,15 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index/Latiendadelseis</title>
+    <title>GuiaTallas/Latiendadelseis</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="guiaTallas.css">
 </head>
+
+
 
 <body>
     <!-- ======= HEADER ======= -->
@@ -65,113 +67,113 @@
 
 
 
-<main>
-    <!-- ======= SECCIÓN HERO ======= -->
-    <section id="hero" class="d-flex flex-column flex-lg-row min-vh-100">
-        <div class="hero-item perfumes flex-fill d-flex justify-content-center align-items-center"
-            onclick="window.location.href='perfumes.html'">
-            <h2>PERFUMES</h2>
+
+
+<section class="guia-tallas container py-5">
+
+    <!-- TÍTULO CABALLERO -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 text-center">
+            <h2 class="titulo-guia">TALLA DE CABALLERO</h2>
         </div>
-        <div class="hero-item zapatillas flex-fill d-flex justify-content-center align-items-center"
-            onclick="window.location.href='zapatillas.html'">
-            <h2>ZAPATILLAS</h2>
-        </div>
-    </section>
+    </div>
 
-    <!-- ======= SECCIÓN LO MÁS VENDIDO ======= -->
-    <section id="lo-mas-vendido" class="text-center py-5">
-        <div class="container">
-            <h2 class="mb-5">LO MÁS VENDIDO</h2>
+    <!-- TARJETA CABALLERO -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
 
-            <div class="position-relative">
-                <button class="flecha btn-left">&#60;</button>
+            <div class="card tabla-card p-3 p-md-4 shadow-lg">
+                <div class="table-responsive">
+                    <table class="table tabla-tallas text-center">
 
-                <div class="row justify-content-center g-4 vendido-grid">
-                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card bg-transparent border-0 text-center">
-                            <img src="img/perfume1.png" alt="Lattafa Yara" class="img-fluid">
-                            <h3 class="mt-3">Lattafa Yara</h3>
-                            <p class="precio">COP 245.000</p>
-                        </div>
-                    </div>
+                        <thead>
+                            <tr>
+                                <th>COL <img src="img/colombia.png" class="flag"></th>
+                                <th>US <img src="img/estados-unidos.png" class="flag"></th>
+                                <th>EUR <img src="img/union-europea.png" class="flag"></th>
+                                <th>CM <img src="img/cm.png" class="flag"></th>
+                            </tr>
+                        </thead>
 
-                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card bg-transparent border-0 text-center">
-                            <img src="img/perfume2.png" alt="Le male" class="img-fluid">
-                            <h3 class="mt-3">Le male</h3>
-                            <p class="precio">COP 479.990</p>
-                        </div>
-                    </div>
+                        <tbody>
+                            <tr><td>37</td><td>7</td><td>40</td><td>25</td></tr>
+                            <tr><td>38</td><td>8</td><td>41</td><td>26</td></tr>
+                            <tr><td>39/40</td><td>8.5/9</td><td>42</td><td>26.5</td></tr>
+                            <tr><td>41</td><td>9.5</td><td>43</td><td>27</td></tr>
+                            <tr><td>42</td><td>10</td><td>44</td><td>28</td></tr>
+                        </tbody>
 
-                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card bg-transparent border-0 text-center">
-                            <img src="img/zapatilla1.png" alt="Adidas Campus" class="img-fluid">
-                            <h3 class="mt-3">Adidas Campus</h3>
-                            <p class="precio">COP 599.950</p>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card bg-transparent border-0 text-center">
-                            <img src="img/zapatilla2.png" alt="New Balance 530" class="img-fluid">
-                            <h3 class="mt-3">New Balance 530</h3>
-                            <p class="precio">COP 604.900</p>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="flecha btn-right">&#62;</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- ======= SECCIÓN REGISTRO Y MARCAS ======= -->
-    <section id="registro" class="text-center">
-        <div class="banner-registro text-white d-flex flex-column justify-content-center align-items-center">
-            <div class="container">
-                <h2>REGÍSTRATE PARA RECIBIR DESCUENTOS</h2>
-                <div class="form-correo mt-3">
-                    <input type="email" placeholder="Ingresa tu correo" class="form-control mx-auto">
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <div class="marcas-destacadas py-5">
-            <div class="container">
-                <h2 class="mb-4">MARCAS DESTACADAS</h2>
-                <div class="row justify-content-center g-4 contenedor-marcas">
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                        <div class="marca-card mx-auto">
-                            <img src="img/adidas.png" alt="Adidas" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                        <div class="marca-card mx-auto">
-                            <img src="img/Vans.png" alt="Vans" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                        <div class="marca-card mx-auto">
-                            <img src="img/NewBalance.png" alt="New Balance" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                        <div class="marca-card mx-auto">
-                            <img src="img/puma.png" alt="Puma" class="img-fluid">
-                        </div>
-                    </div>
+        </div>
+    </div>
+
+    <!-- DIVISOR -->
+    <div class="row my-5">
+        <div class="col-12">
+            <hr class="divisor">
+        </div>
+    </div>
+
+    <!-- TÍTULO DAMA -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 text-center">
+            <h2 class="titulo-guia">TALLA DE DAMA</h2>
+        </div>
+    </div>
+
+    <!-- TARJETA DAMA -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+
+            <div class="card tabla-card p-3 p-md-4 shadow-lg">
+                <div class="table-responsive">
+                    <table class="table tabla-tallas text-center">
+
+                        <thead>
+                            <tr>
+                                <th>COL <img src="img/colombia.png" class="flag"></th>
+                                <th>US <img src="img/estados-unidos.png" class="flag"></th>
+                                <th>EUR <img src="img/union-europea.png" class="flag"></th>
+                                <th>CM <img src="img/cm.png" class="flag"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr><td>35</td><td>5/5.5</td><td>36</td><td>22.5</td></tr>
+                            <tr><td>36</td><td>6</td><td>37</td><td>23.5</td></tr>
+                            <tr><td>37</td><td>6.5/7</td><td>38</td><td>24</td></tr>
+                            <tr><td>38</td><td>7.5/8</td><td>39</td><td>25</td></tr>
+                        </tbody>
+
+                    </table>
                 </div>
             </div>
+
         </div>
-    </section>
-</main>
+    </div>
+
+</section>
 
 
 
-    
 
 
-        <!-- ======= FOOTER ======= -->
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- ======= FOOTER ======= -->
         <footer class="footer-section text-white py-5">
             <div class="container">
                 <div class="row align-items-center">
