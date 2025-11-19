@@ -1,33 +1,79 @@
 <?php
 
 require_once 'config/database.php';
-require_once 'model/usermodel.php';
+require_once 'model/Usermodel.php';
 
-class usercontroller {
+class Usercontroller {
+
     private $db;
-    private $usermodel;
+    public  $Usermodel;
 
-    public function __construct() 
-    {
-        $database = new database();
+    public function __construct() {
+        $database = new Database();
         $this->db = $database->getConnection();
-        $this->usermodel = new usermodel($this->db);
+        $this->Usermodel = new Usermodel($this->db);
     }
-    public function insertuser() 
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $NumDoc = $_POST['NumDoc'];
-            $TipoDoc = $_POST['TipoDoc'];
-            $NombreCom = $_POST['NombreCom'];
-            $Correo = $_POST['Correo'];
-            $Password = $_POST['Password'];
-            $Tel = $_POST['Tel'];
-            $Direccion = $_POST['Direccion'];
-            $Rol = $_POST['Rol'];
 
-            $this->usermodel->insertuser($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password,
-        $Tel, $Direccion, $Rol);
+    // INSERTAR
+    public function insertuser() {
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $this->Usermodel->InsertarUsuario(
+                $_POST['NumDoc'],
+                $_POST['TipoDoc'],
+                $_POST['NombreCom'],
+                $_POST['Correo'],
+                $_POST['Password'],
+                $_POST['Tel'],
+                $_POST['Direccion'],
+                $_POST['Rol']
+            );
+
+            header("Location: index.php?action=listUser");
+            exit;
         }
+    }
+
+    // LISTAR
+    public function listar() {
+        return $this->Usermodel->listarUsuarios();
+    }
+
+    // FORM EDITAR
+    public function editarFormulario() {
+        $id = $_GET['id'];
+        $usuario = $this->Usermodel->getUsuarioById($id);
+        include 'views/edit_user.php';
+    }
+
+    // ACTUALIZAR
+    public function actualizarUsuario() {
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $this->Usermodel->actualizarUsuario(
+                $_POST['NumDoc'],
+                $_POST['TipoDoc'],
+                $_POST['NombreCom'],
+                $_POST['Correo'],
+                $_POST['Password'],
+                $_POST['Tel'],
+                $_POST['Direccion'],
+                $_POST['Rol'],
+                $_POST['IdUsuario']
+            );
+
+            header("Location: index.php?action=listUser");
+            exit;
+        }
+    }
+
+    // ELIMINAR
+    public function eliminarUsuario() {
+        $id = $_GET['id'];
+        $this->Usermodel->eliminarUsuario($id);
+        header("Location: index.php?action=listUser");
+        exit;
     }
 }

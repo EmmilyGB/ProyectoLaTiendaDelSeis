@@ -1,28 +1,63 @@
 <?php
 
-//conectar a la base de datos, y tabla usuarios
+class Usermodel {
 
-class usermodel {
     private $conn;
     private $table_name = "usuario";
-
-//constructor con la conexion a la base de datos
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-//insertar usuario
-
-    public function insertuser($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password,
-        $Tel, $Direccion, $Rol)
+    // INSERTAR USUARIO
+    public function InsertarUsuario($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol)
     {
+        $query = "INSERT INTO $this->table_name 
+        (NumDoc, TipoDoc, NombreCom, Correo, Password, Tel, Direccion, Rol)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-//insertar datos en la tabla
-        $query = "INSERT INTO " . $this->table_name . "(NumDoc, TipoDoc, NombreCom, Correo, Password,
-        Tel, Direccion, Rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$NumDoc, $TipoDoc, $NombreCom, $Correo, $Password,
-        $Tel, $Direccion, $Rol]);
+        $stmt->execute([
+            $NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol
+        ]);
+    }
+
+    // LISTAR
+    public function listarUsuarios()
+    {
+        $query = "SELECT * FROM $this->table_name";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // TRAER POR ID
+    public function getUsuarioById($id)
+    {
+        $query = "SELECT * FROM $this->table_name WHERE IdUsuario=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // ACTUALIZAR
+    public function actualizarUsuario($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $id)
+    {
+        $query = "UPDATE $this->table_name SET
+            NumDoc=?, TipoDoc=?, NombreCom=?, Correo=?, Password=?, Tel=?, Direccion=?, Rol=?
+            WHERE IdUsuario=?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            $NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $id
+        ]);
+    }
+
+    // ELIMINAR
+    public function eliminarUsuario($id)
+    {
+        $query = "DELETE FROM $this->table_name WHERE IdUsuario=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
     }
 }
