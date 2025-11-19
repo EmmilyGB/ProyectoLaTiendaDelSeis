@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-10-2025 a las 09:06:30
+-- Tiempo de generación: 19-11-2025 a las 07:06:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -66,16 +66,6 @@ CREATE TABLE `entrada` (
   `IdUsuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `entrada`
---
-
-INSERT INTO `entrada` (`IdEntrada`, `FechaIngreso`, `IdProducto`, `IdUsuario`) VALUES
-(1, '2025-01-01', 1, 7),
-(2, '2025-02-05', 4, 5),
-(3, '2025-02-06', 2, 3),
-(4, '2025-03-08', 3, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -113,7 +103,7 @@ CREATE TABLE `producto` (
   `Talla_unidadMedida` varchar(15) DEFAULT NULL,
   `Color` varchar(10) DEFAULT NULL,
   `Stock` int(11) DEFAULT NULL,
-  `Oferta` tinyint(1) DEFAULT NULL,
+  `Oferta` int(1) DEFAULT NULL,
   `Foto` varchar(250) DEFAULT NULL,
   `Categoria` varchar(12) DEFAULT NULL,
   `Marca` varchar(20) DEFAULT NULL,
@@ -125,11 +115,34 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `Talla_unidadMedida`, `Color`, `Stock`, `Oferta`, `Foto`, `Categoria`, `Marca`, `Descripcion`) VALUES
-(1, 'Puma speedcat', 'Gamusa', 618000, '36-37-38-39-40', 'Rojo', 80, NULL, NULL, 'Zapatillas', 'PUMA', 'Zapatillas rojas creadas e inspiradas para y en los corredores de la F1 ahora en material de gamusa desde la talla 36 a la 40'),
-(2, 'Adidas Campus', 'Gamusa', 340900, '36-37-38-39-40', 'Negro', 80, NULL, NULL, 'Zapatillas', 'ADIDAS', 'Zapatillas negras en gamusa desde la talla 36 a la 40'),
+(1, 'Puma speedcat', 'Gamusa', 618000, '36-37-38-39-40', 'Rojo', 80, 0, '1763530884_Zapatillas.jpg', 'Zapatillas', 'PUMA', 'Zapatillas rojas creadas e inspiradas para y en los corredores de la F1 ahora en material de gamusa desde la talla 36 a la 40'),
+(2, 'Adidas Campus', 'Gamusa', 340900, '36-37-38-39-40', 'Negro', 80, 0, '1763530907_CampusZ.png', 'Zapatillas', 'ADIDAS', 'Zapatillas negras en gamusa desde la talla 36 a la 40'),
 (3, 'Vans knu skool', 'Gamusa y lona', 430000, '36-37-38-39-40', 'Negro', 80, NULL, NULL, 'Zapatillas', 'VANS', 'Zapatillas negras en gamusa con una l?nea blanca lateral'),
 (4, 'New balance 550', 'cuero, malla y Gamusa', 709000, '36-37-38-39-40', 'verde', 80, NULL, NULL, 'Zapatillas', 'NEW BALANCE', 'Zapatillas blancas con detalles verdes con un estilo retro'),
-(5, 'Lattafa Yara', 'Vidrio', 180000, '100ml, 50ml', 'rosa claro', 80, NULL, NULL, 'Perfumes', 'LATTAFA', 'Famoso perfume para mujer se caracteriza por un aroma dulce, afrutado y cremoso');
+(5, 'Lattafa Yara', 'Vidrio', 180000, '100ml, 50ml', 'rosa claro', 80, 0, '1763531040_YaraP.png', 'Perfumes', 'LATTAFA', 'Famoso perfume para mujer se caracteriza por un aroma dulce, afrutado y cremoso'),
+(6, 'puma ballerina', 'gamusa', 559000, '35-36-37-38', 'rosado', 80, 2, NULL, 'zapatillas', 'PUMA', 'zapatillas de gamusa ballerina '),
+(7, 'vans', 'goma', 369000, '35-36-37-38', 'verde', 80, 2, '1763530810_vans-slip-on-trk-calzado-deportes-acuaticos.jpg', 'zapatillas', 'VANS', 'zapatillas de goma versatiles');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `Rol` int(11) NOT NULL,
+  `NameRol` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`Rol`, `NameRol`) VALUES
+(1, 'CC'),
+(2, 'TI'),
+(3, 'RC'),
+(4, 'PASS');
 
 -- --------------------------------------------------------
 
@@ -170,25 +183,23 @@ CREATE TABLE `usuario` (
   `Password` varchar(20) DEFAULT NULL,
   `Tel` int(11) DEFAULT NULL,
   `Direccion` varchar(60) DEFAULT NULL,
-  `Rol` varchar(13) DEFAULT NULL,
-  `IdTipoDocum` int(11) DEFAULT NULL
+  `IdTipoDocum` int(11) DEFAULT NULL,
+  `Rol` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`IdUsuario`, `NumDoc`, `TipoDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `Rol`, `IdTipoDocum`) VALUES
-(1, 1107867334, 'TI', 'Sofia torres castro', 'sofiatorrca@gmail.com', 'Sofia0909', 2147483647, 'Mp C3 El jordan etp 2', 'Cliente', NULL),
-(2, 1018567224, 'CC', 'Andres castillo morales', 'andrecasmor23@gmail.com', 'Andres123', 2147483647, 'Mz C5 El vergel', 'Cliente', NULL),
-(3, 146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', 2147483647, 'Mz C5 El vergel', 'Cliente', NULL),
-(4, 1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', 2147483647, 'Mj C7 mirador de boqueron', 'Cliente', NULL),
-(5, 142657930, 'TI', 'Mario contreras bello', 'mmariobello@gmail.com', 'bellobello34', 2147483647, 'Mk C9 El vergel', 'Cliente', NULL),
-(6, 107666666, 'CC', 'Dilan camilo blanco castillo', 'camicastillovla24@gmail.com', 'BlancoCastillo25', 2147483647, ' torre 4 apto304 conjunto miraflores', 'Cliente', NULL),
-(7, 1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', 2147483647, 'Mc C4 barrio villa cindy', 'Administrador', NULL),
-(8, 1013702224, 'TI', 'Andrea rojas primera', 'primerarojas2@gmail.com', 'RojasRojas2', 2147483647, 'Ma C8 calucaima', 'Cliente', NULL),
-(9, 1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', 2147483647, 'Mg C6 bella vista', 'Cliente', NULL),
-(10, 102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', 2147483647, 'Ml C2 loma alta', 'Cliente', NULL);
+INSERT INTO `usuario` (`IdUsuario`, `NumDoc`, `TipoDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
+(3, 146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', 2147483647, 'Mz C5 El vergel', NULL, NULL),
+(4, 1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', 2147483647, 'Mj C7 mirador de boqueron', NULL, NULL),
+(5, 142657930, 'TI', 'Mario contreras bello', 'mmariobello@gmail.com', 'bellobello34', 2147483647, 'Mk C9 El vergel', NULL, NULL),
+(6, 107666666, 'CC', 'Dilan camilo blanco castillo', 'camicastillovla24@gmail.com', 'BlancoCastillo25', 2147483647, ' torre 4 apto304 conjunto miraflores', NULL, NULL),
+(7, 1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', 2147483647, 'Mc C4 barrio villa cindy', NULL, NULL),
+(8, 1013702224, 'TI', 'Andrea rojas primera', 'primerarojas2@gmail.com', 'RojasRojas2', 2147483647, 'Ma C8 calucaima', NULL, NULL),
+(9, 1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', 2147483647, 'Mg C6 bella vista', NULL, NULL),
+(10, 102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', 2147483647, 'Ml C2 loma alta', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -234,6 +245,12 @@ ALTER TABLE `producto`
   ADD PRIMARY KEY (`IdProducto`);
 
 --
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`Rol`);
+
+--
 -- Indices de la tabla `tipodocum`
 --
 ALTER TABLE `tipodocum`
@@ -244,7 +261,8 @@ ALTER TABLE `tipodocum`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`IdUsuario`),
-  ADD KEY `IdTipoDocum` (`IdTipoDocum`);
+  ADD KEY `IdTipoDocum` (`IdTipoDocum`),
+  ADD KEY `Rol` (`Rol`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -278,7 +296,13 @@ ALTER TABLE `factura`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `Rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tipodocum`
@@ -322,7 +346,8 @@ ALTER TABLE `factura`
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IdTipoDocum`) REFERENCES `tipodocum` (`IdTipoDocum`);
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IdTipoDocum`) REFERENCES `tipodocum` (`IdTipoDocum`),
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`Rol`) REFERENCES `rol` (`Rol`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
