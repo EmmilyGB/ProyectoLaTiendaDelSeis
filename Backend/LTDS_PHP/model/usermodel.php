@@ -31,14 +31,16 @@ class Usermodel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // TRAER POR ID
+    // OBTENER USUARIO POR ID
     public function getUsuarioById($id)
     {
-        $query = "SELECT * FROM $this->table_name WHERE IdUsuario=?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $query = "SELECT * FROM $this->table_name WHERE IdUsuario = ? LIMIT 1";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
 
     // ACTUALIZAR
     public function actualizarUsuario($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $id)
@@ -60,4 +62,6 @@ class Usermodel {
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
     }
+
+
 }

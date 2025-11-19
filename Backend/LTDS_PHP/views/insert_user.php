@@ -12,11 +12,16 @@
 
 <form action="index.php?action=insertuser" method="POST">
 
-    <label>NumDoc:</label>
+    <label>Numero de Documento:</label>
     <input type="text" name="NumDoc" required><br>
 
-    <label>TipoDoc:</label>
-    <input type="text" name="TipoDoc" required><br>
+    <label for="IdTipoDocum">Tipo de documento:</label>
+    <select name="IdTipoDocum" id="IdTipoDocum">
+            <?php foreach ($docums as $docum): ?>
+                <option value="<?= $docum['IdTipoDocum']; ?>"><?= $docum['TipoDoc']; ?>
+                </option>
+            <?php endforeach; ?>
+            </select><br>
 
     <label>Nombre completo:</label>
     <input type="text" name="NombreCom" required><br>
@@ -33,8 +38,15 @@
     <label>Direccion:</label>
     <input type="text" name="Direccion" required><br>
 
-    <label>Rol:</label>
-    <input type="text" name="Rol" required><br>
+    <label for="Rol">Rol:</label>
+<select name="Rol" id="Rol">
+    <?php foreach ($roles as $rol): ?>
+        <option value="<?= $rol['Rol']; ?>">
+            <?= $rol['NameRol']; ?>
+        </option>
+    <?php endforeach; ?>
+</select><br>
+
 
     <input type="submit" value="Guardar">
 </form>

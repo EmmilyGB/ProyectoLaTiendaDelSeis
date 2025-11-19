@@ -2,10 +2,15 @@
 require_once './controllers/usercontroller.php';
 require_once './controllers/tipodocumcontroller.php';
 require_once './controllers/Producontroller.php';
+require_once './controllers/rolcontroller.php';
+
+
 
 $userController = new usercontroller();
 $tipodocumController = new tipodocumcontroller();
 $Producontroller = new Producontroller();
+$rolController = new RolController();
+
 
 $action = $_GET['action'] ?? 'dashboard';
 
@@ -17,6 +22,7 @@ switch ($action) {
             include 'views/dashboard.php';
         } else {
             $docums = $tipodocumController->listTipoDocum();
+            $roles = $rolController->listRoles();
             include 'views/insert_user.php';
         }
         break;
@@ -38,7 +44,7 @@ switch ($action) {
     $productos = $Producontroller->listar();
     include 'views/list_product.php';
     break;
-
+    
     case 'editProduct':
     $Producontroller->editarFormulario();
     break;

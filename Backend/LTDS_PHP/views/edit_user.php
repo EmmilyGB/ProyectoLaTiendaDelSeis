@@ -4,10 +4,10 @@
 
     <input type="hidden" name="IdUsuario" value="<?= $usuario['IdUsuario'] ?>">
 
-    <label>NumDoc:</label>
+    <label>Numero de Documento:</label>
     <input type="text" name="NumDoc" value="<?= $usuario['NumDoc'] ?>"><br>
 
-    <label>TipoDoc:</label>
+    <label>Tipo de Documento:</label>
     <input type="text" name="TipoDoc" value="<?= $usuario['TipoDoc'] ?>"><br>
 
     <label>Nombre completo:</label>
@@ -25,8 +25,16 @@
     <label>Direccion:</label>
     <input type="text" name="Direccion" value="<?= $usuario['Direccion'] ?>"><br>
 
-    <label>Rol:</label>
-    <input type="text" name="Rol" value="<?= $usuario['Rol'] ?>"><br>
+    <label for="Rol">Rol:</label>
+<select name="Rol" id="Rol">
+    <?php foreach ($roles as $rol): ?>
+        <option value="<?= $rol['Rol']; ?>"
+            <?= ($rol['Rol'] == $usuario['Rol']) ? 'selected' : '' ?>>
+            <?= $rol['NameRol']; ?>
+        </option>
+    <?php endforeach; ?>
+</select><br>
+
 
     <input type="submit" value="Actualizar">
 </form>

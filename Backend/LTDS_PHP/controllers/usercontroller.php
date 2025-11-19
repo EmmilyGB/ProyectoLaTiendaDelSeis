@@ -40,12 +40,22 @@ class Usercontroller {
         return $this->Usermodel->listarUsuarios();
     }
 
-    // FORM EDITAR
+
+    // FORMULARIO EDITAR
     public function editarFormulario() {
-        $id = $_GET['id'];
-        $usuario = $this->Usermodel->getUsuarioById($id);
-        include 'views/edit_user.php';
-    }
+    $id = $_GET['id'];
+
+    // USUARIO
+    $usuario = $this->Usermodel->getUsuarioById($id);
+
+    // ROLES
+    require_once 'model/rolmodel.php';
+    $RolModel = new RolModel($this->db);
+    $roles = $RolModel->getRoles();
+
+    include 'views/edit_user.php';
+}
+
 
     // ACTUALIZAR
     public function actualizarUsuario() {

@@ -3,7 +3,7 @@
 <table border="1" cellpadding="7" cellspacing="0">
     <tr>
         <th>ID</th>
-        <th>Nombre</th>
+        <th>Nombre del producto</th>
         <th>Precio</th>
         <th>Material</th>
         <th>Talla / Unidad</th>

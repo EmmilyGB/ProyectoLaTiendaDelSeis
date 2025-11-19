@@ -9,28 +9,47 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f5f5f5;
-            padding: 50px 20px;
-            text-align: center;
-        }
+    body {
+        background: linear-gradient(135deg, #eef2f3, #ffffff);
+        font-family: Arial, sans-serif;
+        padding: 60px 20px;
+        text-align: center;
+        color: #333;
+    }
 
-        h1 {
-            margin-bottom: 40px;
-            color: #333;
-        }
+    h1 {
+        font-size: 32px;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
 
+    .btn-dashboard {
+        display: inline-block;
+        background: #4b7bec;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 10px;
+        border: none;
+        font-size: 16px;
+        margin: 12px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-dashboard:hover {
+        background: #3867d6;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    @media (max-width: 576px) {
         .btn-dashboard {
-            min-width: 180px;
-            margin: 10px;
+            width: 100%;
         }
-
-        @media (max-width: 576px) {
-            .btn-dashboard {
-                width: 100%;
-            }
-        }
-    </style>
+    }
+</style>
+ 
 </head>
 <body>
 
