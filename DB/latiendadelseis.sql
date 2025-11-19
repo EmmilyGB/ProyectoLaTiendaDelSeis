@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2025 a las 07:06:52
+-- Tiempo de generación: 19-11-2025 a las 21:03:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -115,7 +115,7 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `Talla_unidadMedida`, `Color`, `Stock`, `Oferta`, `Foto`, `Categoria`, `Marca`, `Descripcion`) VALUES
-(1, 'Puma speedcat', 'Gamusa', 618000, '36-37-38-39-40', 'Rojo', 80, 0, '1763530884_Zapatillas.jpg', 'Zapatillas', 'PUMA', 'Zapatillas rojas creadas e inspiradas para y en los corredores de la F1 ahora en material de gamusa desde la talla 36 a la 40'),
+(1, 'Puma speedcat', 'Gamusa', 618000, '36-37-38-39-40', 'NEGRO', 80, 0, '1763530884_Zapatillas.jpg', 'Zapatillas', 'PUMA', 'Zapatillas rojas creadas e inspiradas para y en los corredores de la F1 ahora en material de gamusa desde la talla 36 a la 40'),
 (2, 'Adidas Campus', 'Gamusa', 340900, '36-37-38-39-40', 'Negro', 80, 0, '1763530907_CampusZ.png', 'Zapatillas', 'ADIDAS', 'Zapatillas negras en gamusa desde la talla 36 a la 40'),
 (3, 'Vans knu skool', 'Gamusa y lona', 430000, '36-37-38-39-40', 'Negro', 80, NULL, NULL, 'Zapatillas', 'VANS', 'Zapatillas negras en gamusa con una l?nea blanca lateral'),
 (4, 'New balance 550', 'cuero, malla y Gamusa', 709000, '36-37-38-39-40', 'verde', 80, NULL, NULL, 'Zapatillas', 'NEW BALANCE', 'Zapatillas blancas con detalles verdes con un estilo retro'),
@@ -139,10 +139,9 @@ CREATE TABLE `rol` (
 --
 
 INSERT INTO `rol` (`Rol`, `NameRol`) VALUES
-(1, 'CC'),
-(2, 'TI'),
-(3, 'RC'),
-(4, 'PASS');
+(1, 'Admin'),
+(2, 'Cliente'),
+(3, 'Empleado');
 
 -- --------------------------------------------------------
 
@@ -181,7 +180,7 @@ CREATE TABLE `usuario` (
   `NombreCom` varchar(40) DEFAULT NULL,
   `Correo` varchar(60) DEFAULT NULL,
   `Password` varchar(20) DEFAULT NULL,
-  `Tel` int(11) DEFAULT NULL,
+  `Tel` varchar(15) DEFAULT NULL,
   `Direccion` varchar(60) DEFAULT NULL,
   `IdTipoDocum` int(11) DEFAULT NULL,
   `Rol` int(11) DEFAULT NULL
@@ -192,14 +191,14 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`IdUsuario`, `NumDoc`, `TipoDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
-(3, 146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', 2147483647, 'Mz C5 El vergel', NULL, NULL),
-(4, 1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', 2147483647, 'Mj C7 mirador de boqueron', NULL, NULL),
-(5, 142657930, 'TI', 'Mario contreras bello', 'mmariobello@gmail.com', 'bellobello34', 2147483647, 'Mk C9 El vergel', NULL, NULL),
-(6, 107666666, 'CC', 'Dilan camilo blanco castillo', 'camicastillovla24@gmail.com', 'BlancoCastillo25', 2147483647, ' torre 4 apto304 conjunto miraflores', NULL, NULL),
-(7, 1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', 2147483647, 'Mc C4 barrio villa cindy', NULL, NULL),
-(8, 1013702224, 'TI', 'Andrea rojas primera', 'primerarojas2@gmail.com', 'RojasRojas2', 2147483647, 'Ma C8 calucaima', NULL, NULL),
-(9, 1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', 2147483647, 'Mg C6 bella vista', NULL, NULL),
-(10, 102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', 2147483647, 'Ml C2 loma alta', NULL, NULL);
+(3, 146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', '2147483647', 'Mz C5 El casa verde murilo', NULL, 2),
+(4, 1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', '2147483647', 'Mj C7 mirador de boqueron', NULL, NULL),
+(5, 142657930, 'TI', 'Mario contreras bello', 'mmariobello@gmail.com', 'bellobello34', '2147483647', 'Mk C9 El vergel', NULL, NULL),
+(6, 107666666, 'CC', 'Dilan camilo blanco castillo', 'camicastillovla24@gmail.com', 'BlancoCastillo25', '2147483647', ' torre 4 apto304 conjunto miraflores', NULL, NULL),
+(7, 1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', '2147483647', 'Mc C4 barrio villa cindy', NULL, NULL),
+(8, 1013702224, 'TI', 'Andrea rojas primera', 'primerarojas2@gmail.com', 'RojasRojas2', '2147483647', 'Ma C8 calucaima', NULL, NULL),
+(9, 1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', '2147483647', 'Mg C6 bella vista', NULL, NULL),
+(10, 102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', '2147483647', 'Ml C2 loma alta', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
