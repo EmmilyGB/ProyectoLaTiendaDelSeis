@@ -1,59 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>insertar usuario</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insertar Usuario</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+  <link rel="stylesheet" href="css/Form.css">
 </head>
 
 <body>
-    <h1>Insertar Usuario</h1>
 
-<form action="index.php?action=insertuser" method="POST">
+  <div class="center-wrapper">
+    <div class="wrapper-box">
 
-    <label>Numero de Documento:</label>
-    <input type="text" name="NumDoc" required><br>
+      <h1 class="dashboard-title mb-4">Insertar Usuario</h1>
 
-    <label for="IdTipoDocum">Tipo de documento:</label>
-    <select name="IdTipoDocum" id="IdTipoDocum">
-            <?php foreach ($docums as $docum): ?>
-                <option value="<?= $docum['IdTipoDocum']; ?>"><?= $docum['TipoDoc']; ?>
-                </option>
-            <?php endforeach; ?>
-            </select><br>
+      <form action="index.php?action=insertuser" method="POST" class="form-column">
 
-    <label>Nombre completo:</label>
-    <input type="text" name="NombreCom" required><br>
+        <label class="form-label">Número de Documento</label>
+        <input type="text" name="NumDoc" class="form-control mb-2" required>
 
-    <label>Correo:</label>
-    <input type="email" name="Correo" required><br>
+        <label class="form-label">Tipo de Documento</label>
+        <select name="IdTipoDocum" class="form-select mb-2">
+          <?php foreach ($docums as $docum): ?>
+            <option value="<?= $docum['IdTipoDocum']; ?>">
+              <?= $docum['TipoDoc']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
 
-    <label>Password:</label>
-    <input type="password" name="Password" required><br>
+        <label class="form-label">Nombre completo</label>
+        <input type="text" name="NombreCom" class="form-control mb-2" required>
 
-    <label>Tel:</label>
-    <input type="text" name="Tel" required><br>
+        <label class="form-label">Correo</label>
+        <input type="email" name="Correo" class="form-control mb-2" required>
 
-    <label>Direccion:</label>
-    <input type="text" name="Direccion" required><br>
+        <label class="form-label">Password</label>
+        <input type="password" name="Password" class="form-control mb-2" required>
 
-    <label for="Rol">Rol:</label>
-<select name="Rol" id="Rol">
-    <?php foreach ($roles as $rol): ?>
-        <option value="<?= $rol['Rol']; ?>">
-            <?= $rol['NameRol']; ?>
-        </option>
-    <?php endforeach; ?>
-</select><br>
+        <label class="form-label">Teléfono</label>
+        <input type="text" name="Tel" class="form-control mb-2" required>
 
+        <label class="form-label">Dirección</label>
+        <input type="text" name="Direccion" class="form-control mb-2" required>
 
-    <input type="submit" value="Guardar">
-</form>
+        <label class="form-label">Rol</label>
+        <select name="Rol" class="form-select mb-3">
+          <?php foreach ($roles as $rol): ?>
+            <option value="<?= $rol['Rol']; ?>">
+              <?= $rol['NameRol']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
 
-<form action="index.php?action=dashboard" method="post">
-        <button type="submit" name="action" value="dashboard">dashboard</button>
-    </form>
+        <button type="submit" class="btn-dashboard w-100 mb-3">
+          <i class="bi bi-save-fill"></i> Guardar Usuario
+        </button>
+
+      </form>
+
+      <form action="index.php?action=dashboard" method="post">
+        <button type="submit" class="btn-dashboard w-100">
+          <i class="bi bi-arrow-left-circle-fill"></i> Volver al Dashboard
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

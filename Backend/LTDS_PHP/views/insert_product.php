@@ -1,56 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insertar Producto</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insertar Producto</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/Form.css">
 </head>
+
 <body>
 
-    <h1>Insertar Producto</h1>
+  <div class="center-wrapper">
+    <div class="wrapper-box">
 
-<form action="index.php?action=insertProdu" method="POST" enctype="multipart/form-data">
+      <h1 class="dashboard-title">Insertar Producto</h1>
 
-    <label>Nombre:</label>
-    <input type="text" name="Nombre" required><br>
+      <form action="index.php?action=insertProdu" method="POST" enctype="multipart/form-data" class="form-column">
 
-    <label>Precio:</label>
-    <input type="number" name="Precio" required><br>
+        <label class="form-label">Nombre</label>
+        <input type="text" name="Nombre" class="form-control mb-2" required>
 
-    <label>Material:</label>
-    <input type="text" name="Material" required><br>
+        <label class="form-label">Precio</label>
+        <input type="number" name="Precio" class="form-control mb-2" required>
 
-    <label>Talla/Unidad Medida:</label>
-    <input type="text" name="Talla_unidadMedida" required><br>
+        <label class="form-label">Material</label>
+        <input type="text" name="Material" class="form-control mb-2" required>
 
-    <label>Color:</label>
-    <input type="text" name="Color" required><br>
+        <label class="form-label">Talla / Unidad Medida</label>
+        <input type="text" name="Talla_unidadMedida" class="form-control mb-2" required>
 
-    <label>Stock:</label>
-    <input type="number" name="Stock" required><br>
+        <label class="form-label">Color</label>
+        <input type="text" name="Color" class="form-control mb-2" required>
 
-    <label>Oferta:</label>
-    <input type="text" name="Oferta" required><br>
+        <label class="form-label">Stock</label>
+        <input type="number" name="Stock" class="form-control mb-2" required>
 
-    <label>Categoria:</label>
-    <input type="text" name="Categoria" required><br>
+        <label class="form-label">Oferta</label>
+        <input type="number" name="Oferta" class="form-control mb-2">
 
-    <label>Marca:</label>
-    <input type="text" name="Marca" required><br>
+        <label class="form-label">Categoría</label>
+        <input type="text" name="Categoria" class="form-control mb-2" required>
 
-    <label>Descripcion:</label>
-    <input type="text" name="Descripcion" required><br>
+        <label class="form-label">Marca</label>
+        <input type="text" name="Marca" class="form-control mb-2" required>
 
-    <label>Foto:</label>
-    <input type="file" name="Foto"><br>
+        <label class="form-label">Descripción</label>
+        <textarea name="Descripcion" class="form-control mb-2" rows="3" required></textarea>
 
-    <input type="submit" value="Guardar">
-</form>
+        <label class="form-label">Foto</label>
+        <input type="file" name="Foto" class="form-control mb-3">
 
-<form action="index.php?action=dashboard" method="post">
-        <button type="submit" name="action" value="dashboard">dashboard</button>
-    </form>
+        <!-- BOTÓN GUARDAR -->
+        <button type="submit" class="btn-dashboard w-100 mb-3">
+          <i class="bi bi-save-fill"></i> Guardar Producto
+        </button>
 
+      </form>
+
+      <!-- BOTÓN VOLVER -->
+      <form action="index.php?action=dashboard" method="post">
+        <button type="submit" class="btn-dashboard w-100">
+          <i class="bi bi-arrow-left-circle-fill"></i> Volver al Dashboard
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
