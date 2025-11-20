@@ -92,3 +92,12 @@ html, body {
   }
 
 }
+
+/* Botones internos un poco más pequeños */
+.sub-btn {
+  background-color: #b00000 !important;
+  margin-top: 10px;
+}
+.sub-btn:hover {
+  background-color: #900000 !important;
+}

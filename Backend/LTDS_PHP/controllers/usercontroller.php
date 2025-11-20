@@ -40,6 +40,11 @@ class Usercontroller {
         return $this->Usermodel->listarUsuarios();
     }
 
+    public function UsersByName() {
+        $NombreCom = $_GET['NombreCom'] ?? '';
+        return $this->Usermodel->getUsuarioByNombre($NombreCom);
+    }
+
 
     // FORMULARIO EDITAR
     public function editarFormulario() {

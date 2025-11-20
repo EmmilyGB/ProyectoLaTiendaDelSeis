@@ -40,6 +40,14 @@ class Usermodel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+    // OBTENER USUSARIO POR NOMBRE
+    public function getUsuarioByNombre($NombreCom)
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE NombreCom LIKE ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(['%' . $NombreCom . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     // ACTUALIZAR

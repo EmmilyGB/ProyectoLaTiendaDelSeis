@@ -44,6 +44,11 @@ switch ($action) {
     $productos = $Producontroller->listar();
     include 'views/list_product.php';
     break;
+
+    case 'ProductsByName':
+    $productos = $Producontroller->ProductsByName();
+    include 'views/list_ProduByName.php';
+    break;
     
     case 'editProduct':
     $Producontroller->editarFormulario();
@@ -61,6 +66,12 @@ switch ($action) {
     $usuarios = $userController->listar();
     include 'views/list_user.php';
     break;
+
+    case 'UsersByName':
+    $usuarios = $userController->UsersByName();
+    include 'views/list_UserByName.php';
+    break;
+
 
     case 'editUser':
     $userController->editarFormulario();

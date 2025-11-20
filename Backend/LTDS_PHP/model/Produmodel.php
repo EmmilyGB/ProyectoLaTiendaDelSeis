@@ -33,6 +33,15 @@ class Produmodel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // OBTENER PRODUCTO POR NOMBRE
+    public function getProductoByNombre($Nombre)
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE Nombre LIKE ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(['%' . $Nombre . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // ACTUALIZAR PRODUCTO
     public function actualizarProducto($Nombre, $Precio, $Material, $Talla_unidadMedida, $Color,
         $Stock, $Oferta, $Categoria, $Marca, $Descripcion, $Foto, $id)

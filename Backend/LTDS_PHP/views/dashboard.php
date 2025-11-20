@@ -17,7 +17,6 @@
 
 <body>
 
-
   <div class="center-wrapper">
     <div class="wrapper-box">
 
@@ -27,36 +26,70 @@
         <h1 class="dashboard-title">Dashboard</h1>
       </div>
 
-      <!-- BOTONES -->
+      <!-- BOTONES AGRUPADOS -->
       <div class="button-column">
 
-        <form action="index.php" method="get">
-          <button type="submit" name="action" value="insertuser" class="btn-dashboard">
-            <i class="bi bi-person-plus-fill"></i>
-            <span>Insertar Usuario</span>
-          </button>
-        </form>
+        <!-- === BOTÓN USUARIO === -->
+        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#usuarioMenu">
+          <i class="bi bi-person-fill"></i>
+          <span>Usuario</span>
+        </button>
 
-        <form action="index.php" method="get">
-          <button type="submit" name="action" value="insertProdu" class="btn-dashboard">
-            <i class="bi bi-box-seam"></i>
-            <span>Insertar Producto</span>
-          </button>
-        </form>
+        <div id="usuarioMenu" class="collapse">
 
-        <form action="index.php" method="get">
-          <button type="submit" name="action" value="listProduct" class="btn-dashboard">
-            <i class="bi bi-list-ul"></i>
-            <span>Lista Productos</span>
-          </button>
-        </form>
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="insertuser" class="btn-dashboard sub-btn">
+              <i class="bi bi-person-plus-fill"></i>
+              <span>Insertar Usuario</span>
+            </button>
+          </form>
 
-        <form action="index.php" method="get">
-          <button type="submit" name="action" value="listUser" class="btn-dashboard">
-            <i class="bi bi-people-fill"></i>
-            <span>Lista Usuarios</span>
-          </button>
-        </form>
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="listUser" class="btn-dashboard sub-btn">
+              <i class="bi bi-people-fill"></i>
+              <span>Lista Usuarios</span>
+            </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="UsersByName" class="btn-dashboard sub-btn">
+              <i class="bi bi-search"></i>
+              <span>Buscar Usuario</span>
+            </button>
+          </form>
+
+        </div>
+
+        <!-- === BOTÓN PRODUCTO === -->
+        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#productoMenu">
+          <i class="bi bi-box-seam"></i>
+          <span>Producto</span>
+        </button>
+
+        <div id="productoMenu" class="collapse">
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="insertProdu" class="btn-dashboard sub-btn">
+              <i class="bi bi-box-seam"></i>
+              <span>Insertar Producto</span>
+            </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="listProduct" class="btn-dashboard sub-btn">
+              <i class="bi bi-list-ul"></i>
+              <span>Lista Productos</span>
+            </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="ProductsByName" class="btn-dashboard sub-btn">
+              <i class="bi bi-search"></i>
+              <span>Buscar Producto</span>
+            </button>
+          </form>
+
+        </div>
 
       </div>
 

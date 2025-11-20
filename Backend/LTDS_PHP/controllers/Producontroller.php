@@ -53,6 +53,11 @@ class Producontroller {
         return $this->Produmodel->listarProductos();
     }
 
+    public function ProductsByName() {
+        $Nombre = $_GET['Nombre'] ?? '';
+        return $this->Produmodel->getProductoByNombre($Nombre);
+    }
+
     // FORMULARIO EDITAR
     public function editarFormulario() {
         $id = $_GET['id'];
