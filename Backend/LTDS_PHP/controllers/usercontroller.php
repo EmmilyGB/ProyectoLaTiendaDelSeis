@@ -17,23 +17,28 @@ class Usercontroller {
     // INSERTAR
     public function insertuser() {
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $this->Usermodel->InsertarUsuario(
-                $_POST['NumDoc'],
-                $_POST['TipoDoc'],
-                $_POST['NombreCom'],
-                $_POST['Correo'],
-                $_POST['Password'],
-                $_POST['Tel'],
-                $_POST['Direccion'],
-                $_POST['Rol']
-            );
+        $result = $this->Usermodel->InsertarUsuario(
+            $_POST['NumDoc'],
+            $_POST['IdTipoDocum'],
+            $_POST['NombreCom'],
+            $_POST['Correo'],
+            $_POST['Password'],
+            $_POST['Tel'],
+            $_POST['Direccion'],
+            $_POST['Rol']
+        );
 
-            header("Location: index.php?action=listUser");
+        if ($result === "duplicate") {
+            include 'views/error_duplicate.php';
             exit;
         }
+
+        header("Location: index.php?action=listUser");
+        exit;
     }
+}
 
     // LISTAR
     public function listar() {
@@ -65,24 +70,25 @@ class Usercontroller {
     // ACTUALIZAR
     public function actualizarUsuario() {
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $this->Usermodel->actualizarUsuario(
-                $_POST['NumDoc'],
-                $_POST['TipoDoc'],
-                $_POST['NombreCom'],
-                $_POST['Correo'],
-                $_POST['Password'],
-                $_POST['Tel'],
-                $_POST['Direccion'],
-                $_POST['Rol'],
-                $_POST['IdUsuario']
-            );
+        $this->Usermodel->actualizarUsuario(
+            $_POST['NumDoc'],          // Nuevo NumDoc
+            $_POST['IdTipoDocum'],     // TipoDoc
+            $_POST['NombreCom'],
+            $_POST['Correo'],
+            $_POST['Password'],
+            $_POST['Tel'],
+            $_POST['Direccion'],
+            $_POST['Rol'],
+            $_POST['NumDocOriginal']   // NumDoc viejo (clave primaria)
+        );
 
-            header("Location: index.php?action=listUser");
-            exit;
-        }
+        header("Location: index.php?action=listUser");
+        exit;
     }
+}
+
 
     // ELIMINAR
     public function eliminarUsuario() {

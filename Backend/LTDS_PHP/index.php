@@ -84,6 +84,7 @@ switch ($action) {
     case 'deleteUser':
     $userController->eliminarUsuario();
     break;
+    
 
 
 }

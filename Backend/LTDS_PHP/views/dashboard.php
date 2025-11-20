@@ -45,13 +45,6 @@
           </form>
 
           <form action="index.php" method="get">
-            <button type="submit" name="action" value="listUser" class="btn-dashboard sub-btn">
-              <i class="bi bi-people-fill"></i>
-              <span>Lista Usuarios</span>
-            </button>
-          </form>
-
-          <form action="index.php" method="get">
             <button type="submit" name="action" value="UsersByName" class="btn-dashboard sub-btn">
               <i class="bi bi-search"></i>
               <span>Buscar Usuario</span>
@@ -72,13 +65,6 @@
             <button type="submit" name="action" value="insertProdu" class="btn-dashboard sub-btn">
               <i class="bi bi-box-seam"></i>
               <span>Insertar Producto</span>
-            </button>
-          </form>
-
-          <form action="index.php" method="get">
-            <button type="submit" name="action" value="listProduct" class="btn-dashboard sub-btn">
-              <i class="bi bi-list-ul"></i>
-              <span>Lista Productos</span>
             </button>
           </form>
 

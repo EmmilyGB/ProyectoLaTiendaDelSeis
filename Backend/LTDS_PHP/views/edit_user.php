@@ -23,14 +23,21 @@
 
       <form action="index.php?action=updateUser" method="POST" class="form-column">
 
-        <!-- ID oculto -->
-        <input type="hidden" name="IdUsuario" value="<?= $usuario['IdUsuario'] ?>">
+        <!-- NUMERO ORIGINAL DEL DOCUMENTO (clave primaria) -->
+        <input type="hidden" name="NumDocOriginal" value="<?= $usuario['NumDoc'] ?>">
 
         <label class="form-label">Número de Documento</label>
         <input type="text" name="NumDoc" value="<?= $usuario['NumDoc'] ?>" class="form-control mb-2" required>
 
         <label class="form-label">Tipo de Documento</label>
-        <input type="text" name="TipoDoc" value="<?= $usuario['TipoDoc'] ?>" class="form-control mb-2" required>
+        <select name="IdTipoDocum" class="form-select mb-2">
+          <?php foreach ($docums as $docum): ?>
+            <option value="<?= $docum['IdTipoDocum']; ?>"
+              <?= ($usuario['TipoDoc'] == $docum['IdTipoDocum']) ? 'selected' : '' ?>>
+              <?= $docum['TipoDoc']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
 
         <label class="form-label">Nombre Completo</label>
         <input type="text" name="NombreCom" value="<?= $usuario['NombreCom'] ?>" class="form-control mb-2" required>

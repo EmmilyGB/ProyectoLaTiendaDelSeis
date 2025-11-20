@@ -9,20 +9,36 @@ class Usermodel {
         $this->conn = $db;
     }
 
+    // ===========================
     // INSERTAR USUARIO
+    // ===========================
     public function InsertarUsuario($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol)
     {
-        $query = "INSERT INTO $this->table_name 
-        (NumDoc, TipoDoc, NombreCom, Correo, Password, Tel, Direccion, Rol)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            $query = "INSERT INTO $this->table_name 
+            (NumDoc, TipoDoc, NombreCom, Correo, Password, Tel, Direccion, Rol)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([
-            $NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol
-        ]);
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                $NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol
+            ]);
+
+            return true;
+
+        } catch (PDOException $e) {
+
+            if ($e->getCode() == "23000") { // Duplicado PK
+                return "duplicate";
+            }
+
+            return false;
+        }
     }
 
-    // LISTAR
+    // ===========================
+    // LISTAR USUARIOS
+    // ===========================
     public function listarUsuarios()
     {
         $query = "SELECT * FROM $this->table_name";
@@ -31,45 +47,52 @@ class Usermodel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // OBTENER USUARIO POR ID
+    // ===========================
+    // OBTENER USUARIO POR NUMDOC
+    // ===========================
     public function getUsuarioById($id)
     {
-    $query = "SELECT * FROM $this->table_name WHERE IdUsuario = ? LIMIT 1";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        $query = "SELECT * FROM $this->table_name WHERE NumDoc = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-    // OBTENER USUSARIO POR NOMBRE
+    // ===========================
+    // BUSCAR USUARIO POR NOMBRE
+    // ===========================
     public function getUsuarioByNombre($NombreCom)
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE NombreCom LIKE ?";
+        $query = "SELECT * FROM $this->table_name WHERE NombreCom LIKE ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['%' . $NombreCom . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    // ACTUALIZAR
-    public function actualizarUsuario($NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $id)
+    // ===========================
+    // ACTUALIZAR USUARIO
+    // ===========================
+    public function actualizarUsuario($NumDocNuevo, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $NumDocOriginal)
     {
         $query = "UPDATE $this->table_name SET
             NumDoc=?, TipoDoc=?, NombreCom=?, Correo=?, Password=?, Tel=?, Direccion=?, Rol=?
-            WHERE IdUsuario=?";
+            WHERE NumDoc=?";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
-            $NumDoc, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $id
+            $NumDocNuevo, $TipoDoc, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol,
+            $NumDocOriginal
         ]);
     }
 
-    // ELIMINAR
-    public function eliminarUsuario($id)
+    // ===========================
+    // ELIMINAR USUARIO
+    // ===========================
+    public function eliminarUsuario($NumDoc)
     {
-        $query = "DELETE FROM $this->table_name WHERE IdUsuario=?";
+        $query = "DELETE FROM $this->table_name WHERE NumDoc=?";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$id]);
+        $stmt->execute([$NumDoc]);
     }
-
 
 }

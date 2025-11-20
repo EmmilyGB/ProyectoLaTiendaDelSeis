@@ -60,7 +60,6 @@
 
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>N° Documento</th>
                         <th>Tipo Documento</th>
                         <th>Nombre</th>
@@ -76,9 +75,8 @@
                 <tbody>
                     <?php foreach ($usuarios as $u): ?>
                     <tr>
-                        <td><?= $u['IdUsuario'] ?></td>
                         <td><?= $u['NumDoc'] ?></td>
-                        <td><?= $u['TipoDoc'] ?></td>
+                        <td><?= $u['IdTipoDocum'] ?></td>
                         <td><?= $u['NombreCom'] ?></td>
                         <td><?= $u['Correo'] ?></td>
                         <td><?= $u['Password'] ?></td>
@@ -88,12 +86,12 @@
 
                         <td class="text-center">
 
-                            <a href="index.php?action=editUser&id=<?= $u['IdUsuario'] ?>"
+                            <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>"
                                class="action-btn edit-btn">
                                 <i class="bi bi-pencil-fill"></i> Editar
                             </a>
 
-                            <a href="index.php?action=deleteUser&id=<?= $u['IdUsuario'] ?>"
+                            <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>"
                                onclick="return confirm('¿Seguro que deseas eliminar este usuario?')"
                                class="action-btn delete-btn">
                                 <i class="bi bi-trash-fill"></i> Eliminar
