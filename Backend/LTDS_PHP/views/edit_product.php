@@ -29,19 +29,19 @@
         <input type="hidden" name="Foto_actual" value="<?= $producto['Foto'] ?>">
 
         <label class="form-label">Nombre</label>
-        <input type="text" name="Nombre" value="<?= $producto['Nombre'] ?>" class="form-control mb-2" required>
+        <input type="text" name="Nombre" value="<?= htmlspecialchars($producto['Nombre']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Precio</label>
         <input type="number" name="Precio" value="<?= $producto['Precio'] ?>" class="form-control mb-2" required>
 
         <label class="form-label">Material</label>
-        <input type="text" name="Material" value="<?= $producto['Material'] ?>" class="form-control mb-2" required>
+        <input type="text" name="Material" value="<?= htmlspecialchars($producto['Material']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Talla / Unidad Medida</label>
-        <input type="text" name="Talla_unidadMedida" value="<?= $producto['Talla_unidadMedida'] ?>" class="form-control mb-2" required>
+        <input type="text" name="Talla_unidadMedida" value="<?= htmlspecialchars($producto['Talla_unidadMedida']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Color</label>
-        <input type="text" name="Color" value="<?= $producto['Color'] ?>" class="form-control mb-2" required>
+        <input type="text" name="Color" value="<?= htmlspecialchars($producto['Color']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Stock</label>
         <input type="number" name="Stock" value="<?= $producto['Stock'] ?>" class="form-control mb-2" required>
@@ -50,19 +50,19 @@
         <input type="number" name="Oferta" value="<?= $producto['Oferta'] ?>" class="form-control mb-2">
 
         <label class="form-label">Categoría</label>
-        <input type="text" name="Categoria" value="<?= $producto['Categoria'] ?>" class="form-control mb-2" required>
+        <input type="text" name="Categoria" value="<?= htmlspecialchars($producto['Categoria']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Marca</label>
-        <input type="text" name="Marca" value="<?= $producto['Marca'] ?>" class="form-control mb-2" required>
+        <input type="text" name="Marca" value="<?= htmlspecialchars($producto['Marca']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Descripción</label>
-        <textarea name="Descripcion" class="form-control mb-2" rows="3" required><?= $producto['Descripcion'] ?></textarea>
+        <textarea name="Descripcion" class="form-control mb-2" rows="3" required><?= htmlspecialchars($producto['Descripcion']) ?></textarea>
 
         <!-- Foto actual -->
         <label class="form-label mt-2">Foto actual</label>
         <?php if ($producto['Foto']): ?>
           <div class="text-center mb-3">
-            <img src="uploads/<?= $producto['Foto'] ?>" class="img-thumbnail" style="max-width: 140px; border-radius: 12px;">
+            <img src="uploads/<?= htmlspecialchars($producto['Foto']) ?>" class="img-thumbnail" style="max-width: 140px; border-radius: 12px;">
           </div>
         <?php else: ?>
           <p class="text-muted mb-2">No tiene foto</p>

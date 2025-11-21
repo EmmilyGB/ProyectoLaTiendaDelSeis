@@ -2,20 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Buscar Usuario</title>
+    <title>Buscar usuario</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/list_UserByName.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/tables.css">
 </head>
 
 <body>
 
 <div class="wrapper-box">
 
-    <!-- Botón volver al Dashboard -->
     <form action="index.php?action=dashboard" method="post">
         <button type="submit" class="btn-dashboard">
             <i class="bi bi-arrow-left-circle-fill"></i> Volver al Dashboard
@@ -23,30 +20,21 @@
     </form>
 
     <h1 class="dashboard-title">Buscar usuario por nombre</h1>
-    
-    <!-- FORMULARIO DE BÚSQUEDA -->
+
     <form action="index.php" method="get" style="margin-bottom:0;">
         <input type="hidden" name="action" value="UsersByName">
 
         <label for="NombreCom">Nombre:</label><br>
         <input type="text" id="NombreCom" name="NombreCom" required>
 
-        <!-- Botones lado a lado -->
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-
-            <!-- Botón BUSCAR -->
             <button type="submit" class="btn-small btn-red">
                 <i class="bi bi-search"></i> Buscar
             </button>
 
-            <!-- Botón VOLVER (NO valida el form) -->
-            <a href="index.php?action=UsersByName" 
-            class="btn-small btn-gray" 
-            role="button" 
-            style="text-decoration:none;">
+            <a href="index.php?action=UsersByName" class="btn-small btn-gray" role="button" style="text-decoration:none;">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
-
         </div>
 
     </form>
@@ -64,7 +52,6 @@
                         <th>Tipo Documento</th>
                         <th>Nombre</th>
                         <th>Correo</th>
-                        <th>Contraseña</th>
                         <th>Tel</th>
                         <th>Dirección</th>
                         <th>Rol</th>
@@ -76,19 +63,18 @@
                     <?php foreach ($usuarios as $u): ?>
                     <tr>
                         <td><?= $u['NumDoc'] ?></td>
-                        <td><?= $u['IdTipoDocum'] ?></td>
-                        <td><?= $u['NombreCom'] ?></td>
-                        <td><?= $u['Correo'] ?></td>
-                        <td><?= $u['Password'] ?></td>
-                        <td><?= $u['Tel'] ?></td>
-                        <td><?= $u['Direccion'] ?></td>
-                        <td><?= $u['Rol'] ?></td>
+                        <td><?= htmlspecialchars($u['TipoDoc'] ?? $u['IdTipoDocum']) ?></td>
+                        <td><?= htmlspecialchars($u['NombreCom']) ?></td>
+                        <td><?= htmlspecialchars($u['Correo']) ?></td>
+                        <td><?= htmlspecialchars($u['Tel']) ?></td>
+                        <td><?= htmlspecialchars($u['Direccion']) ?></td>
+                        <td><?= htmlspecialchars($u['NameRol'] ?? $u['Rol']) ?></td>
 
                     <td class="text-center">
-                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>" class="btn btn-primary btn-sm">Editar</a>
-                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>&from=UsersByName&NombreCom=<?= urlencode($_GET['NombreCom']) ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>&from=UsersByName&NombreCom=<?= urlencode($_GET['NombreCom'] ?? '') ?>" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>&from=UsersByName&NombreCom=<?= urlencode($_GET['NombreCom'] ?? '') ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</a>
                     </td>
-                        
+
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -103,4 +89,3 @@
 
 </body>
 </html>
-

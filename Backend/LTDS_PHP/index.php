@@ -1,16 +1,13 @@
 <?php
-require_once './controllers/usercontroller.php';
-require_once './controllers/tipodocumcontroller.php';
-require_once './controllers/Producontroller.php';
-require_once './controllers/rolcontroller.php';
-
-
+require_once __DIR__ . '/controllers/usercontroller.php';
+require_once __DIR__ . '/controllers/tipodocumcontroller.php';
+require_once __DIR__ . '/controllers/Producontroller.php';
+require_once __DIR__ . '/controllers/rolcontroller.php';
 
 $userController = new usercontroller();
 $tipodocumController = new tipodocumcontroller();
 $Producontroller = new Producontroller();
 $rolController = new RolController();
-
 
 $action = $_GET['action'] ?? 'dashboard';
 
@@ -19,7 +16,6 @@ switch ($action) {
     case 'insertuser':
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $userController->insertuser();
-            include 'views/dashboard.php';
         } else {
             $docums = $tipodocumController->listTipoDocum();
             $roles = $rolController->listRoles();
@@ -41,50 +37,50 @@ switch ($action) {
         break;
 
     case 'listProduct':
-    $productos = $Producontroller->listar();
-    include 'views/list_product.php';
-    break;
+        $productos = $Producontroller->listar();
+        include 'views/list_product.php';
+        break;
 
     case 'ProductsByName':
-    $productos = $Producontroller->ProductsByName();
-    include 'views/list_ProduByName.php';
-    break;
-    
+        $productos = $Producontroller->ProductsByName();
+        include 'views/list_ProduByName.php';
+        break;
+
     case 'editProduct':
-    $Producontroller->editarFormulario();
-    break;
+        $Producontroller->editarFormulario();
+        break;
 
     case 'updateProduct':
-    $Producontroller->actualizarProducto();
-    break;
+        $Producontroller->actualizarProducto();
+        break;
 
     case 'deleteProduct':
-    $Producontroller->eliminarProducto();
-    break;
+        $Producontroller->eliminarProducto();
+        break;
 
     case 'listUser':
-    $usuarios = $userController->listar();
-    include 'views/list_user.php';
-    break;
+        $usuarios = $userController->listar();
+        include 'views/list_user.php';
+        break;
 
     case 'UsersByName':
-    $usuarios = $userController->UsersByName();
-    include 'views/list_UserByName.php';
-    break;
-
+        $usuarios = $userController->UsersByName();
+        include 'views/list_UserByName.php';
+        break;
 
     case 'editUser':
-    $userController->editarFormulario();
-    break;
+        $userController->editarFormulario();
+        break;
 
     case 'updateUser':
-    $userController->actualizarUsuario();
-    break;
+        $userController->actualizarUsuario();
+        break;
 
     case 'deleteUser':
-    $userController->eliminarUsuario();
-    break;
-    
+        $userController->eliminarUsuario();
+        break;
 
-
+    case 'error_duplicate':
+        include 'views/error_duplicate.php';
+        break;
 }

@@ -5,7 +5,8 @@
     <title>Lista de Usuarios</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/list_UserByName.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/tables.css">
 </head>
 
 <body>
@@ -40,19 +41,17 @@
             <?php foreach ($usuarios as $u): ?>
                 <tr>
                     <td><?= $u['NumDoc'] ?></td>
-                    <td><?= $u['TipoDoc'] ?></td>
-                    <td><?= $u['NombreCom'] ?></td>
-                    <td><?= $u['Correo'] ?></td>
-                    <td><?= $u['Tel'] ?></td>
-                    <td><?= $u['Direccion'] ?></td>
-                    <td><?= $u['Rol'] ?></td>
+                    <td><?= htmlspecialchars($u['TipoDoc'] ?? $u['IdTipoDocum']) ?></td>
+                    <td><?= htmlspecialchars($u['NombreCom']) ?></td>
+                    <td><?= htmlspecialchars($u['Correo']) ?></td>
+                    <td><?= htmlspecialchars($u['Tel']) ?></td>
+                    <td><?= htmlspecialchars($u['Direccion']) ?></td>
+                    <td><?= htmlspecialchars($u['NameRol'] ?? $u['Rol']) ?></td>
 
                     <td class="text-center">
-                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>" 
-                        class="action-btn edit-btn">Editar</a>
+                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>" class="action-btn edit-btn">Editar</a>
 
-                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>" 
-                        class="action-btn delete-btn">Eliminar</a>
+                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>" class="action-btn delete-btn" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

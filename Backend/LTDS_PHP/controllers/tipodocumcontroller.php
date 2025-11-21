@@ -1,7 +1,7 @@
 <?php
 
-require_once 'model/tipodocummodel.php';
-require_once 'config/database.php';
+require_once __DIR__ . '/../model/tipodocummodel.php';
+require_once __DIR__ . '/../config/database.php';
 
 class tipodocumcontroller {
     private $db;
@@ -9,7 +9,7 @@ class tipodocumcontroller {
 
     public function __construct() 
     {
-        $database = new database();
+        $database = new Database();
         $this->db = $database->getConnection();
         $this->tipodocummodel = new tipodocummodel($this->db);
     }

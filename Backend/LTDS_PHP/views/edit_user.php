@@ -10,7 +10,7 @@
 
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
+
   <link rel="stylesheet" href="css/Form.css">
 </head>
 
@@ -33,8 +33,8 @@
         <select name="IdTipoDocum" class="form-select mb-2">
           <?php foreach ($docums as $docum): ?>
             <option value="<?= $docum['IdTipoDocum']; ?>"
-              <?= ($usuario['TipoDoc'] == $docum['IdTipoDocum']) ? 'selected' : '' ?>>
-              <?= $docum['TipoDoc']; ?>
+              <?= ($usuario['IdTipoDocum'] == $docum['IdTipoDocum']) ? 'selected' : '' ?>>
+              <?= htmlspecialchars($docum['TipoDoc']); ?>
             </option>
           <?php endforeach; ?>
         </select>
@@ -59,7 +59,7 @@
           <?php foreach ($roles as $rol): ?>
             <option value="<?= $rol['Rol']; ?>"
               <?= ($rol['Rol'] == $usuario['Rol']) ? 'selected' : '' ?>>
-              <?= $rol['NameRol']; ?>
+              <?= htmlspecialchars($rol['NameRol']); ?>
             </option>
           <?php endforeach; ?>
         </select>

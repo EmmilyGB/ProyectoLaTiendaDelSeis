@@ -10,7 +10,7 @@
 
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="css/Form.css">
 </head>
 
@@ -54,7 +54,7 @@
         <textarea name="Descripcion" class="form-control mb-2" rows="3" required></textarea>
 
         <label class="form-label">Foto</label>
-        <input type="file" name="Foto" class="form-control mb-3">
+        <input type="file" name="Foto" class="form-control mb-3" accept="image/*">
 
         <!-- BOTÓN GUARDAR -->
         <button type="submit" class="btn-dashboard w-100 mb-3">
