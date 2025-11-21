@@ -5,26 +5,38 @@
     <title>Lista de Usuarios</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/list_UserByName.css">
 </head>
+
 <body>
 
-<div class="container mt-5">
-    <h1 class="mb-4">Lista de Usuarios</h1>
+<div class="wrapper-box">
 
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Documento</th>
-                <th>Tipo Doc</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+    <!-- Botón volver al Dashboard -->
+    <form action="index.php?action=dashboard" method="post">
+        <button type="submit" class="btn-dashboard">
+            <i class="bi bi-arrow-left-circle-fill"></i> Volver al Dashboard
+        </button>
+    </form>
+
+    <h1 class="dashboard-title">Lista de Usuarios</h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Tipo Doc</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
             <?php foreach ($usuarios as $u): ?>
                 <tr>
                     <td><?= $u['NumDoc'] ?></td>
@@ -35,16 +47,19 @@
                     <td><?= $u['Direccion'] ?></td>
                     <td><?= $u['Rol'] ?></td>
 
-                    <td>
-                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>" class="btn btn-primary btn-sm">Editar</a>
-                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <td class="text-center">
+                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>" 
+                        class="action-btn edit-btn">Editar</a>
+
+                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>" 
+                        class="action-btn delete-btn">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
-        </tbody>
-    </table>
+            </tbody>
 
-    <a href="index.php?action=dashboard" class="btn btn-secondary mt-3">Volver</a>
+        </table>
+    </div>
 
 </div>
 

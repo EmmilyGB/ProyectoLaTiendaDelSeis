@@ -8,7 +8,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-     <link rel="stylesheet" href="css/list_UserByName.css">
+    <link rel="stylesheet" href="css/list_UserByName.css">
 </head>
 
 <body>
@@ -41,9 +41,9 @@
 
             <!-- Botón VOLVER (NO valida el form) -->
             <a href="index.php?action=UsersByName" 
-               class="btn-small btn-gray" 
-               role="button" 
-               style="text-decoration:none;">
+            class="btn-small btn-gray" 
+            role="button" 
+            style="text-decoration:none;">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
 
@@ -84,20 +84,11 @@
                         <td><?= $u['Direccion'] ?></td>
                         <td><?= $u['Rol'] ?></td>
 
-                        <td class="text-center">
-
-                            <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>"
-                               class="action-btn edit-btn">
-                                <i class="bi bi-pencil-fill"></i> Editar
-                            </a>
-
-                            <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>"
-                               onclick="return confirm('¿Seguro que deseas eliminar este usuario?')"
-                               class="action-btn delete-btn">
-                                <i class="bi bi-trash-fill"></i> Eliminar
-                            </a>
-
-                        </td>
+                    <td class="text-center">
+                        <a href="index.php?action=editUser&id=<?= $u['NumDoc'] ?>" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="index.php?action=deleteUser&id=<?= $u['NumDoc'] ?>&from=UsersByName&NombreCom=<?= urlencode($_GET['NombreCom']) ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                        
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

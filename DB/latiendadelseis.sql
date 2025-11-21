@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2025 a las 21:03:08
+-- Tiempo de generación: 21-11-2025 a las 06:54:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -48,9 +48,9 @@ CREATE TABLE `devolucion` (
   `FechaIngreso` date DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL,
   `IdProducto` int(11) DEFAULT NULL,
-  `IdUsuario` int(11) DEFAULT NULL,
   `IdFactura` int(11) DEFAULT NULL,
-  `DescripcionFactura` varchar(50) DEFAULT NULL
+  `DescripcionFactura` varchar(50) DEFAULT NULL,
+  `NumDoc` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -63,7 +63,7 @@ CREATE TABLE `entrada` (
   `IdEntrada` int(11) NOT NULL,
   `FechaIngreso` date DEFAULT NULL,
   `IdProducto` int(11) DEFAULT NULL,
-  `IdUsuario` int(11) DEFAULT NULL
+  `NumDoc` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -75,19 +75,9 @@ CREATE TABLE `entrada` (
 CREATE TABLE `factura` (
   `IdFactura` int(11) NOT NULL,
   `FechaFactura` date DEFAULT NULL,
-  `IdUsuario` int(11) DEFAULT NULL,
+  `NumDoc` int(11) DEFAULT NULL,
   `Total` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `factura`
---
-
-INSERT INTO `factura` (`IdFactura`, `FechaFactura`, `IdUsuario`, `Total`) VALUES
-(1, '2025-03-08', 4, 430000),
-(2, '2025-02-06', 3, 349000),
-(3, '2025-02-05', 5, 709000),
-(4, '2025-01-01', 7, 618000);
 
 -- --------------------------------------------------------
 
@@ -174,8 +164,7 @@ INSERT INTO `tipodocum` (`IdTipoDocum`, `TipoDoc`) VALUES
 --
 
 CREATE TABLE `usuario` (
-  `IdUsuario` int(11) NOT NULL,
-  `NumDoc` int(11) DEFAULT NULL,
+  `NumDoc` int(11) NOT NULL,
   `TipoDoc` varchar(5) DEFAULT NULL,
   `NombreCom` varchar(40) DEFAULT NULL,
   `Correo` varchar(60) DEFAULT NULL,
@@ -190,15 +179,13 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`IdUsuario`, `NumDoc`, `TipoDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
-(3, 146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', '2147483647', 'Mz C5 El casa verde murilo', NULL, 2),
-(4, 1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', '2147483647', 'Mj C7 mirador de boqueron', NULL, NULL),
-(5, 142657930, 'TI', 'Mario contreras bello', 'mmariobello@gmail.com', 'bellobello34', '2147483647', 'Mk C9 El vergel', NULL, NULL),
-(6, 107666666, 'CC', 'Dilan camilo blanco castillo', 'camicastillovla24@gmail.com', 'BlancoCastillo25', '2147483647', ' torre 4 apto304 conjunto miraflores', NULL, NULL),
-(7, 1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', '2147483647', 'Mc C4 barrio villa cindy', NULL, NULL),
-(8, 1013702224, 'TI', 'Andrea rojas primera', 'primerarojas2@gmail.com', 'RojasRojas2', '2147483647', 'Ma C8 calucaima', NULL, NULL),
-(9, 1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', '2147483647', 'Mg C6 bella vista', NULL, NULL),
-(10, 102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', '2147483647', 'Ml C2 loma alta', NULL, NULL);
+INSERT INTO `usuario` (`NumDoc`, `TipoDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
+(102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', '2147483647', 'Ml C2 loma alta', NULL, NULL),
+(146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', '2147483647', 'Mz C5 El casa verde murilo', NULL, 2),
+(1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', '2147483647', 'Mc C4 barrio villa cindy', NULL, NULL),
+(1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', '2147483647', 'Mj C7 mirador de boqueron', NULL, NULL),
+(1107456332, '3', 'nono sisi', 'sisi@gmail.com', 'asdfghjkl', '123456789', 'sisi', NULL, 2),
+(1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', '2147483647', 'Mg C6 bella vista', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -219,8 +206,8 @@ ALTER TABLE `devolucion`
   ADD PRIMARY KEY (`IdDevolucion`),
   ADD KEY `IdEntrada` (`IdEntrada`),
   ADD KEY `IdProducto` (`IdProducto`),
-  ADD KEY `IdUsuario` (`IdUsuario`),
-  ADD KEY `IdFactura` (`IdFactura`);
+  ADD KEY `IdFactura` (`IdFactura`),
+  ADD KEY `NumDoc` (`NumDoc`);
 
 --
 -- Indices de la tabla `entrada`
@@ -228,14 +215,14 @@ ALTER TABLE `devolucion`
 ALTER TABLE `entrada`
   ADD PRIMARY KEY (`IdEntrada`),
   ADD KEY `IdProducto` (`IdProducto`),
-  ADD KEY `IdUsuario` (`IdUsuario`);
+  ADD KEY `NumDoc` (`NumDoc`);
 
 --
 -- Indices de la tabla `factura`
 --
 ALTER TABLE `factura`
   ADD PRIMARY KEY (`IdFactura`),
-  ADD KEY `IdUsuario` (`IdUsuario`);
+  ADD KEY `NumDoc` (`NumDoc`);
 
 --
 -- Indices de la tabla `producto`
@@ -259,7 +246,7 @@ ALTER TABLE `tipodocum`
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`IdUsuario`),
+  ADD PRIMARY KEY (`NumDoc`),
   ADD KEY `IdTipoDocum` (`IdTipoDocum`),
   ADD KEY `Rol` (`Rol`);
 
@@ -326,20 +313,21 @@ ALTER TABLE `detallesalida`
 ALTER TABLE `devolucion`
   ADD CONSTRAINT `devolucion_ibfk_1` FOREIGN KEY (`IdEntrada`) REFERENCES `entrada` (`IdEntrada`),
   ADD CONSTRAINT `devolucion_ibfk_2` FOREIGN KEY (`IdProducto`) REFERENCES `producto` (`IdProducto`),
-  ADD CONSTRAINT `devolucion_ibfk_4` FOREIGN KEY (`IdFactura`) REFERENCES `factura` (`IdFactura`);
+  ADD CONSTRAINT `devolucion_ibfk_4` FOREIGN KEY (`IdFactura`) REFERENCES `factura` (`IdFactura`),
+  ADD CONSTRAINT `devolucion_ibfk_5` FOREIGN KEY (`NumDoc`) REFERENCES `usuario` (`NumDoc`);
 
 --
 -- Filtros para la tabla `entrada`
 --
 ALTER TABLE `entrada`
   ADD CONSTRAINT `entrada_ibfk_1` FOREIGN KEY (`IdProducto`) REFERENCES `producto` (`IdProducto`),
-  ADD CONSTRAINT `entrada_ibfk_2` FOREIGN KEY (`IdUsuario`) REFERENCES `usuario` (`IdUsuario`);
+  ADD CONSTRAINT `entrada_ibfk_2` FOREIGN KEY (`NumDoc`) REFERENCES `usuario` (`NumDoc`);
 
 --
 -- Filtros para la tabla `factura`
 --
 ALTER TABLE `factura`
-  ADD CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`IdUsuario`) REFERENCES `usuario` (`IdUsuario`);
+  ADD CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`NumDoc`) REFERENCES `usuario` (`NumDoc`);
 
 --
 -- Filtros para la tabla `usuario`

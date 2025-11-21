@@ -92,9 +92,19 @@ class Usercontroller {
 
     // ELIMINAR
     public function eliminarUsuario() {
-        $id = $_GET['id'];
-        $this->Usermodel->eliminarUsuario($id);
-        header("Location: index.php?action=listUser");
+    $id = $_GET['id'];
+    $this->Usermodel->eliminarUsuario($id);
+
+    // Si venía de UsersByName, volver allí
+    if (isset($_GET['from']) && $_GET['from'] === 'UsersByName') {
+        $nombre = $_GET['NombreCom'] ?? '';
+        header("Location: index.php?action=UsersByName&NombreCom=" . urlencode($nombre));
         exit;
     }
+
+    // Si no, volver a la lista general
+    header("Location: index.php?action=listUser");
+    exit;
+}
+
 }
