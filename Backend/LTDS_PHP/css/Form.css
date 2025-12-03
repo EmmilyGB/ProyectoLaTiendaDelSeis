@@ -1,0 +1,80 @@
+ /* Fondo negro */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Centrado total */
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Cuadro blanco */
+.wrapper-box {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 18px;
+    width: 360px;
+    box-shadow: 0 8px 30px rgba(255,255,255,0.15);
+}
+
+/* Título */
+.dashboard-title {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.5rem;
+}
+
+/* Inputs redondeados */
+.form-control, .form-select {
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* Inputs focus */
+.form-control:focus, .form-select:focus {
+    border-color: #d00000;
+    box-shadow: 0 0 6px rgba(208,0,0,0.4);
+}
+
+/* Botón rojo redondo */
+.btn-dashboard {
+    background-color: #d00000;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 20px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(208, 0, 0, 0.2);
+    transition: transform .12s ease, background-color .12s ease;
+}
+
+/* Iconos */
+.btn-dashboard i {
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+/* Hover */
+.btn-dashboard:hover {
+    background-color: #a00000;
+    transform: translateY(-3px);
+}
+
+/* Columna del formulario */
+.form-column {
+    display: flex;
+    flex-direction: column;
+}
