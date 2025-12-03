@@ -33,6 +33,13 @@ class Produmodel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+     // Reducir stock al vender
+    public function reduceStock($id, $cantidad) {
+        $query = "UPDATE $this->table_name SET Stock = Stock - ? WHERE IdProducto = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$cantidad, $id]);
+    }
+
     // OBTENER PRODUCTO POR NOMBRE
     public function getProductoByNombre($Nombre)
     {

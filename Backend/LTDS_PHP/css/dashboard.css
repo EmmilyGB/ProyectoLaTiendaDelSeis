@@ -1,103 +1,112 @@
 /* Fondo negro general */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #000;
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-/* Centrado completo */
+/* Centrado del contenedor */
 .center-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Cuadro blanco centrado */
+/* Caja blanca */
 .wrapper-box {
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 18px;
-  width: 340px;
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 18px;
+    width: 340px;
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
 }
 
-/* CONTENEDOR DEL LOGO + TEXTO */
+/* Header */
 .dashboard-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
-/* LOGO */
 .dashboard-logo {
-  width: 48px;       /* Tamaño del logo */
-  height: 48px;
-  object-fit: contain;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
 }
 
-/* Título Dashboard */
 .dashboard-title {
-  color: #000;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 1.6rem;
-  margin: 0;
-  letter-spacing: 1px;
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    margin: 0;
+    letter-spacing: 1px;
 }
 
-/* Botones */
+/* Columna vertical de botones principales */
 .button-column {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
+/* Botones principales del menú */
 .btn-dashboard {
-  background-color: #d00000;
-  color: white;
-  border: none;
-  border-radius: 999px;
-  padding: 14px 20px;
-  font-size: 1.08rem;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  box-shadow: 0 6px 18px rgba(208, 0, 0, 0.2);
-  transition: transform .12s ease, background-color .12s ease;
-}
-
-.btn-dashboard i {
-  font-size: 1.25rem;
+    background-color: #d00000;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 20px;
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    box-shadow: 0 6px 18px rgba(208, 0, 0, 0.2);
+    transition: transform .12s ease, background-color .12s ease;
 }
 
 .btn-dashboard:hover {
-  background-color: #a00000;
-  transform: translateY(-3px);
+    background-color: #a00000;
+    transform: translateY(-3px);
 }
 
-/* RESPONSIVE */
-@media (max-width: 480px) {
-  .wrapper-box {
-    width: 92%;
-  }
-
-  .dashboard-header {
+/* SUB BOTONES – los que están dentro del collapse */
+.menu-box {
+    margin-top: 10px;
+    display: flex;
     flex-direction: column;
-    text-align: center;
-  }
-
 }
 
-/* Botones internos un poco más pequeños */
+/* Aquí está EL ESPACIO ENTRE los 3 botones internos */
+.menu-box form {
+    margin-bottom: 12px;
+    /* ★★★★★ ESTE ES EL ESPACIO REAL ★★★★★ */
+}
+
+/* Sub botones más oscuros */
 .sub-btn {
-  background-color: #b00000 !important;
-  margin-top: 10px;
+    background-color: #b00000 !important;
+    border-radius: 999px;
 }
+
 .sub-btn:hover {
-  background-color: #900000 !important;
+    background-color: #900000 !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .wrapper-box {
+        width: 92%;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+    }
 }

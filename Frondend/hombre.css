@@ -11,7 +11,6 @@
     color: white;
 }
 
-
 /* Botón hamburguesa estilo circular */
 .navbar-toggler {
     width: 48px;
@@ -149,84 +148,72 @@
     }
 }
 
-/* =========================================================
-🧾 FORMULARIO DE INICIO DE SEION
-   ========================================================= */
 
-/* Fondo principal */
-.registro-section {
-    min-height: 100vh;
-    background: linear-gradient(to bottom, #000000, #3a0000);
-    color: #333;
+
+
+
+
+
+
+/* Fondo negro */
+.seccion-hombre {
+    background-color: #000;
 }
 
-/* Tarjeta blanca del formulario */
-.registro-card {
-    background-color: white;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+/* Cards */
+.product-card {
+    background-color: #111;
+    border: 1px solid #d00000;
+    transition: transform .3s ease, box-shadow .3s ease;
 }
 
-/* Título */
-.registro-card h2 {
-    color: #b30000;
-    font-weight: 700;
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px red;
 }
 
-/* Campos de texto */
-.registro-card .form-control {
-    background-color: #f3f3f3;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 15px;
-    font-size: 0.95rem;
+/* Textos */
+.product-name {
+    color: #fff;
+    font-size: 1rem;
 }
 
-.registro-card .form-control:focus {
-    box-shadow: 0 0 5px rgba(179, 0, 0, 0.5);
-    outline: none;
+.product-price {
+    color: #d00000;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
-/* Checkbox */
-.form-check-label {
-    font-size: 0.9rem;
-    color: #444;
+/* Paginación */
+.page-link {
+    background-color: #111 !important;
+    border: 1px solid #d00000 !important;
+    color: white !important;
 }
 
-/* Botón principal */
-.registro-card .btn-danger {
-    background-color: #b30000;
-    border: none;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+.page-item.active .page-link {
+    background-color: #d00000 !important;
 }
 
-.registro-card .btn-danger:hover {
-    background-color: #ff1a1a;
-    box-shadow: 0 0 10px rgba(255, 26, 26, 0.4);
-}
 
-/* Enlaces inferiores */
-.registro-card a {
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
 
-.registro-card a:hover {
-    color: #ff1a1a;
-}
 
-/* Responsive */
-@media (max-width: 576px) {
-    .registro-card {
-        margin: 20px;
-        padding: 30px 20px;
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ======= FOOTER ======= */
 .footer-section {

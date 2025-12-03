@@ -11,6 +11,55 @@
     color: white;
 }
 
+/* Botón hamburguesa estilo circular */
+.navbar-toggler {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #000;            /* Negro */
+    border: 2px solid red;             /* Borde rojo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px red;           /* Glow rojo */
+    transition: all 0.3s ease;
+}
+
+/* Hover con efecto más fuerte */
+.navbar-toggler:hover {
+    box-shadow: 0 0 15px 4px red;
+    transform: scale(1.05);
+}
+
+/* Ícono hamburguesa personalizado */
+.navbar-toggler-icon {
+    background-image: none;            /* Quitamos el default */
+    width: 24px;
+    height: 2px;
+    background-color: red;
+    position: relative;
+}
+
+/* Líneas superior e inferior */
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: red;
+    left: 0;
+}
+
+.navbar-toggler-icon::before {
+    top: -7px;
+}
+
+.navbar-toggler-icon::after {
+    top: 7px;
+}
+/*FIN DEL BOTON HAMBURGUESA*/
+
 /* =========================================================
     LOGO
    ========================================================= */

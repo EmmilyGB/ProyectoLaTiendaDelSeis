@@ -26,48 +26,47 @@
         <h1 class="dashboard-title">DASHBOARD</h1>
       </div>
 
-      <!-- BOTONES AGRUPADOS -->
+      <!-- BOTONES -->
       <div class="button-column">
 
-        <!-- === BOTÓN USUARIO === -->
-<button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#usuarioMenu">
-  <i class="bi bi-person-fill"></i>
-  <span>Usuario</span>
-</button>
+        <!-- === MENÚ USUARIO === -->
+        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#usuarioMenu">
+          <i class="bi bi-person-fill"></i>
+          <span>Usuario</span>
+        </button>
 
-<div id="usuarioMenu" class="collapse">
+        <div id="usuarioMenu" class="collapse menu-box">
 
-  <form action="index.php" method="get">
-    <button type="submit" name="action" value="insertuser" class="btn-dashboard sub-btn">
-      <i class="bi bi-person-plus-fill"></i>
-      <span>Insertar Usuario</span>
-    </button>
-  </form>
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="insertuser" class="btn-dashboard sub-btn">
+              <i class="bi bi-person-plus-fill"></i>
+              <span>Insertar Usuario</span>
+            </button>
+          </form>
 
-  <form action="index.php" method="get">
-    <button type="submit" name="action" value="UsersByName" class="btn-dashboard sub-btn">
-      <i class="bi bi-search"></i>
-      <span>Buscar Usuario</span>
-    </button>
-  </form>
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="UsersByName" class="btn-dashboard sub-btn">
+              <i class="bi bi-search"></i>
+              <span>Buscar Usuario</span>
+            </button>
+          </form>
 
-  <form action="index.php" method="get" style="margin-top:8px;">
-    <button type="submit" name="action" value="listUser" class="btn-dashboard sub-btn">
-      <i class="bi bi-list-ul"></i>
-      <span>Listar Usuarios</span>
-    </button>
-  </form>
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="listUser" class="btn-dashboard sub-btn">
+              <i class="bi bi-list-ul"></i>
+              <span>Lista Usuarios</span>
+            </button>
+          </form>
 
-</div>
+        </div>
 
-
-        <!-- === BOTÓN PRODUCTO === -->
+        <!-- === MENÚ PRODUCTO === -->
         <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#productoMenu">
           <i class="bi bi-box-seam"></i>
           <span>Producto</span>
         </button>
 
-        <div id="productoMenu" class="collapse">
+        <div id="productoMenu" class="collapse menu-box">
 
           <form action="index.php" method="get">
             <button type="submit" name="action" value="insertProdu" class="btn-dashboard sub-btn">
@@ -83,10 +82,34 @@
             </button>
           </form>
 
-          <form action="index.php" method="get" style="margin-top:8px;">
+          <form action="index.php" method="get">
             <button type="submit" name="action" value="listProduct" class="btn-dashboard sub-btn">
               <i class="bi bi-list-ul"></i>
-              <span>Listar Productos</span>
+              <span>Lista Productos</span>
+            </button>
+          </form>
+
+        </div>
+
+        <!-- === MENÚ FACTURA (NUEVO) === -->
+        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#facturaMenu">
+          <i class="bi bi-receipt"></i>
+          <span>Factura</span>
+        </button>
+
+        <div id="facturaMenu" class="collapse menu-box">
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="insertFactura" class="btn-dashboard sub-btn">
+              <i class="bi bi-receipt"></i>
+              <span>Crear Factura</span>
+            </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="listFactura" class="btn-dashboard sub-btn">
+              <i class="bi bi-journal-text"></i>
+              <span>Lista Facturas</span>
             </button>
           </form>
 

@@ -3,7 +3,10 @@ require_once __DIR__ . '/controllers/usercontroller.php';
 require_once __DIR__ . '/controllers/tipodocumcontroller.php';
 require_once __DIR__ . '/controllers/Producontroller.php';
 require_once __DIR__ . '/controllers/rolcontroller.php';
+require_once __DIR__ . '/controllers/FacturaController.php';
 
+
+$facturaController = new FacturaController();
 $userController = new usercontroller();
 $tipodocumController = new tipodocumcontroller();
 $Producontroller = new Producontroller();
@@ -83,4 +86,34 @@ switch ($action) {
     case 'error_duplicate':
         include 'views/error_duplicate.php';
         break;
+
+    case 'insertFactura':
+    $facturaController->formCrear();
+    break;
+
+    case 'addToCart':
+        $facturaController->addToCart();
+        break;
+
+    case 'removeFromCart':
+        $facturaController->removeFromCart();
+        break;
+
+    case 'saveFactura':
+        $facturaController->guardarFactura();
+        break;
+
+    case 'listFactura':
+        $facturaController->listar();
+        break;
+
+    case 'viewFactura':
+        $facturaController->verFactura();
+        break;
+
+    case 'deleteFactura':
+    $facturaController->eliminarFactura();
+    break;
+
+
 }
