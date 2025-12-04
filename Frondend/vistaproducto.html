@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista del Producto</title>
+
+    <!-- BOOTSTRAP 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="vistaproducto.css">
+</head>
+
+
+
+<body class="bg-light">
+
+    <!-- ======= HEADER ======= -->
+    <header class="custom-header">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+
+                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                    <img src="img/logo.png" alt="Logo" class="logo">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegación">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="hombre.html">Hombre</a></li>
+                        <li class="nav-item"><a class="nav-link" href="mujer.html">Mujer</a></li>
+                        <li class="nav-item"><a class="nav-link" href="todoslosproductos.html">Todos los productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="ofertas.html">Ofertas</a></li>
+                    </ul>
+
+                    <form class="d-flex me-3 search-bar" role="search">
+                        <input class="form-control" type="search" placeholder="¿Qué estás buscando?" aria-label="Buscar">
+                        <button class="btn btn-search" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+
+                    <div class="d-flex align-items-center iconos">
+                        <a href="#" class="text-white me-3"><i class="bi bi-heart"></i></a>
+                        <a href="inicioSesion.html" class="text-white me-3"><i class="bi bi-person"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-cart"></i></a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container py-5">
+
+        <div class="row align-items-center gy-4">
+
+            <!-- IMAGEN -->
+            <div class="col-md-6 text-center">
+                <img src="img/NB550.png" class="img-fluid w-75" alt="producto">
+            </div>
+
+            <!-- INFO -->
+            <div class="col-md-6">
+                <div class="product-box">
+
+                    <h2 class="product-title">ZAPATILLAS NEW BALANCE 550</h2>
+
+                    <div class="rating-stars mb-2">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                        <span class="fw-bold ms-2">4.5</span>
+                    </div>
+
+                    <h4 class="fw-bold">$519.000 COP</h4>
+
+                    <div class="mt-3 mb-2 fw-semibold">Talla</div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="size-btn">7</span>
+                        <span class="size-btn">7.5</span>
+                        <span class="size-btn">8</span>
+                        <span class="size-btn">8.5</span>
+                        <span class="size-btn">9</span>
+                        <span class="size-btn">9.5</span>
+                        <span class="size-btn">10</span>
+                        <span class="size-btn">10.5</span>
+                        <span class="size-btn">11</span>
+                    </div>
+
+                    <div class="mt-2">
+                        <a href="#" class="text-decoration-none fw-semibold" style="color:#b30000;">Guía de tallas</a>
+                    </div>
+
+                    <div class="row mt-4 align-items-center">
+                        <div class="col-10">
+                            <button class="btn-cart">Agregar al carrito</button>
+                        </div>
+                        <div class="col-2 text-end">
+                            <i class="bi bi-heart-fill heart-btn"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- DESCRIPCIÓN -->
+        <div class="desc-box mt-5">
+            <h5 class="fw-bold">Descripción</h5>
+            <p>
+                La 550 original debutó en 1989 y dejó su huella en las canchas de baloncesto de costa a costa.
+                Tras su lanzamiento inicial, la 550 quedó descatalogada antes de ser relanzada en 2020, convirtiéndose
+                en uno de los modelos más populares de la marca. Su diseño clásico y versátil la hace perfecta
+                para cualquier estilo.
+            </p>
+        </div>
+
+        <!-- ACORDEÓN -->
+        <div class="accordion mt-4" id="productAccordion">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#caracteristicas">
+                        Características
+                    </button>
+                </h2>
+                <div id="caracteristicas" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        - Material de alta calidad <br>
+                        - Suela resistente <br>
+                        - Diseño original New Balance
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#opiniones">
+                        Opiniones y valoraciones
+                    </button>
+                </h2>
+                <div id="opiniones" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        ⭐⭐⭐⭐⭐ Excelente calidad, super cómodas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#envio">
+                        Envío y garantía
+                    </button>
+                </h2>
+                <div id="envio" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        Envíos a todo el país.  
+                        Garantía de 30 días por defectos de fábrica.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lavado">
+                        Lavado y cuidado
+                    </button>
+                </h2>
+                <div id="lavado" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        Limpiar con paño húmedo.  
+                        No usar blanqueador.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- ======= FOOTER ======= -->
+        <footer class="footer-section text-white py-5">
+            <div class="container">
+                <div class="row align-items-center">
+
+                    <!-- Redes sociales -->
+                    <div class="col-12 col-md-2 text-center text-md-start mb-4 mb-md-0 footer-social">
+                        <ul class="list-unstyled d-flex d-md-block justify-content-center mb-0">
+                            <li><a href="https://t.me/latiendadelseis" aria-label="Telegram"><i
+                                        class="bi bi-telegram"></i></a></li>
+                            <li><a href="wa.link/7zdo57" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
+                            <li><a href="https://www.instagram.com/latiendadelseis?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                    aria-label="Instagram"><i class="bi bi-instagram"></i></a></li>
+                            <li><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Logo -->
+                    <div class="col-12 col-md-3 text-center mb-4 mb-md-0">
+                        <a href="index.html">
+                            <img src="img/logo.png" alt="Logo" class="footer-logo img-fluid">
+                        </a>
+                    </div>
+
+                    <!-- Atención al cliente -->
+                    <div class="col-12 col-md-4 mb-4 mb-md-0">
+                        <h6 class="footer-title">Atención al cliente</h6>
+                        <div class="footer-line mb-2"></div>
+                        <p class="mb-1"><a href="tel:+573214082351" class="footer-link">+57 321 4082351</a></p>
+                        <p class="mb-1">
+                            <a href="mailto:servicioalcliente@latiendadelseis.co" class="footer-link">
+                                servicioalcliente@latiendadelseis.co
+                            </a>
+                        </p>
+                        <p class="mb-0">Lunes a sábado 8:30 a.m. – 7:00 p.m.</p>
+                    </div>
+
+                    <!-- Información -->
+                    <div class="col-12 col-md-3">
+                        <h6 class="footer-title">Información</h6>
+                        <div class="footer-line mb-2"></div>
+                        <ul class="list-unstyled footer-info">
+                            <li><a href="FAQ.html">Preguntas frecuentes</a></li>
+                            <li><a href="guiaTallas.html">Guía de tallas</a></li>
+                            <li><a href="#">Devoluciones</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>

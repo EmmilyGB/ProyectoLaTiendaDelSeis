@@ -157,254 +157,99 @@
 
 
 
+/* Fondo negro de toda la sección */
+.seccion-hombre {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
 
-
-
-/* =======================================================
-=== ESTILOS GENERALES ===
-======================================================= */
-body {
-    margin: 0;
+body{
     background-color: #000;
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
 }
 
-h2 {
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-/* =======================================================
-=== SECCIÓN HERO ===
-======================================================= */
-#hero {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+/* Tarjetas */
+.product-card {
+    background-color: #111;
+    border: 1px solid #d00000;
+    border-radius: 12px;
     overflow: hidden;
-    transition: all 0.5s ease;
+    transition: transform .3s ease, box-shadow .3s ease;
 }
 
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px red;
+}
+
+/* Imágenes */
+.product-card img {
+    height: 180px;
+    object-fit: contain;
+    background-color: #000;
+}
+
+/* Textos */
+.product-name {
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    color: #d00000;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Espacio entre filas */
+.product-row {
+    margin-bottom: 30px;
+}
+
+/* 6 productos por fila en pantallas grandes */
 @media (min-width: 992px) {
-    #hero {
-        flex-direction: row;
+    .product-col {
+        flex: 0 0 16.66%;
+        max-width: 16.66%;
     }
 }
 
-.hero-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+
+
+
+
+
+
+
+
+/* PAGINACIÓN ESTILO NEGRO Y ROJO */
+.pagination .page-link {
+    background-color: #000;        /* Fondo negro */
+    color: #fff;                   /* Texto blanco */
+    border: 1px solid #d00000;     /* Borde rojo */
+    border-radius: 6px;
+    margin: 0 4px;
+    transition: all .3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #d00000;     /* Rojo al pasar mouse */
     color: #fff;
-    font-size: 2rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    transition: all 0.5s ease;
+    border-color: #ff0000;
 }
 
-.hero-item.perfumes {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url("../img/PERFUM.jpg") center/cover no-repeat;
-}
-
-.hero-item.zapatillas {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url("../img/Zapatillas.jpg") center/cover no-repeat;
-}
-
-#hero:hover .hero-item {
-    flex: 0.9;
-    filter: brightness(0.8);
-}
-
-#hero .hero-item:hover {
-    flex: 1.3;
-    filter: brightness(1.2);
-    transform: scale(1.02);
-}
-
-/* =======================================================
-=== SECCIÓN LO MÁS VENDIDO ===
-======================================================= */
-#lo-mas-vendido {
-    background-color: #000;
-    color: #fff;
-    padding: 90px 0;
-    text-align: center;
-}
-
-#lo-mas-vendido h2 {
-    font-size: 30px;
-    letter-spacing: 1px;
-    margin-bottom: 50px;
-    position: relative;
-    display: inline-block;
-}
-
-#lo-mas-vendido h2::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -10px;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 3px;
-    background-color: #fff;
-    border-radius: 2px;
-}
-
-/* Flechas */
-.flecha {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 2.3rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    position: absolute;
-    top: 45%;
-    transform: translateY(-50%);
-    z-index: 10;
-}
-
-.flecha:hover {
-    color: #ff4b4b;
-}
-
-.btn-left {
-    left: 2%;
-}
-
-.btn-right {
-    right: 2%;
-}
-
-/* Productos */
-.vendido-grid .card {
-    background: transparent;
-    border: none;
-    transition: transform 0.3s ease;
-}
-
-.vendido-grid .card:hover {
-    transform: scale(1.05);
-}
-
-.vendido-grid img {
-    width: 100%;
-    border: 2px solid #ff0000;
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease;
-}
-
-.vendido-grid img:hover {
-    box-shadow: 0 0 18px #ff0000;
-}
-
-.vendido-grid h3 {
-    font-size: 19px;
-    margin-top: 15px;
-    font-weight: 600;
+/* Página activa */
+.pagination .page-item.active .page-link {
+    background-color: #d00000;     /* Rojo fuerte */
+    border-color: #ff0000;
     color: #fff;
 }
 
-.precio {
-    color: #ff0000;
-    font-weight: bold;
-    font-size: 17px;
-    margin-top: 8px;
+/* Desactivar contornos de bootstrap */
+.pagination .page-link:focus {
+    box-shadow: none;
 }
-
-/* =======================================================
-   === SECCIÓN REGISTRO ===
-======================================================= */
-.banner-registro {
-    background: url("../img/cebra.jpeg") center/cover no-repeat;
-    text-align: center;
-    padding: 60px 20px;
-    color: #fff;
-}
-
-.banner-registro h2 {
-    font-size: 2rem;
-    position: relative;
-    display: inline-block;
-    margin-bottom: 25px;
-}
-
-.banner-registro h2::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #fff;
-    margin: 8px auto 0;
-}
-
-.form-correo input {
-    padding: 14px 20px;
-    border: none;
-    border-radius: 25px;
-    width: 100%;
-    max-width: 350px;
-    font-size: 1rem;
-    outline: none;
-    text-align: center;
-}
-
-/* =======================================================
-   === MARCAS DESTACADAS ===
-======================================================= */
-.marcas-destacadas {
-    background-color: #000;
-    text-align: center;
-    padding: 60px 0;
-}
-
-.marcas-destacadas h2 {
-    color: #fff;
-    font-size: 1.6rem;
-    font-weight: bold;
-    text-decoration: underline white 2px;
-    margin-bottom: 40px;
-}
-
-.marca-card {
-    background: #fff;
-    border: 2px solid #ff0000;
-    width: 100%;
-    max-width: 230px;
-    height: 230px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    margin: 0 auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.marca-card img {
-    max-width: 85%;
-    height: auto;
-}
-
-.marca-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 18px #ff0000;
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
