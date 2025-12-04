@@ -1,0 +1,95 @@
+
+
+/* Fondo negro de toda la sección */
+.seccion-hombre {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+body{
+    background-color: #000;
+}
+
+/* Tarjetas */
+.product-card {
+    background-color: #111;
+    border: 1px solid #d00000;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px red;
+}
+
+/* Imágenes */
+.product-card img {
+    height: 180px;
+    object-fit: contain;
+    background-color: #000;
+}
+
+/* Textos */
+.product-name {
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    color: #d00000;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Espacio entre filas */
+.product-row {
+    margin-bottom: 30px;
+}
+
+/* 6 productos por fila en pantallas grandes */
+@media (min-width: 992px) {
+    .product-col {
+        flex: 0 0 16.66%;
+        max-width: 16.66%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* PAGINACIÓN ESTILO NEGRO Y ROJO */
+.pagination .page-link {
+    background-color: #000;        /* Fondo negro */
+    color: #fff;                   /* Texto blanco */
+    border: 1px solid #d00000;     /* Borde rojo */
+    border-radius: 6px;
+    margin: 0 4px;
+    transition: all .3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #d00000;     /* Rojo al pasar mouse */
+    color: #fff;
+    border-color: #ff0000;
+}
+
+/* Página activa */
+.pagination .page-item.active .page-link {
+    background-color: #d00000;     /* Rojo fuerte */
+    border-color: #ff0000;
+    color: #fff;
+}
+
+/* Desactivar contornos de bootstrap */
+.pagination .page-link:focus {
+    box-shadow: none;
+}

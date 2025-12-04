@@ -1,0 +1,89 @@
+
+/* Fondo general */
+.faq-section {
+    background-color: #000;
+}
+
+/* Tarjetas del acordeón */
+.accordion-item {
+    background: #0d0d0d;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    overflow: hidden;
+
+    /* Sombra roja suave */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.35);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover con glow rojo más fuerte */
+.accordion-item:hover {
+    border-color: rgba(255, 0, 0, 0.6);
+    box-shadow: 0 0 18px rgba(255, 0, 0, 0.55);
+}
+
+/* Botón del acordeón */
+.accordion-button {
+    background-color: #0d0d0d;
+    color: #fff;
+    font-weight: 600;
+    padding: 18px;
+    font-size: 1rem;
+    border: none;
+}
+
+/* Botón cuando está abierto */
+.accordion-button:not(.collapsed) {
+    background-color: #1a1a1a;
+    color: #fff;
+
+    /* glow rojo cuando está abierto */
+    box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+/* Flecha más grande y blanca */
+.accordion-button::after {
+    filter: brightness(200%);
+    transform: scale(1.3);
+    transition: transform 0.3s ease;
+}
+
+/* Flecha cuando está abierta */
+.accordion-button:not(.collapsed)::after {
+    filter: brightness(250%);
+    transform: rotate(180deg) scale(1.3);
+}
+
+/* Quitar sombra default */
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+/* Cuerpo del acordeón */
+.accordion-body {
+    background: #0d0d0d;
+    color: #d9d9d9;
+    padding: 22px;
+    line-height: 1.6;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animación suave */
+.accordion-collapse {
+    transition: all 0.35s ease-in-out !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

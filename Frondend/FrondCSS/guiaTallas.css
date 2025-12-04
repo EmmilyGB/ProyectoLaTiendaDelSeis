@@ -1,0 +1,73 @@
+
+
+
+
+/* ===== Fondo general ===== */
+body {
+    background-color: #000 !important;
+}
+
+/* ===== Títulos ===== */
+.titulo-guia {
+    color: #fff;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+
+/* ===== Tarjetas contenedoras ===== */
+.tabla-card {
+    background: #ffffff;
+    border-radius: 15px;
+    border: 2px solid #d00000; /* rojo de tu estilo */
+}
+
+/* ===== Tablas ===== */
+.tabla-tallas {
+    background: white;
+    font-size: 1.15rem;
+}
+
+.tabla-tallas th {
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 15px;
+    border-bottom: 2px solid #000;
+}
+
+.tabla-tallas td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* ===== Banderas ===== */
+.flag {
+    width: 28px;
+    height: auto;
+    margin-left: 6px;
+}
+
+/* ===== Divisor ===== */
+.divisor {
+    border: none;
+    border-top: 3px solid #fff;
+    width: 85%;
+    margin: auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .titulo-guia {
+        font-size: 1.5rem;
+    }
+
+    .flag {
+        width: 22px;
+    }
+
+    .tabla-tallas th,
+    .tabla-tallas td {
+        font-size: 0.95rem;
+    }
+}
+
