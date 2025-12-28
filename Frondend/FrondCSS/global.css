@@ -241,3 +241,44 @@
         text-align: center;
     }
 }
+
+
+
+/* ===== BLINDAJE BUSCADOR HEADER ===== */
+.search-bar {
+    border: 1.5px solid rgba(255, 255, 255, 0.5); /* borde blanco suave */
+    border-radius: 999px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.18); /* 🔥 blanco transparente */
+    backdrop-filter: blur(6px);                 /* efecto vidrio */
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Input */
+.search-bar .form-control {
+    background-color: transparent !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+/* Placeholder */
+.search-bar .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Botón lupa */
+.search-bar .btn-search {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Icono lupa */
+.search-bar .btn-search i {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+}
+
+/* Quitar glow de Bootstrap */
+.search-bar .form-control:focus {
+    box-shadow: none !important;
+}

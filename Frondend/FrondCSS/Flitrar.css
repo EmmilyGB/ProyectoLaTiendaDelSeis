@@ -1,0 +1,126 @@
+/* ===== TEXTO "FILTRAR POR" ===== */
+.filtro-label {
+    color: #ff2b2b;
+    font-weight: 700;
+    text-decoration: underline;
+    font-size: 1.05rem;
+}
+
+/* ===== BOTONES OVALADOS ===== */
+.filtro-btn {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #ff2b2b;
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-weight: 600;
+}
+
+.filtro-btn:hover,
+.filtro-btn:focus {
+    background-color: #ff2b2b;
+    color: #fff;
+}
+
+/* ===== DROPDOWN ===== */
+.filtro-dropdown {
+    background-color: #111;
+    border-radius: 18px;
+    border: 1px solid #ff2b2b;
+    min-width: 180px;
+}
+
+/* ================================================= */
+/* ===== CHECKBOX MARCA Y TALLA (BLANCAS) ===== */
+/* ================================================= */
+
+.filtro-dropdown .form-check {
+    margin-bottom: 8px;
+}
+
+.filtro-dropdown .form-check-label {
+    color: #fff !important;     /* ✅ TEXTO BLANCO */
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Checkbox personalizada (quita azul Bootstrap) */
+.filtro-dropdown .form-check-input {
+    background-color: transparent;
+    border: 2px solid #ff2b2b;
+    cursor: pointer;
+    accent-color: #ff2b2b;      /* ✅ Quita azul */
+}
+
+.filtro-dropdown .form-check-input:checked {
+    background-color: #ff2b2b;
+    border-color: #ff2b2b;
+}
+
+/* ================================================= */
+/* ===== ITEM COLOR ===== */
+/* ================================================= */
+
+.color-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    user-select: none;
+}
+
+/* Ocultar checkbox real */
+.color-item input {
+    display: none;
+}
+
+/* ===== BOLITAS DE COLOR ===== */
+.color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: none;
+    flex-shrink: 0;
+}
+
+/* ===== TEXTO COLOR ===== */
+.color-text {
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ===== COLORES ===== */
+.color-dot.negro {
+    background: #000;
+    border: 1px solid #fff; /* Para que se vea en fondo negro */
+}
+
+.color-dot.blanco {
+    background: #fff;
+}
+
+.color-dot.rojo {
+    background: #c62828;
+}
+
+.color-dot.azul {
+    background: #1e88e5;
+}
+
+.color-dot.amarillo {
+    background: #fdd835;
+}
+
+/* ===== COLOR SELECCIONADO ===== */
+.color-item input:checked + .color-dot {
+    outline: 3px solid #ff2b2b;
+    outline-offset: 3px;
+}
+
+/* ===== HOVER ===== */
+.color-item:hover,
+.filtro-dropdown .form-check:hover {
+    opacity: 0.85;
+}

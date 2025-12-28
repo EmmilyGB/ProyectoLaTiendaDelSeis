@@ -1,0 +1,153 @@
+    /* ===== FONDO GENERAL DEL CARRITO ===== */
+    body {
+    background-color: #121212; /* negro suave */
+    }
+
+    /* Contenedor general del carrito */
+    .carrito-pro {
+    padding: 20px 0;
+    }
+
+    /* ===== MENSAJE IMPORTANTE ===== */
+    .carrito-alert {
+    background: linear-gradient(135deg, #1c1c1c, #2a2a2a);
+    color: #fff;
+    border-radius: 14px;
+    padding: 15px 20px;
+    }
+
+    /* ===== PRODUCTO (TARJETA) ===== */
+    .producto-item {
+    background-color: #f9f9f9;
+    border-radius: 22px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    gap: 18px;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+    }
+
+    .producto-item:hover {
+    transform: translateY(-2px);
+    }
+
+    /* Imagen producto */
+    .producto-item img {
+    width: 120px;
+    border-radius: 16px;
+    }
+
+    /* Info */
+    .producto-info h6 {
+    font-weight: 700;
+    margin-bottom: 6px;
+    }
+
+    .producto-info .badge {
+    background-color: #111;
+    font-weight: 500;
+    }
+
+    /* Precio unitario */
+    .producto-info .precio {
+    font-weight: 600;
+    margin-top: 6px;
+    }
+
+    /* ===== CANTIDAD ===== */
+    .producto-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    }
+
+    .btn-cantidad {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: #d32f2f;
+    color: #fff;
+    border: none;
+    }
+
+    .btn-cantidad:hover {
+    background-color: #b71c1c;
+    }
+
+    /* ===== SUBTOTAL ===== */
+    .producto-subtotal {
+    font-weight: 700;
+    white-space: nowrap;
+    }
+
+    /* ===== ELIMINAR ===== */
+    .btn-remove {
+    background: transparent;
+    border: none;
+    color: #d32f2f;
+    font-size: 22px;
+    }
+
+    /* ===== RESUMEN ===== */
+    .resumen-pro {
+    background-color: #efefef;
+    border-radius: 22px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Título resumen */
+    .resumen-pro h5 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    }
+
+    /* Líneas del resumen (alineación corregida) */
+    .resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    }
+
+    /* Total */
+    .resumen-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 10px;
+    }
+
+    /* Botón finalizar */
+    .btn-finalizar {
+    width: 100%;
+    background-color: #d32f2f;
+    color: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: 700;
+    margin-top: 15px;
+    }
+
+    .btn-finalizar:hover {
+    background-color: #b71c1c;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+    .producto-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .producto-cantidad {
+        justify-content: center;
+    }
+    }
