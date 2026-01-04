@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2025 a las 06:54:36
+-- Tiempo de generación: 04-01-2026 a las 04:26:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,73 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `latiendadelseis`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `IdCategoria` int(11) NOT NULL,
+  `NomCategoria` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`IdCategoria`, `NomCategoria`) VALUES
+(1, 'Zapatillas'),
+(2, 'Perfumes');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `color`
+--
+
+CREATE TABLE `color` (
+  `IdColor` int(11) NOT NULL,
+  `NomColor` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `color`
+--
+
+INSERT INTO `color` (`IdColor`, `NomColor`) VALUES
+(1, 'Azul'),
+(2, 'Morado'),
+(3, 'Verde'),
+(4, 'Naranja'),
+(5, 'Rojo'),
+(6, 'Cafe'),
+(7, 'Blanco'),
+(8, 'Negro'),
+(9, 'Beige'),
+(10, 'Amarillo'),
+(11, 'Rosado'),
+(12, 'Fucsia'),
+(13, 'Lila'),
+(14, 'Agua Marina'),
+(15, 'Vino Tinto'),
+(16, 'Gris');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detallefactura`
+--
+
+CREATE TABLE `detallefactura` (
+  `IdDetalle` int(11) NOT NULL,
+  `IdFactura` int(11) NOT NULL,
+  `IdProducto` int(11) NOT NULL,
+  `Cantidad` int(11) NOT NULL,
+  `PrecioUnitario` int(11) NOT NULL,
+  `Subtotal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -82,6 +149,30 @@ CREATE TABLE `factura` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `marca`
+--
+
+CREATE TABLE `marca` (
+  `IdMarca` int(11) NOT NULL,
+  `NomMarca` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `marca`
+--
+
+INSERT INTO `marca` (`IdMarca`, `NomMarca`) VALUES
+(1, 'Puma'),
+(2, 'Adidas'),
+(3, 'Vans'),
+(4, 'New Balance'),
+(5, 'Nike'),
+(6, 'Converse'),
+(7, 'Asics');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `producto`
 --
 
@@ -90,28 +181,16 @@ CREATE TABLE `producto` (
   `Nombre` varchar(30) DEFAULT NULL,
   `Material` varchar(60) DEFAULT NULL,
   `Precio` int(11) DEFAULT NULL,
-  `Talla_unidadMedida` varchar(15) DEFAULT NULL,
-  `Color` varchar(10) DEFAULT NULL,
+  `IdTalla` int(11) DEFAULT NULL,
+  `IdColor` int(11) DEFAULT NULL,
   `Stock` int(11) DEFAULT NULL,
   `Oferta` int(1) DEFAULT NULL,
   `Foto` varchar(250) DEFAULT NULL,
-  `Categoria` varchar(12) DEFAULT NULL,
-  `Marca` varchar(20) DEFAULT NULL,
-  `Descripcion` varchar(300) DEFAULT NULL
+  `IdCategoria` int(11) DEFAULT NULL,
+  `IdMarca` int(11) DEFAULT NULL,
+  `Descripcion` varchar(300) DEFAULT NULL,
+  `UdMedida` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `producto`
---
-
-INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `Talla_unidadMedida`, `Color`, `Stock`, `Oferta`, `Foto`, `Categoria`, `Marca`, `Descripcion`) VALUES
-(1, 'Puma speedcat', 'Gamusa', 618000, '36-37-38-39-40', 'NEGRO', 80, 0, '1763530884_Zapatillas.jpg', 'Zapatillas', 'PUMA', 'Zapatillas rojas creadas e inspiradas para y en los corredores de la F1 ahora en material de gamusa desde la talla 36 a la 40'),
-(2, 'Adidas Campus', 'Gamusa', 340900, '36-37-38-39-40', 'Negro', 80, 0, '1763530907_CampusZ.png', 'Zapatillas', 'ADIDAS', 'Zapatillas negras en gamusa desde la talla 36 a la 40'),
-(3, 'Vans knu skool', 'Gamusa y lona', 430000, '36-37-38-39-40', 'Negro', 80, NULL, NULL, 'Zapatillas', 'VANS', 'Zapatillas negras en gamusa con una l?nea blanca lateral'),
-(4, 'New balance 550', 'cuero, malla y Gamusa', 709000, '36-37-38-39-40', 'verde', 80, NULL, NULL, 'Zapatillas', 'NEW BALANCE', 'Zapatillas blancas con detalles verdes con un estilo retro'),
-(5, 'Lattafa Yara', 'Vidrio', 180000, '100ml, 50ml', 'rosa claro', 80, 0, '1763531040_YaraP.png', 'Perfumes', 'LATTAFA', 'Famoso perfume para mujer se caracteriza por un aroma dulce, afrutado y cremoso'),
-(6, 'puma ballerina', 'gamusa', 559000, '35-36-37-38', 'rosado', 80, 2, NULL, 'zapatillas', 'PUMA', 'zapatillas de gamusa ballerina '),
-(7, 'vans', 'goma', 369000, '35-36-37-38', 'verde', 80, 2, '1763530810_vans-slip-on-trk-calzado-deportes-acuaticos.jpg', 'zapatillas', 'VANS', 'zapatillas de goma versatiles');
 
 -- --------------------------------------------------------
 
@@ -132,6 +211,30 @@ INSERT INTO `rol` (`Rol`, `NameRol`) VALUES
 (1, 'Admin'),
 (2, 'Cliente'),
 (3, 'Empleado');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `talla`
+--
+
+CREATE TABLE `talla` (
+  `IdTalla` int(11) NOT NULL,
+  `NomTalla` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `talla`
+--
+
+INSERT INTO `talla` (`IdTalla`, `NomTalla`) VALUES
+(1, 36),
+(2, 37),
+(3, 38),
+(4, 39),
+(5, 40),
+(6, 41),
+(7, 42);
 
 -- --------------------------------------------------------
 
@@ -165,7 +268,6 @@ INSERT INTO `tipodocum` (`IdTipoDocum`, `TipoDoc`) VALUES
 
 CREATE TABLE `usuario` (
   `NumDoc` int(11) NOT NULL,
-  `TipoDoc` varchar(5) DEFAULT NULL,
   `NombreCom` varchar(40) DEFAULT NULL,
   `Correo` varchar(60) DEFAULT NULL,
   `Password` varchar(20) DEFAULT NULL,
@@ -179,17 +281,33 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`NumDoc`, `TipoDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
-(102476558, 'CC', 'juliana miranda cero', 'cerojuli0222@gmail.com', 'cerojul0222', '2147483647', 'Ml C2 loma alta', NULL, NULL),
-(146321789, 'CC', 'Julia castillo morales', 'juliacasmor25@gmail.com', 'Julia25', '2147483647', 'Mz C5 El casa verde murilo', NULL, 2),
-(1014736991, 'CC', 'Camila saavedra lima', 'camilima34@gmail.com', 'camcami1234', '2147483647', 'Mc C4 barrio villa cindy', NULL, NULL),
-(1018567224, 'CC', 'mariana ricon mora', 'maririnmo86@gmail.com', 'marimari8686', '2147483647', 'Mj C7 mirador de boqueron', NULL, NULL),
-(1107456332, '3', 'nono sisi', 'sisi@gmail.com', 'asdfghjkl', '123456789', 'sisi', NULL, 2),
-(1431567122, 'CC', 'Sebastian jimenez mendoza', 'sebasjimen76@gmail.com', '76mendoza', '2147483647', 'Mg C6 bella vista', NULL, NULL);
+INSERT INTO `usuario` (`NumDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
+(1107979330, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', 'Emmily0208', '3187916563', 'holhol', 2, 1),
+(1134579886, 'hola prueba uno', 'prueba@gmail.com', 'pruebauno', '123456789', 'calle 3', 3, 2);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`IdCategoria`);
+
+--
+-- Indices de la tabla `color`
+--
+ALTER TABLE `color`
+  ADD PRIMARY KEY (`IdColor`);
+
+--
+-- Indices de la tabla `detallefactura`
+--
+ALTER TABLE `detallefactura`
+  ADD PRIMARY KEY (`IdDetalle`),
+  ADD KEY `IdFactura` (`IdFactura`),
+  ADD KEY `IdProducto` (`IdProducto`);
 
 --
 -- Indices de la tabla `detallesalida`
@@ -225,16 +343,32 @@ ALTER TABLE `factura`
   ADD KEY `NumDoc` (`NumDoc`);
 
 --
+-- Indices de la tabla `marca`
+--
+ALTER TABLE `marca`
+  ADD PRIMARY KEY (`IdMarca`);
+
+--
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD PRIMARY KEY (`IdProducto`);
+  ADD PRIMARY KEY (`IdProducto`),
+  ADD KEY `IdMarca` (`IdMarca`),
+  ADD KEY `IdTalla` (`IdTalla`),
+  ADD KEY `IdCategoria` (`IdCategoria`),
+  ADD KEY `IdColor` (`IdColor`);
 
 --
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`Rol`);
+
+--
+-- Indices de la tabla `talla`
+--
+ALTER TABLE `talla`
+  ADD PRIMARY KEY (`IdTalla`);
 
 --
 -- Indices de la tabla `tipodocum`
@@ -253,6 +387,24 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `color`
+--
+ALTER TABLE `color`
+  MODIFY `IdColor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `detallefactura`
+--
+ALTER TABLE `detallefactura`
+  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `detallesalida`
@@ -276,7 +428,13 @@ ALTER TABLE `entrada`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `marca`
+--
+ALTER TABLE `marca`
+  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -291,6 +449,12 @@ ALTER TABLE `rol`
   MODIFY `Rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `talla`
+--
+ALTER TABLE `talla`
+  MODIFY `IdTalla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `tipodocum`
 --
 ALTER TABLE `tipodocum`
@@ -299,6 +463,13 @@ ALTER TABLE `tipodocum`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `detallefactura`
+--
+ALTER TABLE `detallefactura`
+  ADD CONSTRAINT `detallefactura_ibfk_1` FOREIGN KEY (`IdFactura`) REFERENCES `factura` (`IdFactura`),
+  ADD CONSTRAINT `detallefactura_ibfk_2` FOREIGN KEY (`IdProducto`) REFERENCES `producto` (`IdProducto`);
 
 --
 -- Filtros para la tabla `detallesalida`
@@ -328,6 +499,15 @@ ALTER TABLE `entrada`
 --
 ALTER TABLE `factura`
   ADD CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`NumDoc`) REFERENCES `usuario` (`NumDoc`);
+
+--
+-- Filtros para la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`IdMarca`) REFERENCES `marca` (`IdMarca`),
+  ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`IdTalla`) REFERENCES `talla` (`IdTalla`),
+  ADD CONSTRAINT `producto_ibfk_3` FOREIGN KEY (`IdCategoria`) REFERENCES `categoria` (`IdCategoria`),
+  ADD CONSTRAINT `producto_ibfk_4` FOREIGN KEY (`IdColor`) REFERENCES `color` (`IdColor`);
 
 --
 -- Filtros para la tabla `usuario`
