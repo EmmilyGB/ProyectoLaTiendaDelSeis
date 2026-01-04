@@ -10,17 +10,17 @@ class Produmodel {
     }
 
     // INSERTAR PRODUCTO
-    public function InsertarProducto($Nombre, $Precio, $Material, $Talla_unidadMedida, $Color,
-        $Stock, $Oferta, $Categoria, $Marca, $Descripcion, $Foto)
+    public function InsertarProducto($Nombre, $Precio, $Material, $IdTalla, $IdColor,
+            $Stock, $Oferta, $IdCategoria, $Marca, $Descripcion, $UdMedida, $Foto)
     {
         $query = "INSERT INTO $this->table_name 
-        (Nombre, Precio, Material, Talla_unidadMedida, Color, Stock, Oferta, Categoria, Marca, Descripcion, Foto)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        (Nombre, Precio, Material, IdTalla, IdColor, Stock, Oferta, IdCategoria, IdMarca, Descripcion, UdMedida, Foto)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
-            $Nombre, $Precio, $Material, $Talla_unidadMedida, $Color,
-            $Stock, $Oferta, $Categoria, $Marca, $Descripcion, $Foto
+            $Nombre, $Precio, $Material, $IdTalla, $IdColor,
+            $Stock, $Oferta, $IdCategoria, $Marca, $Descripcion, $UdMedida, $Foto
         ]);
     }
 
@@ -50,18 +50,18 @@ class Produmodel {
     }
 
     // ACTUALIZAR PRODUCTO
-    public function actualizarProducto($Nombre, $Precio, $Material, $Talla_unidadMedida, $Color,
-        $Stock, $Oferta, $Categoria, $Marca, $Descripcion, $Foto, $id)
+    public function actualizarProducto($Nombre, $Precio, $Material, $IdTalla, $IdColor,
+            $Stock, $Oferta, $IdCategoria, $Marca, $Descripcion, $UdMedida, $Foto, $id)
     {
         $query = "UPDATE $this->table_name SET 
-            Nombre=?, Precio=?, Material=?, Talla_unidadMedida=?, Color=?,
-            Stock=?, Oferta=?, Categoria=?, Marca=?, Descripcion=?, Foto=?
+            Nombre=?, Precio=?, Material=?, IdTalla=?, IdColor=?,
+            Stock=?, Oferta=?, IdCategoria=?, Marca=?, Descripcion=?, UdMedida=?, Foto=?
             WHERE IdProducto=?";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
-            $Nombre, $Precio, $Material, $Talla_unidadMedida, $Color,
-            $Stock, $Oferta, $Categoria, $Marca, $Descripcion, $Foto, $id
+            $Nombre, $Precio, $Material, $IdTalla, $IdColor,
+            $Stock, $Oferta, $IdCategoria, $Marca, $Descripcion, $UdMedida, $Foto, $id
         ]);
     }
 

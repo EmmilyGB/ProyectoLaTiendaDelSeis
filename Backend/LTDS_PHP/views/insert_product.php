@@ -32,11 +32,14 @@
         <label class="form-label">Material</label>
         <input type="text" name="Material" class="form-control mb-2" required>
 
-        <label class="form-label">Talla / Unidad Medida</label>
-        <input type="text" name="Talla_unidadMedida" class="form-control mb-2" required>
+        <label class="form-label">Talla</label>
+        <input type="number" name="IdTalla" class="form-control mb-2" required>
+
+        <label class="form-label">Unidad Medida</label>
+        <input type="text" name="UdMedida" class="form-control mb-2" required>
 
         <label class="form-label">Color</label>
-        <input type="text" name="Color" class="form-control mb-2" required>
+        <input type="number" name="IdColor" class="form-control mb-2" required>
 
         <label class="form-label">Stock</label>
         <input type="number" name="Stock" class="form-control mb-2" required>
@@ -45,10 +48,10 @@
         <input type="number" name="Oferta" class="form-control mb-2">
 
         <label class="form-label">Categoría</label>
-        <input type="text" name="Categoria" class="form-control mb-2" required>
+        <input type="number" name="idCategoria" class="form-control mb-2" required>
 
         <label class="form-label">Marca</label>
-        <input type="text" name="Marca" class="form-control mb-2" required>
+        <input type="number" name="IdMarca" class="form-control mb-2" required>
 
         <label class="form-label">Descripción</label>
         <textarea name="Descripcion" class="form-control mb-2" rows="3" required></textarea>

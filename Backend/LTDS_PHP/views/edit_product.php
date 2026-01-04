@@ -37,11 +37,14 @@
         <label class="form-label">Material</label>
         <input type="text" name="Material" value="<?= htmlspecialchars($producto['Material']) ?>" class="form-control mb-2" required>
 
-        <label class="form-label">Talla / Unidad Medida</label>
-        <input type="text" name="Talla_unidadMedida" value="<?= htmlspecialchars($producto['Talla_unidadMedida']) ?>" class="form-control mb-2" required>
+        <label class="form-label">Talla</label>
+        <input type="number" name="IdTalla" value="<?= htmlspecialchars($producto['IdTalla']) ?>" class="form-control mb-2" required>
+
+        <label class="form-label">Unidad Medida</label>
+        <input type="text" name="UdMedida" value="<?= htmlspecialchars($producto['UdMedida']) ?>" class="form-control mb-2" required>
 
         <label class="form-label">Color</label>
-        <input type="text" name="Color" value="<?= htmlspecialchars($producto['Color']) ?>" class="form-control mb-2" required>
+        <input type="number" name="IdColor" value="<?= $producto['IdColor'] ?>" class="form-control mb-2" required>
 
         <label class="form-label">Stock</label>
         <input type="number" name="Stock" value="<?= $producto['Stock'] ?>" class="form-control mb-2" required>
@@ -50,10 +53,10 @@
         <input type="number" name="Oferta" value="<?= $producto['Oferta'] ?>" class="form-control mb-2">
 
         <label class="form-label">Categoría</label>
-        <input type="text" name="Categoria" value="<?= htmlspecialchars($producto['Categoria']) ?>" class="form-control mb-2" required>
+        <input type="number" name="IdCategoria" value="<?= $producto['IdCategoria'] ?>" class="form-control mb-2" required>
 
         <label class="form-label">Marca</label>
-        <input type="text" name="Marca" value="<?= htmlspecialchars($producto['Marca']) ?>" class="form-control mb-2" required>
+        <input type="number" name="IdMarca" value="<?= $producto['IdMarca'] ?>" class="form-control mb-2" required>
 
         <label class="form-label">Descripción</label>
         <textarea name="Descripcion" class="form-control mb-2" rows="3" required><?= htmlspecialchars($producto['Descripcion']) ?></textarea>

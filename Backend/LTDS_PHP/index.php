@@ -5,7 +5,6 @@ require_once __DIR__ . '/controllers/Producontroller.php';
 require_once __DIR__ . '/controllers/rolcontroller.php';
 require_once __DIR__ . '/controllers/FacturaController.php';
 
-
 $facturaController = new FacturaController();
 $userController = new usercontroller();
 $tipodocumController = new tipodocumcontroller();
@@ -88,8 +87,8 @@ switch ($action) {
         break;
 
     case 'insertFactura':
-    $facturaController->formCrear();
-    break;
+        $facturaController->formCrear();
+        break;
 
     case 'addToCart':
         $facturaController->addToCart();
@@ -112,8 +111,6 @@ switch ($action) {
         break;
 
     case 'deleteFactura':
-    $facturaController->eliminarFactura();
-    break;
-
-
+        $facturaController->eliminarFactura();
+        break;
 }
