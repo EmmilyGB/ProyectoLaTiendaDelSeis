@@ -38,8 +38,8 @@ class Usermodel {
     public function listarUsuariosWithDocAndRole()
     {
         $query = "SELECT u.*, t.TipoDoc, r.NameRol FROM $this->table_name u
-                  LEFT JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
-                  LEFT JOIN rol r ON u.Rol = r.Rol";
+                LEFT JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
+                  +LEFT JOIN rol r ON u.Rol = r.Rol";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -60,7 +60,7 @@ class Usermodel {
         $query = "SELECT u.*, t.TipoDoc, r.NameRol FROM $this->table_name u
                   LEFT JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
                   LEFT JOIN rol r ON u.Rol = r.Rol
-                  WHERE u.NombreCom LIKE ?";
+                WHERE u.NombreCom LIKE ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['%' . $NombreCom . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

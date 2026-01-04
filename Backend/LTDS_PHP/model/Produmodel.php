@@ -15,7 +15,7 @@ class Produmodel {
     {
         $query = "INSERT INTO $this->table_name 
         (Nombre, Precio, Material, IdTalla, IdColor, Stock, Oferta, IdCategoria, IdMarca, Descripcion, UdMedida, Foto)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
@@ -75,11 +75,34 @@ class Produmodel {
 
     // LISTAR
     public function listarProductos()
-    {
-        $query = "SELECT * FROM $this->table_name";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+{
+    $query = "
+        SELECT 
+            p.IdProducto,
+            p.Nombre,
+            p.Precio,
+            p.Material,
+            t.NomTalla AS Talla,
+            p.UdMedida,
+            c.NomColor AS Color,
+            p.Stock,
+            p.Oferta,
+            ca.NomCategoria AS Categoria,
+            m.NomMarca AS Marca,
+            p.Descripcion,
+            p.Foto
+        FROM producto p
+        INNER JOIN talla t ON p.IdTalla = t.IdTalla
+        INNER JOIN color c ON p.IdColor = c.IdColor
+        INNER JOIN categoria ca ON p.IdCategoria = ca.IdCategoria
+        INNER JOIN marca m ON p.IdMarca = m.IdMarca
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 }
 ?>

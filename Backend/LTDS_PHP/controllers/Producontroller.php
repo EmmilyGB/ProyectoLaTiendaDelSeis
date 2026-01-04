@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../model/CategoriaModel.php';
+require_once __DIR__ . '/../model/ColorModel.php';
+require_once __DIR__ . '/../model/TallaModel.php';
+require_once __DIR__ . '/../model/MarcaModel.php';
 require_once __DIR__ . '/../model/Produmodel.php';
 
 class Producontroller {
@@ -35,20 +39,22 @@ class Producontroller {
             }
 
             // DATOS
+            
             $this->Produmodel->InsertarProducto(
                 $_POST['Nombre'],
                 $_POST['Precio'],
                 $_POST['Material'],
                 $_POST['IdTalla'],
-                $_POST['UdMedida'],
                 $_POST['IdColor'],
                 $_POST['Stock'],
                 $_POST['Oferta'] ?? 0,
                 $_POST['IdCategoria'],
                 $_POST['IdMarca'],
                 $_POST['Descripcion'],
+                $_POST['UdMedida'],
                 $fotoNombre
             );
+
 
             header("Location: index.php?action=listProduct");
             exit;
@@ -69,6 +75,19 @@ class Producontroller {
     public function editarFormulario() {
         $id = $_GET['id'];
         $producto = $this->Produmodel->getProductoById($id);
+
+        $CategoriaModel = new CategoriaModel($this->db);
+        $categorias = $CategoriaModel->getCategoria();
+
+        $ColorModel = new ColorModel($this->db);
+        $colores = $ColorModel->getColor();
+
+        $MarcaModel = new MarcaModel($this->db);
+        $marcas = $MarcaModel->getMarca();
+
+        $tallas = $TallaModel->getTalla();
+
+
         include __DIR__ . '/../views/edit_product.php';
     }
 
@@ -96,13 +115,13 @@ class Producontroller {
                 $_POST['Precio'],
                 $_POST['Material'],
                 $_POST['IdTalla'],
-                $_POST['UdMedida'],
                 $_POST['IdColor'],
                 $_POST['Stock'],
                 $_POST['Oferta'] ?? 0,
                 $_POST['IdCategoria'],
                 $_POST['IdMarca'],
                 $_POST['Descripcion'],
+                $_POST['UdMedida'],
                 $fotoFinal,
                 $id
             );

@@ -3,6 +3,10 @@ require_once __DIR__ . '/controllers/usercontroller.php';
 require_once __DIR__ . '/controllers/tipodocumcontroller.php';
 require_once __DIR__ . '/controllers/Producontroller.php';
 require_once __DIR__ . '/controllers/rolcontroller.php';
+require_once __DIR__ . '/controllers/CategoriaController.php';
+require_once __DIR__ . '/controllers/ColorController.php';
+require_once __DIR__ . '/controllers/MarcaController.php';
+require_once __DIR__ . '/controllers/TallaController.php';
 require_once __DIR__ . '/controllers/FacturaController.php';
 
 $facturaController = new FacturaController();
@@ -10,6 +14,10 @@ $userController = new usercontroller();
 $tipodocumController = new tipodocumcontroller();
 $Producontroller = new Producontroller();
 $rolController = new RolController();
+$categoriaController = new CategoriaController();
+$colorController = new ColorController();
+$marcaController = new MarcaController();
+$tallaController = new TallaController();
 
 $action = $_GET['action'] ?? 'dashboard';
 
@@ -26,12 +34,17 @@ switch ($action) {
         break;
 
     case 'insertProdu':
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $Producontroller->insertProdu();
-        } else {
-            include 'views/insert_product.php';
-        }
-        break;
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $Producontroller->insertProdu();
+    } else {
+        $categorias = $categoriaController->listCategoria();
+        $colores = $colorController->listColor();
+        $marcas = $marcaController->listMarca();
+        $tallas = $tallaController->listTalla();
+        include 'views/insert_product.php';
+    }
+    break;
+
 
     case 'dashboard':
     default:

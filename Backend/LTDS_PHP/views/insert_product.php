@@ -33,13 +33,29 @@
         <input type="text" name="Material" class="form-control mb-2" required>
 
         <label class="form-label">Talla</label>
-        <input type="number" name="IdTalla" class="form-control mb-2" required>
+          <select name="IdTalla" class="form-select mb-2" required>
+            <option value="">Seleccione talla</option>
+            <?php foreach ($tallas as $talla): ?>
+              <option value="<?= $talla['IdTalla']; ?>">
+                <?= htmlspecialchars($talla['NomTalla']); ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+
 
         <label class="form-label">Unidad Medida</label>
         <input type="text" name="UdMedida" class="form-control mb-2" required>
 
         <label class="form-label">Color</label>
-        <input type="number" name="IdColor" class="form-control mb-2" required>
+            <select name="IdColor" class="form-select mb-2" required>
+              <option value="">Seleccione color</option>
+              <?php foreach ($colores as $color): ?>
+                <option value="<?= $color['IdColor']; ?>">
+                  <?= htmlspecialchars($color['NomColor']); ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+
 
         <label class="form-label">Stock</label>
         <input type="number" name="Stock" class="form-control mb-2" required>
@@ -48,10 +64,26 @@
         <input type="number" name="Oferta" class="form-control mb-2">
 
         <label class="form-label">Categoría</label>
-        <input type="number" name="idCategoria" class="form-control mb-2" required>
+            <select name="IdCategoria" class="form-select mb-2" required>
+              <option value="">Seleccione categoría</option>
+              <?php foreach ($categorias as $categoria): ?>
+                <option value="<?= $categoria['IdCategoria']; ?>">
+                  <?= htmlspecialchars($categoria['NomCategoria']); ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+
 
         <label class="form-label">Marca</label>
-        <input type="number" name="IdMarca" class="form-control mb-2" required>
+            <select name="IdMarca" class="form-select mb-2" required>
+              <option value="">Seleccione marca</option>
+              <?php foreach ($marcas as $marca): ?>
+                <option value="<?= $marca['IdMarca']; ?>">
+                  <?= htmlspecialchars($marca['NomMarca']); ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+
 
         <label class="form-label">Descripción</label>
         <textarea name="Descripcion" class="form-control mb-2" rows="3" required></textarea>

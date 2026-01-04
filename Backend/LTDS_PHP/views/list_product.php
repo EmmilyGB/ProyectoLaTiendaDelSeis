@@ -17,6 +17,11 @@
         </button>
     </form>
 
+    <!--  BOTÓN PDF -->
+<a href="pdf/productos_pdf.php" target="_blank" class="btn btn-danger mb-3">
+    <i class="bi bi-file-earmark-pdf-fill"></i> Exportar PDF
+</a>
+
     <h1 class="dashboard-title">Lista de Productos</h1>
 
     <div class="table-responsive">
@@ -46,13 +51,14 @@
                     <td><?= htmlspecialchars($p['Nombre']) ?></td>
                     <td>$<?= number_format($p['Precio'], 0, ',', '.') ?></td>
                     <td><?= htmlspecialchars($p['Material']) ?></td>
-                    <td><?= $p['IdTalla'] ?></td>
+                    <td><?= htmlspecialchars($p['Talla']) ?></td>
                     <td><?= htmlspecialchars($p['UdMedida']) ?></td>
-                    <td><?= $p['IdColor'] ?></td>
-                    <td><?= $p['Stock'] ?></td>
-                    <td><?= $p['Oferta'] ?></td>
-                    <td><?= $p['IdCategoria'] ?></td>
-                    <td><?= ($p['IdMarca']) ?></td>
+                    <td><?= htmlspecialchars($p['Color']) ?></td>
+                    <td><?= htmlspecialchars($p['Stock']) ?></td>
+                    <td><?= htmlspecialchars($p['Oferta']) ?></td>
+                    <td><?= htmlspecialchars($p['Categoria']) ?></td>
+                    <td><?= htmlspecialchars($p['Marca']) ?></td>
+
                     <td><?= htmlspecialchars($p['Descripcion']) ?></td>
                     <td>
                         <?php if (!empty($p['Foto'])): ?>
