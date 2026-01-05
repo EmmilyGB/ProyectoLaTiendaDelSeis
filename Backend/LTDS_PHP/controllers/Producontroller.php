@@ -144,5 +144,25 @@ class Producontroller {
         header("Location: index.php?action=listProduct");
         exit;
     }
+
+    public function verProducto()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $producto = $this->Produmodel->getProductoById($id);
+
+        if (!$producto) {
+            echo "Producto no encontrado";
+            exit;
+        }
+
+        include __DIR__ . '/../views_client/vistaproducto.php';
+    }
+
 }
 ?>

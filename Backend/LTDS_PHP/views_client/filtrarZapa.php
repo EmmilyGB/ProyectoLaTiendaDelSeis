@@ -6,7 +6,7 @@
 <title>Filtro</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="FrondCSS/Flitrar.css">
+<link rel="stylesheet" href="css/Flitrar.css">
 </head>
 
 <body class="bg-dark">

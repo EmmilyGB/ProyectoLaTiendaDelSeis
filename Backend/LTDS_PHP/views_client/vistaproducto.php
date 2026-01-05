@@ -8,26 +8,16 @@
     <!-- BOOTSTRAP 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="FrondCSS/global.css">
-    <link rel="stylesheet" href="FrondCSS/tablasdproductos.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/vistaproducto.css">
 </head>
 
 
 
 <body class="bg-light">
 
-    <div id="header"></div>
-<script>
-    fetch("header.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("header").innerHTML = html;
-        });
-</script>
-
-
-
-
+<!-- ===== HEADER ===== -->
+<?php include __DIR__ . '/partials/header.php'; ?>
 
 
 
@@ -45,14 +35,15 @@
 
             <!-- IMAGEN -->
             <div class="col-md-6 text-center">
-                <img src="img/NB550.png" class="img-fluid w-75" alt="producto">
+                <img src="uploads/<?= htmlspecialchars($producto['Foto']) ?>" class="img-fluid w-75">
             </div>
 
             <!-- INFO -->
             <div class="col-md-6">
                 <div class="product-box">
 
-                    <h2 class="product-title">ZAPATILLAS NEW BALANCE 550</h2>
+                    <h2 class="product-title"><?= htmlspecialchars($producto['Nombre']) ?></h2>
+
 
                     <div class="rating-stars mb-2">
                         <i class="bi bi-star-fill"></i>
@@ -63,7 +54,8 @@
                         <span class="fw-bold ms-2">4.5</span>
                     </div>
 
-                    <h4 class="fw-bold">$519.000 COP</h4>
+                    <h4 class="fw-bold">COP <?= number_format($producto['Precio'], 0, ',', '.') ?></h4>
+
 
                     <div class="mt-3 mb-2 fw-semibold">Talla</div>
 
@@ -80,7 +72,7 @@
                     </div>
 
                     <div class="mt-2">
-                        <a href="#" class="text-decoration-none fw-semibold" style="color:#b30000;">Guía de tallas</a>
+                        <a href="guiaTallas.php" class="text-decoration-none fw-semibold" style="color:#b30000;">Guía de tallas</a>
                     </div>
 
                     <div class="row mt-4 align-items-center">
@@ -99,12 +91,7 @@
         <!-- DESCRIPCIÓN -->
         <div class="desc-box mt-5">
             <h5 class="fw-bold">Descripción</h5>
-            <p>
-                La 550 original debutó en 1989 y dejó su huella en las canchas de baloncesto de costa a costa.
-                Tras su lanzamiento inicial, la 550 quedó descatalogada antes de ser relanzada en 2020, convirtiéndose
-                en uno de los modelos más populares de la marca. Su diseño clásico y versátil la hace perfecta
-                para cualquier estilo.
-            </p>
+            <p><?= htmlspecialchars($producto['Descripcion']) ?></p>
         </div>
 
         <!-- ACORDEÓN -->
@@ -178,15 +165,8 @@
 
 
 
-<div id="footer"></div>
+<?php include __DIR__ . '/partials/footer.php'; ?>
 
-<script>
-    fetch("footer.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("footer").innerHTML = html;
-        });
-</script>
 
     <!-- BOOTSTRAP JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -126,4 +126,9 @@ switch ($action) {
     case 'deleteFactura':
         $facturaController->eliminarFactura();
         break;
+
+    case 'verProducto':
+    $Producontroller->verProducto();
+    break;
+
 }

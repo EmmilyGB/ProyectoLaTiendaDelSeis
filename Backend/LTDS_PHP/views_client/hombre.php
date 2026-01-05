@@ -3,26 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unisex</title>
+    <title>Productos Hombre</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="FrondCSS/global.css">
-    <link rel="stylesheet" href="FrondCSS/tablasdproductos.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/tablasdproductos.css">
 </head>
 
 <body>
 
 
-    <div id="header"></div>
-<script>
-    fetch("header.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("header").innerHTML = html;
-        });
-</script>
+    <!-- ===== HEADER ===== -->
+<?php include __DIR__ . '/partials/header.php'; ?>
 
 
 <div id="filtrarZapa"></div>
@@ -37,7 +31,7 @@
 
     <!-- BANNER CATEGORIA -->
     <div class="banner-categoria-hombre">
-        <h1>Unisex</h1>
+        <h1>Hombre</h1>
     </div>
 
 

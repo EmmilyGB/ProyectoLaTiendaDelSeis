@@ -7,7 +7,7 @@
             <div class="col-12 col-md-2 text-center text-md-start mb-4 mb-md-0 footer-social">
                 <ul class="list-unstyled d-flex d-md-block justify-content-center mb-0">
                     <li><a href="https://t.me/latiendadelseis"><i class="bi bi-telegram"></i></a></li>
-                    <li><a href="wa.link/7zdo57"><i class="bi bi-whatsapp"></i></a></li>
+                    <li><a href="https://wa.link/7zdo57"><i class="bi bi-whatsapp"></i></a></li>
                     <li><a href="https://www.instagram.com/latiendadelseis"><i class="bi bi-instagram"></i></a></li>
                     <li><a href="#"><i class="bi bi-facebook"></i></a></li>
                 </ul>
@@ -15,7 +15,7 @@
 
             <!-- Logo -->
             <div class="col-12 col-md-3 text-center mb-4 mb-md-0">
-                <a href="index.html">
+                <a href="home.php">
                     <img src="img/logo.png" alt="Logo" class="footer-logo img-fluid">
                 </a>
             </div>
@@ -38,8 +38,8 @@
                 <h6 class="footer-title">Información</h6>
                 <div class="footer-line mb-2"></div>
                 <ul class="list-unstyled footer-info">
-                    <li><a href="FAQ.html">Preguntas frecuentes</a></li>
-                    <li><a href="guiaTallas.html">Guía de tallas</a></li>
+                    <li><a href="faq.php">Preguntas frecuentes</a></li>
+                    <li><a href="guia_tallas.php">Guía de tallas</a></li>
                     <li><a href="#">Devoluciones</a></li>
                 </ul>
             </div>

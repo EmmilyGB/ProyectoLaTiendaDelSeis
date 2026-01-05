@@ -11,20 +11,14 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="FrondCSS/global.css">
-    <link rel="stylesheet" href="FrondCSS/crearCuenta.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/crearCuenta.css">
 </head>
 
 <body>
 
-    <div id="header"></div>
-<script>
-    fetch("header.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("header").innerHTML = html;
-        });
-</script>
+<!-- ===== HEADER ===== -->
+<?php include __DIR__ . '/partials/header.php'; ?>
 
 
 
