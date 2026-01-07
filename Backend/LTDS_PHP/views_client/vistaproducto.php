@@ -77,7 +77,7 @@
 
                     <div class="row mt-4 align-items-center">
                         <div class="col-10">
-                            <button class="btn-cart">Agregar al carrito</button>
+                            <a href="index.php?action=addToCart&id=<?= $producto['IdProducto'] ?>" class="btn-cart">Agregar al carrito</a>
                         </div>
                         <div class="col-2 text-end">
                             <i class="bi bi-heart-fill heart-btn"></i>

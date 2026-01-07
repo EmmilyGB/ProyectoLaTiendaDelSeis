@@ -1,3 +1,10 @@
+<?php
+if (!isset($_SESSION['user']) || $_SESSION['user']['Rol'] !== 'Admin') {
+    header("Location: index.php?action=login");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

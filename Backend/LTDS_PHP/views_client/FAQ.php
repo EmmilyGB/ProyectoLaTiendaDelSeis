@@ -228,18 +228,8 @@
 
 
 
-<div id="footer"></div>
-
-<script>
-    fetch("footer.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("footer").innerHTML = html;
-        });
-</script>
-
-
-
+<!-- ===== FOOTER ===== -->
+<?php include __DIR__ . '/partials/footer.php'; ?>
 
 
 

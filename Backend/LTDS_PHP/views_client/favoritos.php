@@ -123,12 +123,8 @@
 
 
 
-<div id="footer"></div>
-<script>
-fetch("footer.html")
-    .then(res => res.text())
-    .then(html => document.getElementById("footer").innerHTML = html);
-</script>
+<!-- ===== FOOTER ===== -->
+<?php include __DIR__ . '/partials/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

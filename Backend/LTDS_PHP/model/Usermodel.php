@@ -1,92 +1,112 @@
 <?php
-
 class Usermodel {
 
     private $conn;
-    private $table_name = "usuario";
+    private $table = "usuario";
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // INSERTAR USUARIO
-    public function InsertarUsuario($NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol)
-    {
-        try {
-            $query = "INSERT INTO $this->table_name 
-            (NumDoc, IdTipoDocum, NombreCom, Correo, Password, Tel, Direccion, Rol)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    /* ======================
+       REGISTRO
+    ====================== */
+    public function InsertarUsuario($NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol) {
 
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute([
-                $NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol
-            ]);
+        // verificar duplicado
+        $check = $this->conn->prepare("SELECT NumDoc FROM usuario WHERE NumDoc = ?");
+        $check->execute([$NumDoc]);
 
-            return true;
-
-        } catch (PDOException $e) {
-
-            if ($e->getCode() == "23000") { // Duplicado PK
-                return "duplicate";
-            }
-
-            return false;
+        if ($check->rowCount() > 0) {
+            return "duplicate";
         }
+
+        $hash = password_hash($Password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO usuario 
+                (NumDoc, IdTipoDocum, NombreCom, Correo, Password, Tel, Direccion, Rol)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            $NumDoc,
+            $IdTipoDocum,
+            $NombreCom,
+            $Correo,
+            $hash,
+            $Tel,
+            $Direccion,
+            $Rol
+        ]);
+
+        return true;
     }
 
-    // LISTAR USUARIOS (con JOIN para mostrar TipoDoc y NameRol)
-    public function listarUsuariosWithDocAndRole()
-    {
-        $query = "SELECT u.*, t.TipoDoc, r.NameRol FROM $this->table_name u
-                LEFT JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
-                  +LEFT JOIN rol r ON u.Rol = r.Rol";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    /* ======================
+       LOGIN
+    ====================== */
+    public function login($correo, $password) {
+
+        $sql = "SELECT u.*, r.NameRol 
+                FROM usuario u
+                INNER JOIN rol r ON u.Rol = r.Rol
+                WHERE u.Correo = ?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$correo]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['Password'])) {
+            return $user;
+        }
+
+        return false;
     }
 
-    // OBTENER USUARIO POR NUMDOC
-    public function getUsuarioById($id)
-    {
-        $query = "SELECT * FROM $this->table_name WHERE NumDoc = ? LIMIT 1";
-        $stmt = $this->conn->prepare($query);
+    /* ======================
+    LISTADOS
+    ====================== */
+    public function listarUsuariosWithDocAndRole() {
+        $sql = "SELECT u.*, r.NameRol, t.TipoDoc
+                FROM usuario u
+                INNER JOIN rol r ON u.Rol = r.Rol
+                INNER JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum";
+
+        return $this->conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUsuarioById($id) {
+        $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE NumDoc = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // BUSCAR USUARIO POR NOMBRE (con JOIN)
-    public function getUsuarioByNombreWithDocAndRole($NombreCom)
-    {
-        $query = "SELECT u.*, t.TipoDoc, r.NameRol FROM $this->table_name u
-                  LEFT JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
-                  LEFT JOIN rol r ON u.Rol = r.Rol
-                WHERE u.NombreCom LIKE ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute(['%' . $NombreCom . '%']);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    public function actualizarUsuario($NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $NumDocOriginal) {
 
-    // ACTUALIZAR USUARIO
-    public function actualizarUsuario($NumDocNuevo, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $NumDocOriginal)
-    {
-        $query = "UPDATE $this->table_name SET
-            NumDoc=?, IdTipoDocum=?, NombreCom=?, Correo=?, Password=?, Tel=?, Direccion=?, Rol=?
-            WHERE NumDoc=?";
+        $hash = password_hash($Password, PASSWORD_DEFAULT);
 
-        $stmt = $this->conn->prepare($query);
+        $sql = "UPDATE usuario SET
+                NumDoc = ?, IdTipoDocum = ?, NombreCom = ?, Correo = ?, Password = ?, 
+                Tel = ?, Direccion = ?, Rol = ?
+                WHERE NumDoc = ?";
+
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute([
-            $NumDocNuevo, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol,
+            $NumDoc,
+            $IdTipoDocum,
+            $NombreCom,
+            $Correo,
+            $hash,
+            $Tel,
+            $Direccion,
+            $Rol,
             $NumDocOriginal
         ]);
     }
 
-    // ELIMINAR USUARIO
-    public function eliminarUsuario($NumDoc)
-    {
-        $query = "DELETE FROM $this->table_name WHERE NumDoc=?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$NumDoc]);
+    public function eliminarUsuario($id) {
+        $stmt = $this->conn->prepare("DELETE FROM usuario WHERE NumDoc = ?");
+        $stmt->execute([$id]);
     }
-
 }
-?>

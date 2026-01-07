@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once __DIR__ . '/controllers/usercontroller.php';
 require_once __DIR__ . '/controllers/tipodocumcontroller.php';
 require_once __DIR__ . '/controllers/Producontroller.php';
@@ -8,69 +10,89 @@ require_once __DIR__ . '/controllers/ColorController.php';
 require_once __DIR__ . '/controllers/MarcaController.php';
 require_once __DIR__ . '/controllers/TallaController.php';
 require_once __DIR__ . '/controllers/FacturaController.php';
+require_once __DIR__ . '/controllers/AuthController.php';
 
-$facturaController = new FacturaController();
-$userController = new usercontroller();
-$tipodocumController = new tipodocumcontroller();
-$Producontroller = new Producontroller();
-$rolController = new RolController();
+// Controllers
+$authController = new AuthController();
+$userController      = new Usercontroller();
+$tipodocumController = new Tipodocumcontroller();
+$Producontroller     = new Producontroller();
+$rolController       = new RolController();
 $categoriaController = new CategoriaController();
-$colorController = new ColorController();
-$marcaController = new MarcaController();
-$tallaController = new TallaController();
+$colorController     = new ColorController();
+$marcaController     = new MarcaController();
+$tallaController     = new TallaController();
+$facturaController   = new FacturaController();
 
-$action = $_GET['action'] ?? 'dashboard';
+// Acción
+$action = $_GET['action'] ?? 'home';
 
 switch ($action) {
 
-    case 'insertuser':
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $userController->insertuser();
+    /* =====================
+    CLIENTE / PUBLICO
+    ====================== */
+
+    case 'home':
+        $productos = $Producontroller->listar();
+        include 'views_client/home.php';
+        break;
+
+    case 'verProducto':
+        $Producontroller->verProducto();
+        break;
+
+    case 'verCarrito':
+        $facturaController->verCarrito();
+        break;
+
+    case 'addToCart':
+        $facturaController->addToCart();
+        break;
+
+    case 'updateCart':
+        $facturaController->updateCart();
+        break;
+
+    case 'removeFromCart':
+        $facturaController->removeFromCart();
+        break;
+
+    /* =====================
+    LOGIN
+    ====================== */
+    case 'login':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $authController->login();
         } else {
-            $docums = $tipodocumController->listTipoDocum();
-            $roles = $rolController->listRoles();
-            include 'views/insert_user.php';
+            include 'views_client/inicioSesion.php';
         }
         break;
 
-    case 'insertProdu':
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $Producontroller->insertProdu();
-    } else {
-        $categorias = $categoriaController->listCategoria();
-        $colores = $colorController->listColor();
-        $marcas = $marcaController->listMarca();
-        $tallas = $tallaController->listTalla();
-        include 'views/insert_product.php';
-    }
-    break;
+    case 'logout':
+        $authController->logout();
+        break;
 
+
+
+    /* =====================
+    ADMIN
+    ====================== */
 
     case 'dashboard':
-    default:
         include 'views/dashboard.php';
         break;
 
-    case 'listProduct':
-        $productos = $Producontroller->listar();
-        include 'views/list_product.php';
-        break;
+    /* ===== USUARIOS ===== */
 
-    case 'ProductsByName':
-        $productos = $Producontroller->ProductsByName();
-        include 'views/list_ProduByName.php';
-        break;
-
-    case 'editProduct':
-        $Producontroller->editarFormulario();
-        break;
-
-    case 'updateProduct':
-        $Producontroller->actualizarProducto();
-        break;
-
-    case 'deleteProduct':
-        $Producontroller->eliminarProducto();
+    case 'insertuser':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userController->insertuser();
+        } else {
+            $docums = $tipodocumController->listTipoDocum();
+            $roles  = $rolController->listRoles();
+            include 'views/insert_user.php';
+        }
         break;
 
     case 'listUser':
@@ -99,16 +121,46 @@ switch ($action) {
         include 'views/error_duplicate.php';
         break;
 
+    /* ===== PRODUCTOS ===== */
+
+    case 'insertProdu':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $Producontroller->insertProdu();
+        } else {
+            $categorias = $categoriaController->listCategoria();
+            $colores    = $colorController->listColor();
+            $marcas     = $marcaController->listMarca();
+            $tallas     = $tallaController->listTalla();
+            include 'views/insert_product.php';
+        }
+        break;
+
+    case 'listProduct':
+        $productos = $Producontroller->listar();
+        include 'views/list_product.php';
+        break;
+
+    case 'ProductsByName':
+        $productos = $Producontroller->ProductsByName();
+        include 'views/list_ProduByName.php';
+        break;
+
+    case 'editProduct':
+        $Producontroller->editarFormulario();
+        break;
+
+    case 'updateProduct':
+        $Producontroller->actualizarProducto();
+        break;
+
+    case 'deleteProduct':
+        $Producontroller->eliminarProducto();
+        break;
+
+    /* ===== FACTURAS ===== */
+
     case 'insertFactura':
         $facturaController->formCrear();
-        break;
-
-    case 'addToCart':
-        $facturaController->addToCart();
-        break;
-
-    case 'removeFromCart':
-        $facturaController->removeFromCart();
         break;
 
     case 'saveFactura':
@@ -127,8 +179,11 @@ switch ($action) {
         $facturaController->eliminarFactura();
         break;
 
-    case 'verProducto':
-    $Producontroller->verProducto();
-    break;
+    /* =====================
+    DEFAULT
+    ====================== */
 
+    default:
+        header("Location: index.php?action=home");
+        exit;
 }

@@ -30,50 +30,7 @@ class FacturaController {
         include __DIR__ . '/../views/insert_factura.php';
     }
 
-    // Añadir ítem al "cart" (AJAX / POST from form JS)
-    public function addToCart() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = intval($_POST['IdProducto']);
-            $qty = intval($_POST['Cantidad']);
-            if ($id <= 0 || $qty <= 0) {
-                echo json_encode(['ok' => false, 'msg' => 'Producto o cantidad inválida']);
-                return;
-            }
-            // get product
-            $p = $this->productoModel->getProductoById($id);
-            if (!$p) {
-                echo json_encode(['ok' => false, 'msg' => 'Producto no existe']);
-                return;
-            }
-            // build cart in session
-            if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
-            // if exists, accumulate
-            if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id]['Cantidad'] += $qty;
-                $_SESSION['cart'][$id]['Subtotal'] = $_SESSION['cart'][$id]['Cantidad'] * $p['Precio'];
-            } else {
-                $_SESSION['cart'][$id] = [
-                    'IdProducto' => $id,
-                    'Nombre' => $p['Nombre'],
-                    'PrecioUnitario' => $p['Precio'],
-                    'Cantidad' => $qty,
-                    'Subtotal' => $qty * $p['Precio']
-                ];
-            }
-            echo json_encode(['ok' => true, 'cart' => $_SESSION['cart']]);
-        }
-    }
 
-    // Remover item del carrito (POST)
-    public function removeFromCart() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = intval($_POST['IdProducto']);
-            if (isset($_SESSION['cart'][$id])) {
-                unset($_SESSION['cart'][$id]);
-            }
-            echo json_encode(['ok' => true, 'cart' => $_SESSION['cart'] ?? []]);
-        }
-    }
 
     // Finalizar y guardar factura + detalles
     public function guardarFactura() {
@@ -161,6 +118,115 @@ class FacturaController {
     header("Location: index.php?action=listFactura");
     exit;
 }
+
+public function verCarrito()
+{
+    $cart = $_SESSION['cart'] ?? [];
+    include __DIR__ . '/../views_client/carrito.php';
+}
+
+public function addToCart()
+{
+    // Asegurar sesión
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        
+    }
+
+    // Obtener ID del producto
+    $id = intval($_GET['id'] ?? 0);
+
+    if ($id <= 0) {
+        header("Location: index.php");
+        exit;
+    }
+
+    // Obtener producto desde BD
+    $p = $this->productoModel->getProductoById($id);
+
+    if (!$p) {
+        header("Location: index.php");
+        exit;
+    }
+
+    // Inicializar carrito si no existe
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    // Si el producto ya está en el carrito
+    if (isset($_SESSION['cart'][$id])) {
+
+        $_SESSION['cart'][$id]['Cantidad']++;
+        $_SESSION['cart'][$id]['Subtotal'] =
+            $_SESSION['cart'][$id]['Cantidad'] * $_SESSION['cart'][$id]['PrecioUnitario'];
+
+        // 🔥 Asegurar que la foto siempre esté
+        $_SESSION['cart'][$id]['Foto'] = $p['Foto'];
+
+    } else {
+
+        // Agregar producto nuevo al carrito
+        $_SESSION['cart'][$id] = [
+            'IdProducto'      => $id,
+            'Nombre'          => $p['Nombre'],
+            'PrecioUnitario'  => $p['Precio'],
+            'Cantidad'        => 1,
+            'Foto'            => $p['Foto'],
+            'Subtotal'        => $p['Precio']
+        ];
+    }
+
+    // Redirigir al carrito
+    header("Location: index.php?action=verCarrito");
+    exit;
+}
+
+public function updateCart()
+{
+    $id = intval($_GET['id'] ?? 0);
+    $op = $_GET['op'] ?? '';
+
+    if ($id <= 0 || !isset($_SESSION['cart'][$id])) {
+        header("Location: index.php?action=verCarrito");
+        exit;
+    }
+
+    if ($op === 'plus') {
+        $_SESSION['cart'][$id]['Cantidad']++;
+    }
+
+    if ($op === 'minus') {
+        $_SESSION['cart'][$id]['Cantidad']--;
+        if ($_SESSION['cart'][$id]['Cantidad'] <= 0) {
+            unset($_SESSION['cart'][$id]);
+            header("Location: index.php?action=verCarrito");
+            exit;
+        }
+    }
+
+    $_SESSION['cart'][$id]['Subtotal'] =
+        $_SESSION['cart'][$id]['Cantidad'] *
+        $_SESSION['cart'][$id]['PrecioUnitario'];
+
+    header("Location: index.php?action=verCarrito");
+    exit;
+}
+
+public function removeFromCart()
+{
+    $id = intval($_GET['id'] ?? 0);
+
+    if (isset($_SESSION['cart'][$id])) {
+        unset($_SESSION['cart'][$id]);
+    }
+
+    header("Location: index.php?action=verCarrito");
+    exit;
+}
+
+
+
 
 
 }

@@ -4,177 +4,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito/Latiendadelseis</title>
+    <title>Carrito | Latiendadelseis</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/carrito.css">
 </head>
 
-
 <body>
-    <div id="header"></div>
-<script>
-    fetch("header.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("header").innerHTML = html;
-        });
-</script>
+
+<!-- ===== HEADER ===== -->
+<?php include __DIR__ . '/partials/header.php'; ?>
 
 
 
 
 
+<div class="cart">
 
+    <h1 class="mb-3">Tu carrito</h1>
 
-
-
-
-
-
-    <!-- ========== INICIO CARRITO PRO ========== -->
-
-    <section class="container my-5 carrito-pro">
-
-    <div class="row g-4">
-
-        <!-- LISTA DE PRODUCTOS -->
-        <div class="col-lg-8">
-
-        <div class="alert carrito-alert">
-            <strong>Importante:</strong> Los productos en el carrito no se reservan.
-        </div>
-
-        <!-- ITEM -->
-        <div class="producto-item">
-            <img src="img/NewBalance.png" alt="Producto">
-
-            <div class="producto-info">
-            <h6>Zapatillas New Balance 550</h6>
-            <span class="badge bg-dark">Talla 7</span>
-            <p class="precio">$1.038.000</p>
-            </div>
-
-            <div class="producto-cantidad">
-            <button class="btn btn-cantidad">−</button>
-            <span>2</span>
-            <button class="btn btn-cantidad">+</button>
-            </div>
-
-            <div class="producto-subtotal">
-            $2.076.000
-            </div>
-
-            <button class="btn btn-remove">✕</button>
-        </div>
-
-        <!-- ITEM -->
-        <div class="producto-item">
-            <img src="img/perfume2.png" alt="Producto">
-
-            <div class="producto-info">
-            <h6>Cloud Ariana Grande</h6>
-            <span class="badge bg-dark">10 ml · Decant</span>
-            <p class="precio">$339.900</p>
-            </div>
-
-            <div class="producto-cantidad">
-            <button class="btn btn-cantidad">−</button>
-            <span>1</span>
-            <button class="btn btn-cantidad">+</button>
-            </div>
-
-            <div class="producto-subtotal">
-            $339.900
-            </div>
-
-            <button class="btn btn-remove">✕</button>
-        </div>
-
-        </div>
-
-        <!-- RESUMEN -->
-        <div class="col-lg-4">
-        <div class="resumen-pro">
-
-            <h5>Resumen de compra</h5>
-
-            <div class="resumen-linea">
-            <span>Subtotal</span>
-            <span>$1.377.900</span>
-            </div>
-
-            <div class="resumen-linea">
-            <span>Envío</span>
-            <span class="text-muted">Por calcular</span>
-            </div>
-
-            <hr>
-
-            <div class="resumen-total">
-            <span>Total</span>
-            <span>$1.377.900</span>
-            </div>
-
-            <a href="pagos.html">
-                <button class="btn btn-finalizar">
-                    Finalizar compra
-                </button>
-            </a>
-
-
-            <small class="text-muted d-block mt-3 text-center">
-            Pago seguro 🔒
-            </small>
-
-        </div>
-        </div>
-
+    <div class="notice">
+        ⚠️ Los productos en el carrito no se apartan.
     </div>
 
-    </section>
+    <?php if (empty($cart)): ?>
+        <p class="text-center mt-4">Tu carrito está vacío</p>
+    <?php else: ?>
 
-    <!-- ========== FIN CARRITO PRO ========== -->
+        <?php 
+        $subtotal = 0;
+        foreach ($cart as $item):
+            $subtotal += $item['Subtotal'];
+        ?>
+
+        <!-- ITEM -->
+        <div class="cart-item row align-items-center gy-3">
+
+            <!-- IMAGEN -->
+            <div class="col-4 col-md-2 text-center">
+                <img src="uploads/<?= htmlspecialchars($item['Foto'] ?? 'img/default.png') ?>"
+                    class="img-fluid cart-img">
+            </div>
+
+            <!-- NOMBRE -->
+            <div class="col-8 col-md-4">
+                <h2 class="item-title"><?= htmlspecialchars($item['Nombre']) ?></h2>
+            </div>
+
+            <!-- CANTIDAD -->
+            <div class="col-6 col-md-3 d-flex align-items-center justify-content-md-center gap-2">
+                <a href="index.php?action=updateCart&id=<?= $item['IdProducto'] ?>&op=minus"
+                class="qty-btn">−</a>
+
+                <span class="fw-bold"><?= $item['Cantidad'] ?></span>
+
+                <a href="index.php?action=updateCart&id=<?= $item['IdProducto'] ?>&op=plus"
+                class="qty-btn">+</a>
+            </div>
+
+            <!-- PRECIO -->
+            <div class="col-4 col-md-2 fw-bold text-md-end">
+                $<?= number_format($item['Subtotal'], 0, ',', '.') ?>
+            </div>
+
+            <!-- ELIMINAR -->
+            <div class="col-2 col-md-1 text-end">
+                <a href="index.php?action=removeFromCart&id=<?= $item['IdProducto'] ?>"
+                class="remove-btn">✕</a>
+            </div>
+
+        </div>
+        <hr>
+
+        <?php endforeach; ?>
+    <?php endif; ?>
 
 
 
+    <!-- RESUMEN -->
+    <div class="cart-summary mt-4">
+        <div>
+            <div class="subtotal">Subtotal:</div>
+            <div class="total">$<?= number_format($subtotal ?? 0, 0, ',', '.') ?></div>
+        </div>
+        <button class="checkout">Finalizar compra</button>
+    </div>
 
+</div>
 
+<!-- ===== FOOTER ===== -->
+<?php include __DIR__ . '/partials/footer.php'; ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="footer"></div>
-
-<script>
-    fetch("footer.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("footer").innerHTML = html;
-        });
-</script>
-
-
-
-
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

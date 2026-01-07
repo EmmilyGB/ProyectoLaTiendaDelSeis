@@ -21,6 +21,14 @@
 
       <h1 class="dashboard-title">Insertar Producto</h1>
 
+      <?php if (!empty($_SESSION['error'])): ?>
+        <div class="alert alert-danger text-center mb-3">
+          <?= $_SESSION['error']; ?>
+        </div>
+        <?php unset($_SESSION['error']); ?>
+      <?php endif; ?>
+
+
       <form action="index.php?action=insertProdu" method="POST" enctype="multipart/form-data" class="form-column">
 
         <label class="form-label">Nombre</label>
