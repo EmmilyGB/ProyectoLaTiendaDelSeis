@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-01-2026 a las 04:26:19
+-- Tiempo de generación: 09-01-2026 a las 19:37:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -192,6 +192,15 @@ CREATE TABLE `producto` (
   `UdMedida` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `IdTalla`, `IdColor`, `Stock`, `Oferta`, `Foto`, `IdCategoria`, `IdMarca`, `Descripcion`, `UdMedida`) VALUES
+(9, 'Puma speedcat', 'Gamusa', 455500, 2, 8, 10, 0, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di', '0'),
+(10, 'Adidas Campus', 'Gamusa', 550000, 2, 8, 10, 0, '1767649658_CampusZ.png', 1, 2, 'zap\'atillas de gamusa', '0'),
+(11, 'Lattafa Yara 100ml', 'Vidrio', 230000, 1, 11, 10, 0, '1767649733_YaraP.png', 2, 1, 'perfume de mujer', '100ml');
+
 -- --------------------------------------------------------
 
 --
@@ -209,8 +218,7 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`Rol`, `NameRol`) VALUES
 (1, 'Admin'),
-(2, 'Cliente'),
-(3, 'Empleado');
+(2, 'Cliente');
 
 -- --------------------------------------------------------
 
@@ -270,7 +278,7 @@ CREATE TABLE `usuario` (
   `NumDoc` int(11) NOT NULL,
   `NombreCom` varchar(40) DEFAULT NULL,
   `Correo` varchar(60) DEFAULT NULL,
-  `Password` varchar(20) DEFAULT NULL,
+  `Password` varchar(255) DEFAULT NULL,
   `Tel` varchar(15) DEFAULT NULL,
   `Direccion` varchar(60) DEFAULT NULL,
   `IdTipoDocum` int(11) DEFAULT NULL,
@@ -283,6 +291,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`NumDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
 (1107979330, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', 'Emmily0208', '3187916563', 'holhol', 2, 1),
+(1131573886, 'Cliente Prueba', 'Cliente@gmail.com', '$2y$10$pGnpeoX0MljED.yxYV4GqOFXZOzZJxZ2z7dgzNK6IX7zwILg/yeea', '3187916361', 'x', 3, 2),
+(1134559887, 'Admin Prueba', 'Admin@gmail.com', '$2y$10$i9yRVhGFva83RNer4P5pu.rDSVb2ttqRZERfOp0Dxz6Qg65AU5jRe', '3187645957', 'x', 3, 1),
 (1134579886, 'hola prueba uno', 'prueba@gmail.com', 'pruebauno', '123456789', 'calle 3', 3, 2);
 
 --
@@ -440,7 +450,7 @@ ALTER TABLE `marca`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

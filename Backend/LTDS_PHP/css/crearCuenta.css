@@ -31,7 +31,7 @@ font-weight: 700;
 
 /* Campos de texto */
 .registro-card .form-control {
-background-color: #f3f3f3;
+background-color: #dddddd;
 border: none;
 border-radius: 25px;
 padding: 10px 15px;

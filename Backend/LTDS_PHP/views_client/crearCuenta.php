@@ -1,120 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro/Latiendadelseis</title>
+    <title>Registro | Latiendadelseis</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/crearCuenta.css">
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
 <?php include __DIR__ . '/partials/header.php'; ?>
 
+<section class="registro-section d-flex justify-content-center align-items-center">
+<div class="registro-card p-4 shadow">
 
+<h2 class="text-center mb-4">Crear cuenta</h2>
 
+<!-- MOSTRAR ERRORES -->
+<?php if (!empty($_SESSION['error'])): ?>
+<div class="alert alert-danger text-center">
+    <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+</div>
+<?php endif; ?>
 
+<form action="index.php?action=register" method="POST">
 
+    <input type="text" name="NumDoc" class="form-control mb-2" placeholder="Número de documento" required>
 
-<section class="registro-section d-flex align-items-center justify-content-center">
+    <select name="TipoDoc" class="form-control mb-2" required>
+        <option value="">Tipo de documento</option>
+        <option value="CC">Cédula de ciudadanía</option>
+        <option value="TI">Tarjeta de identidad</option>
+        <option value="CE">Cédula extranjería</option>
+    </select>
 
-    <div class="registro-card p-4 shadow">
+    <input type="text" name="NombreCom" class="form-control mb-2" placeholder="Nombre completo" required>
 
-        <h2 class="text-center mb-4">Crear cuenta</h2>
+    <input type="email" name="Correo" class="form-control mb-2" placeholder="Correo electrónico" required>
 
-        <form>
+    <input type="password" name="Password" class="form-control mb-2" placeholder="Contraseña" required>
 
-            <!-- Número de Documento -->
-            <div class="mb-3">
-                <label for="numdoc" class="form-label">Número de Documento*</label>
-                <input type="text" class="form-control" id="numdoc" placeholder="Ingresa tu número de documento">
-            </div>
+    <input type="text" name="Telefono" class="form-control mb-2" placeholder="Teléfono" required>
 
-            <!-- Tipo de Documento -->
-            <div class="mb-3">
-                <label for="tipodoc" class="form-label">Tipo de Documento*</label>
-                <select class="form-control" id="tipodoc">
-                    <option value="">Selecciona una opción</option>
-                    <option value="CC">Cédula de Ciudadanía</option>
-                    <option value="TI">Tarjeta de Identidad</option>
-                    <option value="CE">Cédula de Extranjería</option>
-                </select>
-            </div>
+    <input type="text" name="Direccion" class="form-control mb-3" placeholder="Dirección" required>
 
-            <!-- Nombre Completo -->
-            <div class="mb-3">
-                <label for="nombrecom" class="form-label">Nombre Completo*</label>
-                <input type="text" class="form-control" id="nombrecom" placeholder="Ingresa tu nombre completo">
-            </div>
+    <!-- ROL OCULTO (CLIENTE = 2) -->
+    <input type="hidden" name="IdRol" value="2">
 
-            <!-- Correo -->
-            <div class="mb-3">
-                <label for="correo" class="form-label">Correo electrónico*</label>
-                <input type="email" class="form-control" id="correo" placeholder="Ingresa tu correo">
-            </div>
+    <button type="submit" class="btn btn-danger w-100">Registrarme</button>
+</form>
 
-            <!-- Contraseña -->
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña*</label>
-                <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña">
-            </div>
+<div class="text-center mt-3">
+    <a href="index.php?action=login" class="text-danger">¿Ya tienes cuenta? Inicia sesión</a>
+</div>
 
-            <!-- Teléfono -->
-            <div class="mb-3">
-                <label for="tel" class="form-label">Teléfono*</label>
-                <input type="text" class="form-control" id="tel" placeholder="Ingresa tu número de teléfono">
-            </div>
-
-            <!-- Dirección -->
-            <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección*</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Ingresa tu dirección">
-            </div>
-
-            <!-- Rol -->
-            <div class="mb-3">
-                <label for="rol" class="form-label">Rol*</label>
-                <select class="form-control" id="rol">
-                    <option value="">Selecciona un rol</option>
-                    <option value="admin">Administrador</option>
-                    <option value="cliente">Cliente</option>
-                    <option value="empleado">Empleado</option>
-                </select>
-            </div>
-
-            <!-- Botón -->
-            <button type="submit" class="btn btn-danger w-100">REGISTRARME</button>
-
-            <!-- Enlace inferior -->
-            <div class="text-center mt-3">
-                <a href="#" class="text-danger me-3">¿Ya tienes cuenta? Inicia sesión</a>
-            </div>
-        </form>
-    </div>
+</div>
 </section>
 
-    
-
-
-<!-- ===== FOOTER ===== -->
 <?php include __DIR__ . '/partials/footer.php'; ?>
 
-
-
-
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

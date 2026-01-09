@@ -1,10 +1,16 @@
-<!-- ======= HEADER ======= --> 
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+<!-- ======= HEADER ======= -->
 <header class="custom-header">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
 
             <!-- LOGO -->
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
+            <a class="navbar-brand d-flex align-items-center" href="index.php?action=home">
                 <img src="img/logo.png" alt="Logo" class="logo">
             </a>
 
@@ -43,13 +49,39 @@
 
                 <!-- ICONOS -->
                 <div class="d-flex align-items-center iconos">
-                    <a href="#" class="text-white me-3"><i class="bi bi-heart"></i></a>
-                    <a href="index.php?action=login" class="text-white me-3">
-                        <i class="bi bi-person"></i>
+
+                    <!-- FAVORITOS -->
+                    <a href="#" class="text-white me-3" title="Favoritos">
+                        <i class="bi bi-heart"></i>
                     </a>
-                    <a href="index.php?action=verCarrito" class="text-white">
+
+                    <!-- USUARIO -->
+                    <?php if (!empty($_SESSION['usuario'])): ?>
+
+                        <!-- BIENVENIDA -->
+                        <span class="text-white me-3 small">
+                            Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>
+                        </span>
+
+                        <!-- CERRAR SESIÓN -->
+                        <a href="index.php?action=logout" class="text-white me-3" title="Cerrar sesión">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </a>
+
+                    <?php else: ?>
+
+                        <!-- INICIAR SESIÓN -->
+                        <a href="index.php?action=login" class="text-white me-3" title="Iniciar sesión">
+                            <i class="bi bi-person"></i>
+                        </a>
+
+                    <?php endif; ?>
+
+                    <!-- CARRITO -->
+                    <a href="index.php?action=verCarrito" class="text-white" title="Carrito">
                         <i class="bi bi-cart"></i>
                     </a>
+
                 </div>
 
             </div>

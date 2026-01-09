@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['user']) || $_SESSION['user']['Rol'] !== 'Admin') {
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
     header("Location: index.php?action=login");
     exit;
 }
@@ -23,6 +23,13 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['Rol'] !== 'Admin') {
 </head>
 
 <body>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="index.php?action=logout" class="btn btn-danger">
+        <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+    </a>
+</div>
+
 
   <div class="center-wrapper">
     <div class="wrapper-box">

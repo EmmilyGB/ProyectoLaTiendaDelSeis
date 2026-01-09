@@ -9,7 +9,7 @@ class Usermodel {
     }
 
     /* ======================
-       REGISTRO
+    REGISTRO
     ====================== */
     public function InsertarUsuario($NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol) {
 
@@ -43,7 +43,7 @@ class Usermodel {
     }
 
     /* ======================
-       LOGIN
+    LOGIN
     ====================== */
     public function login($correo, $password) {
 
@@ -109,4 +109,7 @@ class Usermodel {
         $stmt = $this->conn->prepare("DELETE FROM usuario WHERE NumDoc = ?");
         $stmt->execute([$id]);
     }
+
+
+
 }

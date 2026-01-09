@@ -6,16 +6,16 @@
             <!-- Redes sociales -->
             <div class="col-12 col-md-2 text-center text-md-start mb-4 mb-md-0 footer-social">
                 <ul class="list-unstyled d-flex d-md-block justify-content-center mb-0">
-                    <li><a href="https://t.me/latiendadelseis"><i class="bi bi-telegram"></i></a></li>
-                    <li><a href="https://wa.link/7zdo57"><i class="bi bi-whatsapp"></i></a></li>
-                    <li><a href="https://www.instagram.com/latiendadelseis"><i class="bi bi-instagram"></i></a></li>
+                    <li><a href="https://t.me/latiendadelseis" target="_blank"><i class="bi bi-telegram"></i></a></li>
+                    <li><a href="https://wa.link/7zdo57" target="_blank"><i class="bi bi-whatsapp"></i></a></li>
+                    <li><a href="https://www.instagram.com/latiendadelseis" target="_blank"><i class="bi bi-instagram"></i></a></li>
                     <li><a href="#"><i class="bi bi-facebook"></i></a></li>
                 </ul>
             </div>
 
             <!-- Logo -->
             <div class="col-12 col-md-3 text-center mb-4 mb-md-0">
-                <a href="home.php">
+                <a href="index.php?action=home">
                     <img src="img/logo.png" alt="Logo" class="footer-logo img-fluid">
                 </a>
             </div>
@@ -24,7 +24,9 @@
             <div class="col-12 col-md-4 mb-4 mb-md-0">
                 <h6 class="footer-title">Atención al cliente</h6>
                 <div class="footer-line mb-2"></div>
-                <p class="mb-1"><a href="tel:+573214082351" class="footer-link">+57 321 4082351</a></p>
+                <p class="mb-1">
+                    <a href="tel:+573214082351" class="footer-link">+57 321 4082351</a>
+                </p>
                 <p class="mb-1">
                     <a href="mailto:servicioalcliente@latiendadelseis.co" class="footer-link">
                         servicioalcliente@latiendadelseis.co
@@ -38,9 +40,9 @@
                 <h6 class="footer-title">Información</h6>
                 <div class="footer-line mb-2"></div>
                 <ul class="list-unstyled footer-info">
-                    <li><a href="faq.php">Preguntas frecuentes</a></li>
-                    <li><a href="guia_tallas.php">Guía de tallas</a></li>
-                    <li><a href="#">Devoluciones</a></li>
+                    <li><a href="index.php?action=faq">Preguntas frecuentes</a></li>
+                    <li><a href="index.php?action=guiaTallas">Guía de tallas</a></li>
+                    <li><a href="index.php?action=devoluciones">Devoluciones</a></li>
                 </ul>
             </div>
 
