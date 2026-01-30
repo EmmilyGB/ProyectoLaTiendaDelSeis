@@ -42,32 +42,47 @@
         <h2 class="text-center mb-5">PRODUCTOS DESTACADOS</h2>
 
         <div id="carouselProductos" class="carousel slide" data-bs-ride="carousel">
+            <?php
+            // Agrupar productos en slides de 4
+            $chunks = array_chunk($productos ?? [], 4);
+            ?>
+
+            <?php if (count($chunks) > 1): ?>
+            <div class="carousel-indicators mb-4">
+                <?php foreach ($chunks as $i => $chunk): ?>
+                    <button type="button" data-bs-target="#carouselProductos" data-bs-slide-to="<?= $i ?>" class="<?= $i===0 ? 'active' : '' ?>" aria-current="<?= $i===0 ? 'true' : 'false' ?>" aria-label="Slide <?= $i+1 ?>"></button>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+
             <div class="carousel-inner">
+                <?php foreach ($chunks as $i => $group): ?>
+                    <div class="carousel-item <?= $i===0 ? 'active' : '' ?>">
+                        <div class="row g-4 justify-content-center">
+                            <?php foreach ($group as $p): ?>
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="card text-center border-0 position-relative">
+                                        <img src="uploads/<?= htmlspecialchars($p['Foto']) ?>" class="img-fluid carousel-product-img" alt="<?= htmlspecialchars($p['Nombre']) ?>">
 
-                <div class="carousel-item active">
-                    <div class="row g-4 justify-content-center">
+                                        <div class="position-absolute" style="top:8px; right:8px;">
+                                            <?php if (isset($_SESSION['usuario']) && $favoritoController->isFavorito($p['IdProducto'])): ?>
+                                                <a href="index.php?action=removeFavorite&id=<?= $p['IdProducto'] ?>" class="favorite-toggle favorite-filled" aria-label="Quitar favorito"><i class="bi bi-heart-fill"></i></a>
+                                            <?php else: ?>
+                                                <a href="index.php?action=addFavorite&id=<?= $p['IdProducto'] ?>" class="favorite-toggle favorite-empty" aria-label="Agregar favorito"><i class="bi bi-heart"></i></a>
+                                            <?php endif; ?>
+                                        </div>
 
-                        <?php foreach ($productos as $p): ?>
-                        <div class="col-6 col-md-4 col-lg-3">
-                            <div class="card text-center border-0">
-
-                                <img src="uploads/<?= $p['Foto'] ?>" class="img-fluid">
-
-                                <h5 class="mt-3"><?= htmlspecialchars($p['Nombre']) ?></h5>
-
-                                <p class="precio">
-                                    COP <?= number_format($p['Precio'],0,',','.') ?>
-                                </p>
-
-                            </div>
+                                        <h5 class="mt-3"><?= htmlspecialchars($p['Nombre']) ?></h5>
+                                        <p class="precio">COP <?= number_format($p['Precio'],0,',','.') ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
-
                     </div>
-                </div>
-
+                <?php endforeach; ?>
             </div>
 
+            <?php if (count($chunks) > 1): ?>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductos" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </button>
@@ -75,6 +90,7 @@
             <button class="carousel-control-next" type="button" data-bs-target="#carouselProductos" data-bs-slide="next">
                 <span class="carousel-control-next-icon"></span>
             </button>
+            <?php endif; ?>
 
         </div>
     </div>

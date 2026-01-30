@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../model/ColorModel.php';
-require_once __DIR__ . '/../config/database.php';
 
+/* =========================
+    CONTROLLER: ColorController
+    ========================= */
 class ColorController {
     private $colorModel;
     private $db;

@@ -21,7 +21,8 @@ body {
     background: #ffffff;
     padding: 28px;
     border-radius: 18px;
-    width: 340px;
+    max-width: 340px;
+    width: 100%;
     box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
 }
 
@@ -76,6 +77,14 @@ body {
     transform: translateY(-3px);
 }
 
+/* Botón principal con chevrón para destacar */
+.btn-dashboard.main-btn {
+    background: linear-gradient(90deg,#d00000,#b30000);
+}
+.btn-dashboard.main-btn i.bi-chevron-down {
+    color: #fff;
+}
+
 /* SUB BOTONES – los que están dentro del collapse */
 .menu-box {
     margin-top: 10px;
@@ -109,4 +118,47 @@ body {
         flex-direction: column;
         text-align: center;
     }
+}
+
+/* ===== BOTONES UNIFORMES PARA VISTAS DE GESTIÓN ===== */
+.btn-dashboard.inline {
+    width: auto;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+}
+
+.sub-btn.small {
+    padding: 6px 10px !important;
+    font-size: 0.9rem !important;
+}
+
+.action-primary {
+    background-color: #d00000;
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 12px;
+    border: none;
+}
+
+.action-primary:hover { background-color: #a00000; }
+
+.action-danger {
+    background-color: transparent;
+    color: #d00000;
+    border: 1px solid #d00000;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.action-danger:hover {
+    background-color: rgba(208,0,0,0.06);
+}
+
+.table .action-cell a { margin-right: 6px; }
+
+/* Carousel/manage thumbnails used in admin pages */
+.carousel-thumb { width:100%; aspect-ratio: 4/3; object-fit:cover; }
+
+@media (max-width:576px) {
+    .carousel-thumb { aspect-ratio: 1.6/1; }
 }

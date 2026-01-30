@@ -1,5 +1,9 @@
 <?php
 
+/* =========================
+    MODEL: ColorModel
+    ========================= */
+
 class ColorModel {
     private $conn;
     private $table_name = "color";

@@ -1,8 +1,4 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
+<?php // session started in bootstrap ?>
 
 <!-- ======= HEADER ======= -->
 <header class="custom-header">
@@ -25,23 +21,23 @@ if (session_status() === PHP_SESSION_NONE) {
                 <!-- LINKS DE NAVEGACIÓN -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=listProduct&cat=hombre">Hombre</a>
+                        <a class="nav-link" href="index.php?action=hombre">Hombre</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=listProduct&cat=mujer">Mujer</a>
+                        <a class="nav-link" href="index.php?action=mujer">Mujer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=listProduct&cat=unisex">Unisex</a>
+                        <a class="nav-link" href="index.php?action=unisex">Unisex</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=listProduct&ofertas=1">Ofertas</a>
+                        <a class="nav-link" href="index.php?action=ofertas">Ofertas</a>
                     </li>
                 </ul>
 
                 <!-- BARRA DE BÚSQUEDA -->
                 <form class="d-flex me-3 search-bar" action="index.php" method="get">
-                    <input type="hidden" name="action" value="listProduct">
-                    <input class="form-control" type="search" name="q" placeholder="¿Qué estás buscando?">
+                    <input type="hidden" name="action" value="ProductsByName">
+                    <input class="form-control" type="search" name="Nombre" placeholder="¿Qué estás buscando?" aria-label="Buscar productos">
                     <button class="btn btn-search" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -51,7 +47,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="d-flex align-items-center iconos">
 
                     <!-- FAVORITOS -->
-                    <a href="#" class="text-white me-3" title="Favoritos">
+                    <a href="index.php?action=misFavoritos" class="text-white me-3" title="Favoritos">
                         <i class="bi bi-heart"></i>
                     </a>
 
@@ -60,7 +56,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                         <!-- BIENVENIDA -->
                         <span class="text-white me-3 small">
-                            Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>
+                            Bienvenid@, <?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>
                         </span>
 
                         <!-- CERRAR SESIÓN -->

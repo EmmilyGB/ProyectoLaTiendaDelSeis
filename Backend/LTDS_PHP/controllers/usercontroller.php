@@ -1,9 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../model/Usermodel.php';
 require_once __DIR__ . '/../model/rolmodel.php';
-require_once __DIR__ . '/../model/tipodocummodel.php';
+require_once __DIR__ . '/../model/TipoDocModel.php';
+
+/* =========================
+    CONTROLLER: Usercontroller
+    ========================= */
 
 class Usercontroller {
 
@@ -49,7 +52,17 @@ class Usercontroller {
 
     public function UsersByName() {
         $NombreCom = $_GET['NombreCom'] ?? '';
-        return $this->Usermodel->getUsuarioByNombreWithDocAndRole($NombreCom);
+
+        // Buscar usuarios por nombre (usa la conexión $this->db y retorna datos con rol y tipo de documento)
+        $sql = "SELECT u.*, r.NameRol, t.TipoDoc
+                FROM usuario u
+                INNER JOIN rol r ON u.Rol = r.Rol
+                INNER JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
+                WHERE u.NombreCom LIKE ?";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['%' . $NombreCom . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
@@ -64,7 +77,7 @@ class Usercontroller {
         $RolModel = new RolModel($this->db);
         $roles = $RolModel->getRoles();
 
-        $TipodocModel = new tipodocummodel($this->db);
+        $TipodocModel = new TipoDocModel($this->db);
         $docums = $TipodocModel->gettipodocum();
 
         include __DIR__ . '/../views/edit_user.php';

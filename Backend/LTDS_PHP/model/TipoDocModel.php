@@ -1,6 +1,10 @@
 <?php
 
-class tipodocummodel {
+/* =========================
+    MODEL: TipoDocModel
+    ========================= */
+
+class TipoDocModel{
     private $conn;
     private $table_name = "tipodocum";
 
@@ -11,7 +15,7 @@ class tipodocummodel {
     public function gettipodocum() {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
-        $stmt -> execute();
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

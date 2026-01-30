@@ -29,18 +29,26 @@
 
     <input type="text" name="NumDoc" class="form-control mb-2" placeholder="Número de documento" required>
 
-    <select name="TipoDoc" class="form-control mb-2" required>
-        <option value="">Tipo de documento</option>
-        <option value="CC">Cédula de ciudadanía</option>
-        <option value="TI">Tarjeta de identidad</option>
-        <option value="CE">Cédula extranjería</option>
-    </select>
+ <!-- Tipo de Documento --> 
+ <div class="mb-3">
+                <label for="tipodoc" class="form-label">Tipo de Documento*</label>
+                <select class="form-control" name="TipoDoc">
+                    <option value="">Selecciona una opción</option> 
+                    <?php foreach ($tipoDocs as $tipoDoc): ?>
+                        <option value="<?php echo htmlspecialchars($tipoDoc['IdTipoDocum']); ?>">
+                            <?php echo htmlspecialchars($tipoDoc['TipoDoc']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
     <input type="text" name="NombreCom" class="form-control mb-2" placeholder="Nombre completo" required>
 
     <input type="email" name="Correo" class="form-control mb-2" placeholder="Correo electrónico" required>
 
     <input type="password" name="Password" class="form-control mb-2" placeholder="Contraseña" required>
+    
+    <input type="password" id="passConfirm" class="form-control" name="PasswordConfirm" placeholder="confirma tu contraseña">
 
     <input type="text" name="Telefono" class="form-control mb-2" placeholder="Teléfono" required>
 

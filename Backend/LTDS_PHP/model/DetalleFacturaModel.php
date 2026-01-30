@@ -1,4 +1,9 @@
 <?php
+
+/* =========================
+    MODEL: DetalleFacturaModel
+    ========================= */
+
 class DetalleFacturaModel {
     private $conn;
     private $table = "detallefactura";

@@ -1,4 +1,9 @@
 <?php
+
+/* =========================
+    MODEL: Usermodel
+    ========================= */
+
 class Usermodel {
 
     private $conn;
@@ -62,6 +67,20 @@ class Usermodel {
         }
 
         return false;
+    }
+
+    /**
+     * Obtener usuario por correo (sin verificar contraseña)
+     */
+    public function getUsuarioByCorreo($correo) {
+        $sql = "SELECT u.*, r.NameRol 
+                FROM usuario u
+                INNER JOIN rol r ON u.Rol = r.Rol
+                WHERE u.Correo = ?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$correo]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /* ======================

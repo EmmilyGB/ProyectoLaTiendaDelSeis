@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/tablasdproductos.css">
+    <link rel="stylesheet" href="css/favoritos.css">
 </head>
 
 <body>
@@ -37,83 +38,39 @@
     <div class="container">
         <div class="row product-row">
 
-            <!-- PRODUCTO 1 -->
-            <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
-                <a href="vistaproducto.html" class="text-decoration-none">
-                    <div class="card product-card">
-                        <img src="img/Puma.png" class="card-img-top" alt="Puma">
-                        <div class="card-body text-center">
-                            <h5 class="product-name">Puma Runner</h5>
-                            <p class="product-price">$99.000</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <?php if (!empty($productos) && is_array($productos)): ?>
 
-            <!-- PRODUCTO 2 -->
-            <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
-                <a href="vistaproducto.html" class="text-decoration-none">
-                    <div class="card product-card">
-                        <img src="img/Nike.png" class="card-img-top" alt="Nike">
-                        <div class="card-body text-center">
-                            <h5 class="product-name">Nike Air</h5>
-                            <p class="product-price">$99.000</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                <?php foreach ($productos as $producto): ?>
 
-            <!-- PRODUCTO 3 -->
-            <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
-                <a href="vistaproducto.html" class="text-decoration-none">
-                    <div class="card product-card">
-                        <img src="img/Reebok.png" class="card-img-top" alt="Reebok">
-                        <div class="card-body text-center">
-                            <h5 class="product-name">Reebok Classic</h5>
-                            <p class="product-price">$99.000</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
+                    <div class="card product-card h-100 position-relative">
 
-            <!-- PRODUCTO 4 -->
-            <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
-                <a href="vistaproducto.html" class="text-decoration-none">
-                    <div class="card product-card">
-                        <img src="img/Adidas.png" class="card-img-top" alt="Adidas">
-                        <div class="card-body text-center">
-                            <h5 class="product-name">Adidas Sport</h5>
-                            <p class="product-price">$99.000</p>
+                        <div class="position-absolute" style="top:8px; right:8px;">
+                            <?php if (isset($_SESSION['usuario']) && $favoritoController->isFavorito($producto['IdProducto'])): ?>
+                                <a href="index.php?action=removeFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-filled" aria-label="Quitar favorito"><i class="bi bi-heart-fill"></i></a>
+                            <?php else: ?>
+                                <a href="index.php?action=addFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-empty" aria-label="Agregar favorito"><i class="bi bi-heart"></i></a>
+                            <?php endif; ?>
                         </div>
-                    </div>
-                </a>
-            </div>
 
-            <!-- PRODUCTO 5 -->
-            <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
-                <a href="vistaproducto.html" class="text-decoration-none">
-                    <div class="card product-card">
-                        <img src="img/Gola.png" class="card-img-top" alt="Gola">
-                        <div class="card-body text-center">
-                            <h5 class="product-name">Gola Retro</h5>
-                            <p class="product-price">$99.000</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                        <a href="index.php?action=verProducto&id=<?= $producto['IdProducto'] ?>" class="text-decoration-none">
+                            <img src="uploads/<?= htmlspecialchars($producto['Foto']) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($producto['Nombre']) ?>">
 
-            <!-- PRODUCTO 6 -->
-            <div class="col-6 col-md-4 col-lg-2 product-col mb-4">
-                <a href="vistaproducto.html" class="text-decoration-none">
-                    <div class="card product-card">
-                        <img src="img/Diadora.png" class="card-img-top" alt="Diadora">
-                        <div class="card-body text-center">
-                            <h5 class="product-name">Diadora Pro</h5>
-                            <p class="product-price">$99.000</p>
-                        </div>
+                            <div class="card-body text-center">
+                                <h6 class="product-name mb-1"><?= htmlspecialchars($producto['Nombre']) ?></h6>
+                                <p class="product-price mb-0">$<?= number_format($producto['Precio'], 0, ',', '.') ?></p>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
+                </div>
+
+                <?php endforeach; ?>
+
+            <?php else: ?>
+
+                <p class="text-center">No tienes favoritos todavía.</p>
+
+            <?php endif; ?>
 
         </div>
     </div>

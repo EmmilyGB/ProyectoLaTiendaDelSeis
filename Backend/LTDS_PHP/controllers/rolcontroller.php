@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../model/rolmodel.php';
-require_once __DIR__ . '/../config/database.php';
 
+/* =========================
+    CONTROLLER: RolController
+    ========================= */
 class RolController {
     private $model;
     private $db;

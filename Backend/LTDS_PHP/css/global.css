@@ -129,6 +129,78 @@
     font-size: 1.3rem;
 }
 
+/* ===== FAVORITO (corazón) ===== */
+.favorite-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background 0.18s ease, transform 0.12s ease;
+    text-decoration: none;
+}
+
+.favorite-toggle i {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.favorite-toggle.favorite-empty {
+    background: rgba(0,0,0,0.06);
+    color: #b00000;
+}
+
+.favorite-toggle.favorite-filled {
+    background: rgba(193,0,0,0.12);
+    color: #c10000;
+}
+
+.favorite-toggle:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== FORZAR VISIBILIDAD ICONOS HEADER ===== */
+/* Asegura que en cualquier vista los iconos del header sean legibles */
+.custom-header .iconos a,
+.custom-header .iconos a i,
+.custom-header .iconos i {
+    color: #ffffff !important;
+}
+
+.custom-header .search-bar .form-control {
+    color: #ffffff !important;
+}
+
+.custom-header .search-bar .btn-search i {
+    color: #ffffff !important;
+}
+
+.custom-header .favorite-toggle.favorite-empty {
+    background: rgba(255,255,255,0.06) !important;
+}
+
+.custom-header .favorite-toggle.favorite-filled {
+    background: rgba(255,255,255,0.08) !important;
+}
+
+/* Corazón en tarjetas de producto: más grande y rojo */
+.product-card .favorite-toggle {
+    width: 48px;
+    height: 48px;
+    font-size: 1.35rem;
+}
+
+.product-card .favorite-toggle.favorite-empty {
+    color: #b00000;
+    background: rgba(0,0,0,0.04);
+}
+
+.product-card .favorite-toggle.favorite-filled {
+    color: #ff2b2b;
+    background: rgba(255,43,43,0.08);
+}
+
 /* =========================================================
     AJUSTES RESPONSIVE
    ========================================================= */
@@ -147,6 +219,16 @@
         margin-top: 10px;
     }
 }
+
+/* Reducir tamaño de los iconos de favorito en pantallas muy pequeñas */
+@media (max-width: 576px) {
+    .favorite-toggle { width: 34px; height: 34px; }
+    .product-card .favorite-toggle { width: 40px; height: 40px; font-size: 1.05rem; }
+}
+
+/* Imágenes del carrusel en frontend (responsive y con aspect-ratio) */
+.carousel-product-img { width:100%; aspect-ratio: 4/3; object-fit:cover; }
+@media (max-width:576px) { .carousel-product-img { aspect-ratio: 1.6/1; } }
 
 
 

@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../model/Produmodel.php';
 require_once __DIR__ . '/../model/CategoriaModel.php';
 require_once __DIR__ . '/../model/ColorModel.php';
@@ -118,6 +117,31 @@ class Producontroller {
     ========================== */
     public function listar() {
         return $this->Produmodel->listarProductos();
+    }
+
+    // Wrapper para obtener productos por una lista de ids
+    public function getProductsByIds(array $ids) {
+        return $this->Produmodel->getProductsByIds($ids);
+    }
+
+    public function listarByCategory($categoriaName, $idColor = null, $idTalla = null, $onlyOferta = false) {
+        $productos = $this->Produmodel->listarByCategory($categoriaName, $idColor, $idTalla, $onlyOferta);
+
+        // Log para depuración: categoría y cantidad devuelta
+        $logLine = date('[Y-m-d H:i:s]') . " LISTAR_BY_CAT: categoria={$categoriaName} color={$idColor} talla={$idTalla} onlyOferta=" . ($onlyOferta?"1":"0") . " count=" . count($productos) . "\n";
+        @file_put_contents(__DIR__ . '/../logs/product_debug.log', $logLine, FILE_APPEND);
+
+        return $productos;
+    }
+
+    /**
+     * Wrapper para listar usando filtros (IdCategoria numérico en lugar de nombre)
+     */
+    public function listarByFilters($idCategoria = null, $idColor = null, $idTalla = null, $onlyOferta = false) {
+        $productos = $this->Produmodel->listarByFilters($idCategoria, $idColor, $idTalla, $onlyOferta);
+        $logLine = date('[Y-m-d H:i:s]') . " LISTAR_BY_FILTERS: categoria_id=" . ($idCategoria ?? 'null') . " color={$idColor} talla={$idTalla} onlyOferta=" . ($onlyOferta?"1":"0") . " count=" . count($productos) . "\n";
+        @file_put_contents(__DIR__ . '/../logs/product_debug.log', $logLine, FILE_APPEND);
+        return $productos;
     }
 
     public function ProductsByName() {
@@ -281,6 +305,21 @@ class Producontroller {
         if (!$producto) {
             echo "Producto no encontrado";
             exit;
+        }
+
+        // obtener lista de tallas y colores para el selector
+        $tallaModel = new TallaModel($this->db);
+        $tallas = $tallaModel->getTalla();
+
+        $colorModel = new ColorModel($this->db);
+        $colores = $colorModel->getColor();
+
+        // estado favorito si hay sesión
+        $isFavorito = false;
+        if (isset($_SESSION['usuario'])) {
+            require_once __DIR__ . '/FavoritoController.php';
+            $favCtrl = new FavoritoController();
+            $isFavorito = $favCtrl->isFavorito($id);
         }
 
         include __DIR__ . '/../views_client/vistaproducto.php';

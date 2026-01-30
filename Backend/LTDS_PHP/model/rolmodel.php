@@ -1,5 +1,9 @@
 <?php
 
+/* =========================
+    MODEL: RolModel
+    ========================= */
+
 class RolModel {
 
     private $conn;

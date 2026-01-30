@@ -1,10 +1,12 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../model/FacturaModel.php';
 require_once __DIR__ . '/../model/DetalleFacturaModel.php';
 require_once __DIR__ . '/../model/Produmodel.php';
 require_once __DIR__ . '/../model/Usermodel.php';
 
+/* =========================
+    CONTROLLER: FacturaController
+    ========================= */
 class FacturaController {
     private $db;
     private $facturaModel;
@@ -19,7 +21,6 @@ class FacturaController {
         $this->detalleModel = new DetalleFacturaModel($this->db);
         $this->productoModel = new Produmodel($this->db);
         $this->userModel = new Usermodel($this->db);
-        if (session_status() === PHP_SESSION_NONE) session_start();
     }
 
     // Mostrar formulario (carrito)
@@ -128,13 +129,13 @@ public function verCarrito()
 public function addToCart()
 {
     // Asegurar sesión
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-        
-    }
+    // session started in bootstrap
 
-    // Obtener ID del producto
-    $id = intval($_GET['id'] ?? 0);
+    // Obtener ID del producto y cantidad (aceptamos GET o POST)
+    $id = intval($_REQUEST['id'] ?? 0);
+    $cantidad = max(1, intval($_REQUEST['cantidad'] ?? 1));
+    $selectedTalla = $_REQUEST['IdTalla'] ?? null;
+    $selectedColor = $_REQUEST['IdColor'] ?? null;
 
     if ($id <= 0) {
         header("Location: index.php");
@@ -156,24 +157,42 @@ public function addToCart()
 
     // Si el producto ya está en el carrito
     if (isset($_SESSION['cart'][$id])) {
+        $currentQty = $_SESSION['cart'][$id]['Cantidad'];
+        // Comprobar stock antes de aumentar
+        if (isset($p['Stock']) && $currentQty + $cantidad > (int)$p['Stock']) {
+            $_SESSION['error'] = 'No hay suficiente stock disponible';
+            header("Location: index.php?action=verCarrito");
+            exit;
+        }
 
-        $_SESSION['cart'][$id]['Cantidad']++;
+        $_SESSION['cart'][$id]['Cantidad'] = $currentQty + $cantidad;
         $_SESSION['cart'][$id]['Subtotal'] =
             $_SESSION['cart'][$id]['Cantidad'] * $_SESSION['cart'][$id]['PrecioUnitario'];
 
-        // 🔥 Asegurar que la foto siempre esté
+        // Asegurar que la foto y atributos siempre estén
         $_SESSION['cart'][$id]['Foto'] = $p['Foto'];
+        if ($selectedTalla) $_SESSION['cart'][$id]['IdTalla'] = $selectedTalla;
+        if ($selectedColor) $_SESSION['cart'][$id]['IdColor'] = $selectedColor;
 
     } else {
+
+        // Si no hay stock, no agregar
+        if (isset($p['Stock']) && (int)$p['Stock'] < $cantidad) {
+            $_SESSION['error'] = 'Cantidad solicitada excede el stock disponible';
+            header('Location: index.php');
+            exit;
+        }
 
         // Agregar producto nuevo al carrito
         $_SESSION['cart'][$id] = [
             'IdProducto'      => $id,
             'Nombre'          => $p['Nombre'],
             'PrecioUnitario'  => $p['Precio'],
-            'Cantidad'        => 1,
+            'Cantidad'        => $cantidad,
             'Foto'            => $p['Foto'],
-            'Subtotal'        => $p['Precio']
+            'Subtotal'        => $p['Precio'] * $cantidad,
+            'IdTalla'         => $selectedTalla,
+            'IdColor'         => $selectedColor
         ];
     }
 
@@ -193,6 +212,14 @@ public function updateCart()
     }
 
     if ($op === 'plus') {
+        // comprobar stock
+        $p = $this->productoModel->getProductoById($id);
+        $current = $_SESSION['cart'][$id]['Cantidad'];
+        if (isset($p['Stock']) && $current + 1 > (int)$p['Stock']) {
+            $_SESSION['error'] = 'No hay suficiente stock disponible';
+            header("Location: index.php?action=verCarrito");
+            exit;
+        }
         $_SESSION['cart'][$id]['Cantidad']++;
     }
 

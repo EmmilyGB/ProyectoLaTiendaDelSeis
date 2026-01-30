@@ -1,7 +1,7 @@
 <?php
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
-    header("Location: index.php?action=login");
-    exit;
+if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 1) {
+  header("Location: index.php?action=login");
+  exit;
 }
 ?>
 
@@ -24,11 +24,6 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
 
 <body>
 
-<div class="d-flex justify-content-end mb-3">
-    <a href="index.php?action=logout" class="btn btn-danger">
-        <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-    </a>
-</div>
 
 
   <div class="center-wrapper">
@@ -44,9 +39,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
       <div class="button-column">
 
         <!-- === MENÚ USUARIO === -->
-        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#usuarioMenu">
+        <button class="btn-dashboard main-btn" data-bs-toggle="collapse" data-bs-target="#usuarioMenu">
           <i class="bi bi-person-fill"></i>
           <span>Usuario</span>
+          <i class="bi bi-chevron-down ms-auto"></i>
         </button>
 
         <div id="usuarioMenu" class="collapse menu-box">
@@ -75,9 +71,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
         </div>
 
         <!-- === MENÚ PRODUCTO === -->
-        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#productoMenu">
+        <button class="btn-dashboard main-btn" data-bs-toggle="collapse" data-bs-target="#productoMenu">
           <i class="bi bi-box-seam"></i>
           <span>Producto</span>
+          <i class="bi bi-chevron-down ms-auto"></i>
         </button>
 
         <div id="productoMenu" class="collapse menu-box">
@@ -87,6 +84,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
               <i class="bi bi-box-seam"></i>
               <span>Insertar Producto</span>
             </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <!-- 'Agregar Marca' removed per request; use 'Gestionar Marcas' only -->
           </form>
 
           <form action="index.php" method="get">
@@ -103,7 +104,28 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
             </button>
           </form>
 
-        </div>
+        
+          <!-- Gestión de Categorías y Marcas dentro del menú Producto -->
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="manageCategorias" class="btn-dashboard sub-btn">
+              <i class="bi bi-tags"></i>
+              <span>Gestionar Categorías</span>
+            </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="manageMarcas" class="btn-dashboard sub-btn">
+              <i class="bi bi-tags-fill"></i>
+              <span>Gestionar Marcas</span>
+            </button>
+          </form>
+
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="manageCarrusel" class="btn-dashboard sub-btn">
+              <i class="bi bi-images"></i>
+              <span>Gestionar Carrusel</span>
+            </button>
+          </form>
 
         <!-- === MENÚ FACTURA (NUEVO) === -->
         <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#facturaMenu">
@@ -131,8 +153,11 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['Rol'] !== 'Admin') {
 
       </div>
 
-    </div>
-  </div>
+      <div class="d-flex justify-content-center mb-3">
+          <a href="index.php?action=logout" class="btn btn-danger">
+              <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+          </a>
+      </div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

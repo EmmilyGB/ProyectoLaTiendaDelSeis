@@ -1,5 +1,9 @@
 <?php
 
+/* =========================
+    MODEL: TallaModel
+    ========================= */
+
 class TallaModel {
     private $conn;
     private $table_name = "talla";

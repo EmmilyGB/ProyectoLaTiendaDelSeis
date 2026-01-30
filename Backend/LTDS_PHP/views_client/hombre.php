@@ -19,6 +19,7 @@
 <!-- ===== HEADER ===== -->
 <?php include __DIR__ . '/partials/header.php'; ?>
 
+
 <!-- BANNER -->
 <div class="banner-categoria-hombre">
     <h1>Hombre</h1>
@@ -26,6 +27,25 @@
 
 <!-- ===== PRODUCTOS ===== -->
 <div class="container my-4">
+    <!-- FILTROS -->
+    <form method="get" action="index.php" class="mb-3 d-flex gap-2 align-items-center">
+        <input type="hidden" name="action" value="hombre">
+        <select name="IdColor" class="form-select" style="width:180px;">
+            <option value="">Todos los colores</option>
+            <?php foreach ($colores as $color): ?>
+                <option value="<?= $color['IdColor'] ?>" <?= (isset($_GET['IdColor']) && $_GET['IdColor']==$color['IdColor'])? 'selected':'' ?>><?= htmlspecialchars($color['NomColor']) ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <select name="IdTalla" class="form-select" style="width:180px;">
+            <option value="">Todas las tallas</option>
+            <?php foreach ($tallas as $talla): ?>
+                <option value="<?= $talla['IdTalla'] ?>" <?= (isset($_GET['IdTalla']) && $_GET['IdTalla']==$talla['IdTalla'])? 'selected':'' ?>><?= htmlspecialchars($talla['NomTalla']) ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <button class="btn btn-primary">Filtrar</button>
+    </form>
 
     <?php if (empty($productos)): ?>
         <p class="text-center">No hay productos disponibles.</p>
@@ -36,10 +56,17 @@
         <?php foreach ($productos as $producto): ?>
 
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="index.php?action=verProducto&id=<?= $producto['IdProducto'] ?>" class="text-decoration-none">
+            <div class="card product-card h-100 position-relative">
 
-                <div class="card product-card h-100">
+                <div class="position-absolute" style="top:8px; right:8px;">
+                    <?php if (isset($_SESSION['usuario']) && $favoritoController->isFavorito($producto['IdProducto'])): ?>
+                        <a href="index.php?action=removeFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-filled" aria-label="Quitar favorito"><i class="bi bi-heart-fill"></i></a>
+                    <?php else: ?>
+                        <a href="index.php?action=addFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-empty" aria-label="Agregar favorito"><i class="bi bi-heart"></i></a>
+                    <?php endif; ?>
+                </div>
 
+                <a href="index.php?action=verProducto&id=<?= $producto['IdProducto'] ?>" class="text-decoration-none">
                     <img 
                         src="uploads/<?= htmlspecialchars($producto['Foto']) ?>" 
                         class="card-img-top img-fluid"
@@ -52,12 +79,12 @@
                         </h6>
 
                         <p class="product-price mb-0">
-                            $<?= number_format($producto['PrecioUnitario'], 0, ',', '.') ?>
+                            $<?= number_format($producto['Precio'], 0, ',', '.') ?>
                         </p>
                     </div>
+                </a>
 
-                </div>
-            </a>
+            </div>
         </div>
 
         <?php endforeach; ?>

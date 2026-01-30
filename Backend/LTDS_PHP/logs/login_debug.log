@@ -1,0 +1,3 @@
+[2026-01-30 06:11:45] LOGIN: password mismatch for admin@gmail.com hash_prefix=$2y$10$jMx76
+[2026-01-30 06:13:48] LOGIN: password mismatch for admin@gmail.com hash_prefix=$2y$10$jMx76
+[2026-01-30 06:14:02] LOGIN: no user for adminprueba@gmail.com

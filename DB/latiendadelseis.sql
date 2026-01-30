@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-01-2026 a las 19:37:45
+-- Tiempo de generación: 30-01-2026 a las 08:53:01
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `carrusel`
+--
+
+CREATE TABLE `carrusel` (
+  `Id` int(11) NOT NULL,
+  `IdProducto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `categoria`
 --
 
@@ -37,8 +48,9 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`IdCategoria`, `NomCategoria`) VALUES
-(1, 'Zapatillas'),
-(2, 'Perfumes');
+(1, 'Hombre'),
+(2, 'Mujer'),
+(3, 'Unisex');
 
 -- --------------------------------------------------------
 
@@ -149,6 +161,27 @@ CREATE TABLE `factura` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `favoritos`
+--
+
+CREATE TABLE `favoritos` (
+  `Id` int(11) NOT NULL,
+  `NumDoc` varchar(50) NOT NULL,
+  `IdProducto` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `favoritos`
+--
+
+INSERT INTO `favoritos` (`Id`, `NumDoc`, `IdProducto`, `created_at`) VALUES
+(6, '1107845661', 9, '2026-01-30 02:24:54'),
+(7, '1107845661', 10, '2026-01-30 02:24:55');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `marca`
 --
 
@@ -168,7 +201,8 @@ INSERT INTO `marca` (`IdMarca`, `NomMarca`) VALUES
 (4, 'New Balance'),
 (5, 'Nike'),
 (6, 'Converse'),
-(7, 'Asics');
+(7, 'Asics'),
+(8, 'onitsuka');
 
 -- --------------------------------------------------------
 
@@ -290,14 +324,21 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`NumDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
-(1107979330, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', 'Emmily0208', '3187916563', 'holhol', 2, 1),
+(999999999, 'Administrador Auto', 'admin_auto@gmail.com', '$2y$10$Is/4YL/34OPrfwP6yHkNRu9MqBYUvaClTsuhm1uWzgtOschUD2H3u', '', '', 1, 1),
+(1107845661, 'Emmily giraldo', 'emmy@gmail.com', '$2y$10$S52PkZHKVxKp366x.9mzxOi8yPZWWxsfW.PFINpZvJwxljIOWi0c2', '987456321', 'pepelolo', 2, 2),
 (1131573886, 'Cliente Prueba', 'Cliente@gmail.com', '$2y$10$pGnpeoX0MljED.yxYV4GqOFXZOzZJxZ2z7dgzNK6IX7zwILg/yeea', '3187916361', 'x', 3, 2),
-(1134559887, 'Admin Prueba', 'Admin@gmail.com', '$2y$10$i9yRVhGFva83RNer4P5pu.rDSVb2ttqRZERfOp0Dxz6Qg65AU5jRe', '3187645957', 'x', 3, 1),
-(1134579886, 'hola prueba uno', 'prueba@gmail.com', 'pruebauno', '123456789', 'calle 3', 3, 2);
+(1134559887, 'Admin Prueba', 'Admin@gmail.com', '$2y$10$jMx76OusDm.n7nmavXv7wui5mekrXW9wAQQmPQnxhaDby01vNdoJi', '3187645957', 'jojojo', 3, 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `carrusel`
+--
+ALTER TABLE `carrusel`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `IdProducto` (`IdProducto`);
 
 --
 -- Indices de la tabla `categoria`
@@ -353,6 +394,13 @@ ALTER TABLE `factura`
   ADD KEY `NumDoc` (`NumDoc`);
 
 --
+-- Indices de la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `uniq_user_prod` (`NumDoc`,`IdProducto`);
+
+--
 -- Indices de la tabla `marca`
 --
 ALTER TABLE `marca`
@@ -399,10 +447,16 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `carrusel`
+--
+ALTER TABLE `carrusel`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `color`
@@ -441,10 +495,16 @@ ALTER TABLE `factura`
   MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`

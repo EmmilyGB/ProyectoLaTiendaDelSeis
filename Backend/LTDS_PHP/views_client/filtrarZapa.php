@@ -71,9 +71,9 @@
         </label>
 
         <label class="color-item">
-            <input type="checkbox" name="color" value="amarillo">
-            <span class="color-dot amarillo"></span>
-            <span class="color-text">Amarillo</span>
+            <input type="checkbox" name="color" value="blanco">
+            <span class="color-dot blanco"></span>
+            <span class="color-text">blanco</span>
         </label>
 
     </div>
