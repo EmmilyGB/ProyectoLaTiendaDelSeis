@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /* =========================
     MODEL: Usermodel
@@ -18,12 +18,23 @@ class Usermodel {
     ====================== */
     public function InsertarUsuario($NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol) {
 
-        // verificar duplicado
-        $check = $this->conn->prepare("SELECT NumDoc FROM usuario WHERE NumDoc = ?");
-        $check->execute([$NumDoc]);
+        // verificar duplicados
+        $dupDoc = $this->conn->prepare("SELECT 1 FROM usuario WHERE NumDoc = ? LIMIT 1");
+        $dupDoc->execute([$NumDoc]);
+        $docExists = $dupDoc->rowCount() > 0;
 
-        if ($check->rowCount() > 0) {
-            return "duplicate";
+        $dupCorreo = $this->conn->prepare("SELECT 1 FROM usuario WHERE Correo = ? LIMIT 1");
+        $dupCorreo->execute([$Correo]);
+        $correoExists = $dupCorreo->rowCount() > 0;
+
+        if ($docExists && $correoExists) {
+            return "duplicate_both";
+        }
+        if ($docExists) {
+            return "duplicate_doc";
+        }
+        if ($correoExists) {
+            return "duplicate_email";
         }
 
         $hash = password_hash($Password, PASSWORD_DEFAULT);
@@ -70,7 +81,7 @@ class Usermodel {
     }
 
     /**
-     * Obtener usuario por correo (sin verificar contraseña)
+     * Obtener usuario por correo (sin verificar contraseÃ±a)
      */
     public function getUsuarioByCorreo($correo) {
         $sql = "SELECT u.*, r.NameRol 
@@ -95,6 +106,48 @@ class Usermodel {
         return $this->conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function listarUsuariosWithDocAndRolePaged($limit, $offset) {
+        $sql = "SELECT u.*, r.NameRol, t.TipoDoc
+                FROM usuario u
+                INNER JOIN rol r ON u.Rol = r.Rol
+                INNER JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
+                LIMIT ? OFFSET ?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(1, (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(2, (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countUsuarios() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM usuario");
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function listarUsuariosByNamePaged($NombreCom, $limit, $offset) {
+        $sql = "SELECT u.*, r.NameRol, t.TipoDoc
+                FROM usuario u
+                INNER JOIN rol r ON u.Rol = r.Rol
+                INNER JOIN tipodocum t ON u.IdTipoDocum = t.IdTipoDocum
+                WHERE u.NombreCom LIKE ?
+                LIMIT ? OFFSET ?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(1, '%' . $NombreCom . '%', PDO::PARAM_STR);
+        $stmt->bindValue(2, (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(3, (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countUsuariosByName($NombreCom) {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM usuario WHERE NombreCom LIKE ?");
+        $stmt->execute(['%' . $NombreCom . '%']);
+        return (int)$stmt->fetchColumn();
+    }
+
     public function getUsuarioById($id) {
         $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE NumDoc = ?");
         $stmt->execute([$id]);
@@ -102,26 +155,42 @@ class Usermodel {
     }
 
     public function actualizarUsuario($NumDoc, $IdTipoDocum, $NombreCom, $Correo, $Password, $Tel, $Direccion, $Rol, $NumDocOriginal) {
-
-        $hash = password_hash($Password, PASSWORD_DEFAULT);
-
-        $sql = "UPDATE usuario SET
-                NumDoc = ?, IdTipoDocum = ?, NombreCom = ?, Correo = ?, Password = ?, 
-                Tel = ?, Direccion = ?, Rol = ?
-                WHERE NumDoc = ?";
+        if (!empty($Password)) {
+            $hash = password_hash($Password, PASSWORD_DEFAULT);
+            $sql = "UPDATE usuario SET
+                    NumDoc = ?, IdTipoDocum = ?, NombreCom = ?, Correo = ?, Password = ?, 
+                    Tel = ?, Direccion = ?, Rol = ?
+                    WHERE NumDoc = ?";
+            $params = [
+                $NumDoc,
+                $IdTipoDocum,
+                $NombreCom,
+                $Correo,
+                $hash,
+                $Tel,
+                $Direccion,
+                $Rol,
+                $NumDocOriginal
+            ];
+        } else {
+            $sql = "UPDATE usuario SET
+                    NumDoc = ?, IdTipoDocum = ?, NombreCom = ?, Correo = ?, 
+                    Tel = ?, Direccion = ?, Rol = ?
+                    WHERE NumDoc = ?";
+            $params = [
+                $NumDoc,
+                $IdTipoDocum,
+                $NombreCom,
+                $Correo,
+                $Tel,
+                $Direccion,
+                $Rol,
+                $NumDocOriginal
+            ];
+        }
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([
-            $NumDoc,
-            $IdTipoDocum,
-            $NombreCom,
-            $Correo,
-            $hash,
-            $Tel,
-            $Direccion,
-            $Rol,
-            $NumDocOriginal
-        ]);
+        $stmt->execute($params);
     }
 
     public function eliminarUsuario($id) {
@@ -132,3 +201,4 @@ class Usermodel {
 
 
 }
+

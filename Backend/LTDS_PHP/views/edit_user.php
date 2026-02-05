@@ -46,7 +46,7 @@
         <input type="email" name="Correo" value="<?= $usuario['Correo'] ?>" class="form-control mb-2" required>
 
         <label class="form-label">Password</label>
-        <input type="password" name="Password" value="<?= $usuario['Password'] ?>" class="form-control mb-2" required>
+        <input type="password" name="Password" class="form-control mb-2" placeholder="Dejar en blanco para mantener">
 
         <label class="form-label">Teléfono</label>
         <input type="text" name="Tel" value="<?= $usuario['Tel'] ?>" class="form-control mb-2" required>

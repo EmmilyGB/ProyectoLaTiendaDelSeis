@@ -18,6 +18,21 @@ class CategoriaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCategoriaPaged($limit, $offset) {
+        $query = "SELECT * FROM " . $this->table_name . " LIMIT ? OFFSET ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(2, (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countCategoria() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM " . $this->table_name);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
     public function insertCategoria($Nombre) {
         $query = "INSERT INTO " . $this->table_name . " (NomCategoria) VALUES (?)";
         $stmt = $this->conn->prepare($query);

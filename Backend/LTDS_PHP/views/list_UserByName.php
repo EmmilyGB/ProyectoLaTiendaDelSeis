@@ -81,6 +81,33 @@
             </table>
         </div>
 
+        <?php if (!empty($pagination) && $pagination['totalPages'] > 1): ?>
+            <?php
+            if (!function_exists('pageUrl')) {
+                function pageUrl($page) {
+                    $params = $_GET;
+                    $params['page'] = $page;
+                    return 'index.php?' . http_build_query($params);
+                }
+            }
+            ?>
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <?= ($pagination['page'] <= 1) ? 'disabled' : '' ?>">
+                        <a class="page-link" href="<?= ($pagination['page'] <= 1) ? '#' : pageUrl($pagination['page'] - 1) ?>">«</a>
+                    </li>
+                    <?php for ($i = 1; $i <= $pagination['totalPages']; $i++): ?>
+                        <li class="page-item <?= ($i === $pagination['page']) ? 'active' : '' ?>">
+                            <a class="page-link" href="<?= pageUrl($i) ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?= ($pagination['page'] >= $pagination['totalPages']) ? 'disabled' : '' ?>">
+                        <a class="page-link" href="<?= ($pagination['page'] >= $pagination['totalPages']) ? '#' : pageUrl($pagination['page'] + 1) ?>">»</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
+
     <?php elseif (isset($usuarios)): ?>
         <p>No se encontraron usuarios con ese nombre.</p>
     <?php endif; ?>

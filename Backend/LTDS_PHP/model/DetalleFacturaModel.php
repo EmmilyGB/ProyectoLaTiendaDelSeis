@@ -34,5 +34,12 @@ class DetalleFacturaModel {
     $stmt->execute([$IdFactura]);
 }
 
+    public function countDetallesByFactura($IdFactura) {
+        $query = "SELECT COUNT(*) FROM {$this->table} WHERE IdFactura = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$IdFactura]);
+        return (int)$stmt->fetchColumn();
+    }
+
 }
 ?>

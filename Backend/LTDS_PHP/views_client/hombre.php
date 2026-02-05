@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -44,7 +44,7 @@
             <?php endforeach; ?>
         </select>
 
-        <button class="btn btn-primary">Filtrar</button>
+        <button class="btn btn-primary filter-btn">Filtrar</button>
     </form>
 
     <?php if (empty($productos)): ?>
@@ -55,7 +55,7 @@
 
         <?php foreach ($productos as $producto): ?>
 
-        <div class="col-6 col-md-4 col-lg-2">
+        <div class="col-6 col-md-4 product-col">
             <div class="card product-card h-100 position-relative">
 
                 <div class="position-absolute" style="top:8px; right:8px;">
@@ -94,15 +94,32 @@
     <?php endif; ?>
 </div>
 
-<!-- ===== PAGINACIÓN (luego la hacemos dinámica) ===== -->
-<nav class="my-4">
-    <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link" href="#">«</a></li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">»</a></li>
-    </ul>
-</nav>
+<?php if (!empty($pagination) && $pagination['totalPages'] > 1): ?>
+    <?php
+    if (!function_exists('pageUrl')) {
+        function pageUrl($page) {
+            $params = $_GET;
+            $params['page'] = $page;
+            return 'index.php?' . http_build_query($params);
+        }
+    }
+    ?>
+    <nav class="my-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <?= ($pagination['page'] <= 1) ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= ($pagination['page'] <= 1) ? '#' : pageUrl($pagination['page'] - 1) ?>">«</a>
+            </li>
+            <?php for ($i = 1; $i <= $pagination['totalPages']; $i++): ?>
+                <li class="page-item <?= ($i === $pagination['page']) ? 'active' : '' ?>">
+                    <a class="page-link" href="<?= pageUrl($i) ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
+            <li class="page-item <?= ($pagination['page'] >= $pagination['totalPages']) ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= ($pagination['page'] >= $pagination['totalPages']) ? '#' : pageUrl($pagination['page'] + 1) ?>">»</a>
+            </li>
+        </ul>
+    </nav>
+<?php endif; ?>
 
 <!-- ===== FOOTER ===== -->
 <?php include __DIR__ . '/partials/footer.php'; ?>
@@ -110,3 +127,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

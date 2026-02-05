@@ -25,7 +25,7 @@
                 <h6 class="footer-title">Atención al cliente</h6>
                 <div class="footer-line mb-2"></div>
                 <p class="mb-1">
-                    <a href="tel:+573214082351" class="footer-link">+57 321 4082351</a>
+                    <a href="tel:+573187916563" class="footer-link">+57 318 7916563</a>
                 </p>
                 <p class="mb-1">
                     <a href="mailto:servicioalcliente@latiendadelseis.co" class="footer-link">

@@ -114,11 +114,11 @@
         margin-bottom: 30px;
     }
 
-    /* 6 productos por fila en desktop */
+    /* 5 productos por fila en desktop */
     @media (min-width: 992px) {
         .product-col {
-            flex: 0 0 16.66%;
-            max-width: 16.66%;
+            flex: 0 0 20%;
+            max-width: 20%;
         }
     }
 
@@ -148,4 +148,19 @@
 
     .pagination .page-link:focus {
         box-shadow: none;
+    }
+
+    /* BotÃ³n filtrar */
+    .filter-btn.btn,
+    .btn.filter-btn {
+        background-color: #d00000;
+        border-color: #ff0000;
+        color: #fff;
+    }
+
+    .filter-btn.btn:hover,
+    .btn.filter-btn:hover {
+        background-color: #ff0000;
+        border-color: #ff0000;
+        color: #fff;
     }

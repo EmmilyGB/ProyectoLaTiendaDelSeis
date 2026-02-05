@@ -3,6 +3,7 @@ body {
     color: #fff;
     font-family: "Segoe UI", Roboto, Arial, sans-serif;
     padding: 40px;
+    min-height: 100vh;
 }
 
 .wrapper-box {

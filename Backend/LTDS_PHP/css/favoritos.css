@@ -5,6 +5,11 @@
 .product-price { color:#c82333; font-weight:700; }
 .favorite-toggle { background: rgba(0,0,0,0.45); border-radius:50%; padding:6px; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:0.95rem; }
 .favorite-toggle.favorite-filled { background: #c82333; color:#fff; }
+.favorites-page { min-height: calc(100vh - 180px); }
+body.favorites-page-body { background: #000; color: #fff; }
+.favorite-card { display: flex; flex-direction: column; }
+.favorite-card-body { display: flex; flex-direction: column; flex: 1; }
+.favorite-actions { margin-top: auto; display: flex; gap: 8px; justify-content: center; }
 
 @media (max-width:576px) {
 	.product-card .card-img-top { aspect-ratio: 1.6/1; }

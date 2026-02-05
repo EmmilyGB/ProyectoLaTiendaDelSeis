@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 ob_start();  // Buffering para evitar output antes de headers
 
 /* =========================
@@ -41,12 +41,12 @@ require_once __DIR__ . '/bootstrap.php';
     $facturaController   = new FacturaController();
 
     /* =========================
-    ACCIÓN
+    ACCIÃ“N
     ========================= */
     $action = $_GET['action'] ?? 'home';
 
     /* =========================
-    PROTECCIÓN DE RUTAS
+    PROTECCIÃ“N DE RUTAS
     ========================= */
 
     // SOLO ADMIN
@@ -56,12 +56,14 @@ require_once __DIR__ . '/bootstrap.php';
         'insertProdu','listProduct','ProductsByName','editProduct','updateProduct','deleteProduct',
         'manageCategorias','insertCategoria','listCategoriaAdmin','editCategoria','updateCategoria','deleteCategoria',
         'manageMarcas','insertMarca','deleteMarca',
-        'listFactura','viewFactura','deleteFactura'
+        'listFactura','viewFactura','viewFacturaPdf','deleteFactura','inhabilitarFactura'
     ];
 
     // REQUIEREN LOGIN
     $authActions = [
-        'verCarrito','addToCart','updateCart','removeFromCart','logout','insertFactura','saveFactura'
+        'verCarrito','addToCart','updateCart','removeFromCart','finalizarCompra',
+        'misFavoritos','addFavorite','removeFavorite',
+        'logout','insertFactura','saveFactura'
     ];
 
     // NO LOGUEADO
@@ -89,7 +91,7 @@ require_once __DIR__ . '/bootstrap.php';
     ========================= */
     switch ($action) {
 
-        /* ===== CLIENTE / PÚBLICO ===== */
+        /* ===== CLIENTE / PÃšBLICO ===== */
         case 'home':
             // Intent: mostrar productos del carrusel si existen, si no usar listado general
             require_once __DIR__ . '/model/CarruselModel.php';
@@ -132,6 +134,10 @@ require_once __DIR__ . '/bootstrap.php';
         case 'removeFromCart':
             $facturaController->removeFromCart();
             break;
+        
+        case 'finalizarCompra':
+            $facturaController->finalizarCompra();
+            break;
 
         case 'faq':
             include 'views_client/FAQ.php';
@@ -144,38 +150,54 @@ require_once __DIR__ . '/bootstrap.php';
         case 'hombre':
             $colores = $colorController->listColor();
             $tallas = $tallaController->listTalla();
-            // Mapeo por nombre de categoría: 'Hombre'
+            // Mapeo por nombre de categorÃ­a: 'Hombre'
             $cat = $categoriaController->getCategoriaByName('Hombre');
             $catId = $cat ? $cat['IdCategoria'] : null;
-            $productos = $Producontroller->listarByFilters($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false);
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 30;
+            $result = $Producontroller->listarByFiltersPaged($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false, $page, $perPage);
+            $productos = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views_client/hombre.php';
             break;
 
         case 'mujer':
             $colores = $colorController->listColor();
             $tallas = $tallaController->listTalla();
-            // Mapeo por nombre de categoría: 'Mujer'
+            // Mapeo por nombre de categorÃ­a: 'Mujer'
             $cat = $categoriaController->getCategoriaByName('Mujer');
             $catId = $cat ? $cat['IdCategoria'] : null;
-            $productos = $Producontroller->listarByFilters($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false);
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 30;
+            $result = $Producontroller->listarByFiltersPaged($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false, $page, $perPage);
+            $productos = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views_client/mujer.php';
             break;
 
         case 'unisex':
             $colores = $colorController->listColor();
             $tallas = $tallaController->listTalla();
-            // Mapeo por nombre de categoría: 'Unisex' (si existe)
+            // Mapeo por nombre de categorÃ­a: 'Unisex' (si existe)
             $cat = $categoriaController->getCategoriaByName('Unisex');
             $catId = $cat ? $cat['IdCategoria'] : null;
-            $productos = $Producontroller->listarByFilters($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false);
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 30;
+            $result = $Producontroller->listarByFiltersPaged($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false, $page, $perPage);
+            $productos = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views_client/unisex.php';
             break;
 
         case 'ofertas':
             $colores = $colorController->listColor();
             $tallas = $tallaController->listTalla();
-            // Ofertas: mostrar productos con oferta en cualquier categoría
-            $productos = $Producontroller->listarByFilters(null, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, true);
+            // Ofertas: mostrar productos con oferta en cualquier categorÃ­a
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 30;
+            $result = $Producontroller->listarByFiltersPaged(null, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, true, $page, $perPage);
+            $productos = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views_client/ofertas.php';
             break;
 
@@ -194,6 +216,14 @@ require_once __DIR__ . '/bootstrap.php';
 
 
         /* ===== LOGIN / REGISTRO ===== */
+        case 'perfil':
+            $authController->perfil();
+            break;
+
+        case 'updatePerfil':
+            $authController->actualizarPerfil();
+            break;
+
         case 'login':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $authController->login();
@@ -225,7 +255,12 @@ require_once __DIR__ . '/bootstrap.php';
             break;
 
         case 'UsersByName':
-            $usuarios = $userController->UsersByName();
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 20;
+            $NombreCom = $_GET['NombreCom'] ?? '';
+            $result = $userController->UsersByNamePaged($NombreCom, $page, $perPage);
+            $usuarios = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views/list_UserByName.php';
             break;
 
@@ -246,7 +281,11 @@ require_once __DIR__ . '/bootstrap.php';
             break;
 
         case 'listUser':
-            $usuarios = $userController->listar();
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 20;
+            $result = $userController->listarPaged($page, $perPage);
+            $usuarios = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views/list_user.php';
             break;
 
@@ -272,7 +311,7 @@ require_once __DIR__ . '/bootstrap.php';
             }
             break;
 
-        // Gestión unificada de categorías y marcas desde el panel de producto
+        // GestiÃ³n unificada de categorÃ­as y marcas desde el panel de producto
         case 'manageCategorias':
             $categoriaController->manageCategorias();
             break;
@@ -285,7 +324,7 @@ require_once __DIR__ . '/bootstrap.php';
             $marcaController->deleteMarca();
             break;
 
-        /* ===== CATEGORÍAS (ADMIN) ===== */
+        /* ===== CATEGORÃAS (ADMIN) ===== */
         case 'insertCategoria':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $categoriaController->insertCategoria();
@@ -323,12 +362,21 @@ require_once __DIR__ . '/bootstrap.php';
             break;
 
         case 'listProduct':
-            $productos = $Producontroller->listar();
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 20;
+            $result = $Producontroller->listarPaged($page, $perPage);
+            $productos = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views/list_product.php';
             break;
 
         case 'ProductsByName':
-            $productos = $Producontroller->ProductsByName();
+            $page = max(1, (int)($_GET['page'] ?? 1));
+            $perPage = 20;
+            $Nombre = $_GET['Nombre'] ?? '';
+            $result = $Producontroller->ProductsByNamePaged($Nombre, $page, $perPage);
+            $productos = $result['items'];
+            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
             include 'views/list_ProduByName.php';
             break;
 
@@ -368,12 +416,19 @@ require_once __DIR__ . '/bootstrap.php';
         case 'viewFactura':
             $facturaController->verFactura();
             break;
+        case 'viewFacturaPdf':
+            $facturaController->verFacturaPdf();
+            break;
 
         case 'deleteFactura':
             $facturaController->eliminarFactura();
+            break;
+        case 'inhabilitarFactura':
+            $facturaController->inhabilitarFactura();
             break;
 
         default:
             header("Location: index.php?action=home");
             exit;
     }
+

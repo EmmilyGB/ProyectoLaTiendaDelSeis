@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2026 a las 08:53:01
+-- Tiempo de generación: 05-02-2026 a las 07:17:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -31,6 +31,15 @@ CREATE TABLE `carrusel` (
   `Id` int(11) NOT NULL,
   `IdProducto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrusel`
+--
+
+INSERT INTO `carrusel` (`Id`, `IdProducto`) VALUES
+(2, 9),
+(3, 10),
+(4, 11);
 
 -- --------------------------------------------------------
 
@@ -100,6 +109,24 @@ CREATE TABLE `detallefactura` (
   `Subtotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `detallefactura`
+--
+
+INSERT INTO `detallefactura` (`IdDetalle`, `IdFactura`, `IdProducto`, `Cantidad`, `PrecioUnitario`, `Subtotal`) VALUES
+(9, 9, 9, 2, 455500, 911000),
+(10, 9, 11, 1, 230000, 230000),
+(11, 10, 9, 1, 455500, 455500),
+(12, 10, 10, 2, 550000, 1100000),
+(13, 11, 11, 9, 230000, 2070000),
+(14, 12, 12, 1, 500000, 500000),
+(15, 13, 10, 1, 550000, 550000),
+(16, 13, 9, 2, 455500, 911000),
+(17, 14, 9, 2, 455500, 911000),
+(18, 14, 10, 1, 550000, 550000),
+(19, 15, 9, 1, 455500, 455500),
+(20, 15, 10, 2, 550000, 1100000);
+
 -- --------------------------------------------------------
 
 --
@@ -155,8 +182,22 @@ CREATE TABLE `factura` (
   `IdFactura` int(11) NOT NULL,
   `FechaFactura` date DEFAULT NULL,
   `NumDoc` int(11) DEFAULT NULL,
-  `Total` int(11) DEFAULT NULL
+  `Total` int(11) DEFAULT NULL,
+  `Inhabilitado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `factura`
+--
+
+INSERT INTO `factura` (`IdFactura`, `FechaFactura`, `NumDoc`, `Total`, `Inhabilitado`) VALUES
+(9, '2026-02-04', 1102346558, 1141000, 0),
+(10, '2026-02-04', 1102346558, 1555500, 0),
+(11, '2026-02-04', 1102346558, 2070000, 0),
+(12, '2026-02-04', 1102346558, 500000, 0),
+(13, '2026-02-04', 1102346558, 1461000, 0),
+(14, '2026-02-04', 1104578992, 1461000, 0),
+(15, '2026-02-04', 1106634561, 1555500, 1);
 
 -- --------------------------------------------------------
 
@@ -177,7 +218,9 @@ CREATE TABLE `favoritos` (
 
 INSERT INTO `favoritos` (`Id`, `NumDoc`, `IdProducto`, `created_at`) VALUES
 (6, '1107845661', 9, '2026-01-30 02:24:54'),
-(7, '1107845661', 10, '2026-01-30 02:24:55');
+(7, '1107845661', 10, '2026-01-30 02:24:55'),
+(10, '1102346558', 9, '2026-02-04 15:53:49'),
+(11, '1107546225', 9, '2026-02-04 16:52:19');
 
 -- --------------------------------------------------------
 
@@ -202,7 +245,7 @@ INSERT INTO `marca` (`IdMarca`, `NomMarca`) VALUES
 (5, 'Nike'),
 (6, 'Converse'),
 (7, 'Asics'),
-(8, 'onitsuka');
+(9, 'onitsuka');
 
 -- --------------------------------------------------------
 
@@ -231,9 +274,10 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `IdTalla`, `IdColor`, `Stock`, `Oferta`, `Foto`, `IdCategoria`, `IdMarca`, `Descripcion`, `UdMedida`) VALUES
-(9, 'Puma speedcat', 'Gamusa', 455500, 2, 8, 10, 0, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di', '0'),
-(10, 'Adidas Campus', 'Gamusa', 550000, 2, 8, 10, 0, '1767649658_CampusZ.png', 1, 2, 'zap\'atillas de gamusa', '0'),
-(11, 'Lattafa Yara 100ml', 'Vidrio', 230000, 1, 11, 10, 0, '1767649733_YaraP.png', 2, 1, 'perfume de mujer', '100ml');
+(9, 'Puma speedcat', 'Gamusa', 455500, 2, 8, 2, 0, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di', '0'),
+(10, 'Adidas Campus', 'Gamusa', 550000, 2, 8, 4, 0, '1767649658_CampusZ.png', 1, 2, 'zapatillas de gamusa', '0'),
+(11, 'Lattafa Yara 100ml', 'Vidrio', 230000, 1, 11, 0, 0, '1767649733_YaraP.png', 2, 1, 'perfume de mujer', '100ml'),
+(12, 'onitsuka tiger', 'cuerina', 500000, 2, 10, 0, 0, '1770243174_default.png', 2, 9, 'zapatillas de cuerina', '0');
 
 -- --------------------------------------------------------
 
@@ -324,10 +368,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`NumDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Direccion`, `IdTipoDocum`, `Rol`) VALUES
-(999999999, 'Administrador Auto', 'admin_auto@gmail.com', '$2y$10$Is/4YL/34OPrfwP6yHkNRu9MqBYUvaClTsuhm1uWzgtOschUD2H3u', '', '', 1, 1),
-(1107845661, 'Emmily giraldo', 'emmy@gmail.com', '$2y$10$S52PkZHKVxKp366x.9mzxOi8yPZWWxsfW.PFINpZvJwxljIOWi0c2', '987456321', 'pepelolo', 2, 2),
-(1131573886, 'Cliente Prueba', 'Cliente@gmail.com', '$2y$10$pGnpeoX0MljED.yxYV4GqOFXZOzZJxZ2z7dgzNK6IX7zwILg/yeea', '3187916361', 'x', 3, 2),
-(1134559887, 'Admin Prueba', 'Admin@gmail.com', '$2y$10$jMx76OusDm.n7nmavXv7wui5mekrXW9wAQQmPQnxhaDby01vNdoJi', '3187645957', 'jojojo', 3, 1);
+(999999999, 'Administrador Auto', 'admin_auto@gmail.com', '$2y$10$OR0cqmh9aYAnj9yE.axiz.EKaI9mopVCZaGr4WPAzyBkVskXvfqVO', '3154798662', 'holhol', 1, 1),
+(1102346558, 'Cliente nuevo', 'cliente_nuevo@gmail.com', '$2y$10$Ie7gr.0X2NZoXRJMEgxim.v6KnHymhX2XfV8tb83hShhVq4szpPVq', '3154798662', 'prueba cliente colombia', 3, 2),
+(1104578992, 'Usuario nuevo', 'Usuario@gmail.com', '$2y$10$fd92aX3j7e0alYCFKsgRAen1ZKgTWuv230d5L1VDcaB96tWXD4aca', '514278963', 'Manzana p casa 7 praderas del norte', 3, 2),
+(1106634561, 'Danna Sofia Buritica', 'danfia.bl02@gmail.com', '$2y$10$mmKkwEzXWAPkUpN7axUYR.wpffwgK5ChV.P/Xyr77Nr1yA6wDfyh6', '3126074544', 'Manzana p casa 7 praderas del norte', 2, 2),
+(1107546225, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', '$2y$10$683SCZfOZnHtgSdmguVjgugRUB3JG1W7m.r74CocpnM/MWE.LQV76', '312456789', '2do jardín verde', 2, 2);
 
 --
 -- Índices para tablas volcadas
@@ -450,13 +495,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `carrusel`
 --
 ALTER TABLE `carrusel`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `color`
@@ -468,7 +513,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `detallesalida`
@@ -492,25 +537,25 @@ ALTER TABLE `entrada`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

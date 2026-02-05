@@ -31,6 +31,25 @@ class FavoritoModel {
         $stmt->execute([$NumDoc]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function listByUserPaged($NumDoc, $limit, $offset) {
+        $stmt = $this->conn->prepare("SELECT f.Id, f.IdProducto, p.Nombre, p.Precio, p.Foto
+            FROM {$this->table} f
+            JOIN producto p ON f.IdProducto = p.IdProducto
+            WHERE f.NumDoc = ?
+            LIMIT ? OFFSET ?");
+        $stmt->bindValue(1, $NumDoc, PDO::PARAM_INT);
+        $stmt->bindValue(2, (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(3, (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countByUser($NumDoc) {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM {$this->table} WHERE NumDoc = ?");
+        $stmt->execute([$NumDoc]);
+        return (int)$stmt->fetchColumn();
+    }
 }
 
 ?>

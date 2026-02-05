@@ -49,7 +49,14 @@ class MarcaController {
         }
 
         // GET -> mostrar
-        $marcas = $this->MarcaModel->getMarca();
+        $perPage = 20;
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $total = $this->MarcaModel->countMarca();
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $marcas = $this->MarcaModel->getMarcaPaged($perPage, $offset);
+        $pagination = ['page' => $page, 'totalPages' => $totalPages];
         include __DIR__ . '/../views/manage_marcas.php';
     }
 

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../model/Produmodel.php';
 require_once __DIR__ . '/../model/CategoriaModel.php';
 require_once __DIR__ . '/../model/ColorModel.php';
@@ -119,6 +119,15 @@ class Producontroller {
         return $this->Produmodel->listarProductos();
     }
 
+    public function listarPaged($page, $perPage) {
+        $total = $this->Produmodel->countProductos();
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $items = $this->Produmodel->listarProductosPaged($perPage, $offset);
+        return ['items' => $items, 'total' => $total, 'page' => $page, 'totalPages' => $totalPages];
+    }
+
     // Wrapper para obtener productos por una lista de ids
     public function getProductsByIds(array $ids) {
         return $this->Produmodel->getProductsByIds($ids);
@@ -144,9 +153,27 @@ class Producontroller {
         return $productos;
     }
 
+    public function listarByFiltersPaged($idCategoria = null, $idColor = null, $idTalla = null, $onlyOferta = false, $page = 1, $perPage = 30) {
+        $total = $this->Produmodel->countByFilters($idCategoria, $idColor, $idTalla, $onlyOferta);
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $items = $this->Produmodel->listarByFiltersPaged($idCategoria, $idColor, $idTalla, $onlyOferta, $perPage, $offset);
+        return ['items' => $items, 'total' => $total, 'page' => $page, 'totalPages' => $totalPages];
+    }
+
     public function ProductsByName() {
         $Nombre = $_GET['Nombre'] ?? '';
         return $this->Produmodel->getProductoByNombre($Nombre);
+    }
+
+    public function ProductsByNamePaged($Nombre, $page, $perPage) {
+        $total = $this->Produmodel->countProductoByNombre($Nombre);
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $items = $this->Produmodel->getProductoByNombrePaged($Nombre, $perPage, $offset);
+        return ['items' => $items, 'total' => $total, 'page' => $page, 'totalPages' => $totalPages];
     }
 
     /* =========================

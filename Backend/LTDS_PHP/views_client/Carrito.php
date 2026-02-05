@@ -93,7 +93,9 @@
             <div class="subtotal">Subtotal:</div>
             <div class="total">$<?= number_format($subtotal ?? 0, 0, ',', '.') ?></div>
         </div>
-        <a href="index.php?action=insertFactura" class="btn btn-dark checkout">Finalizar compra</a>
+        <form action="index.php?action=finalizarCompra" method="post" target="_blank">
+            <button type="submit" class="btn btn-dark checkout">Finalizar compra</button>
+        </form>
     </div>
 
 </div>

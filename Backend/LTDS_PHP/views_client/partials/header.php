@@ -1,4 +1,4 @@
-<?php // session started in bootstrap ?>
+﻿<?php // session started in bootstrap ?>
 
 <!-- ======= HEADER ======= -->
 <header class="custom-header">
@@ -10,15 +10,15 @@
                 <img src="img/logo.png" alt="Logo" class="logo">
             </a>
 
-            <!-- BOTÓN HAMBURGUESA -->
+            <!-- BOTÃ“N HAMBURGUESA -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- CONTENIDO DEL MENÚ -->
+            <!-- CONTENIDO DEL MENÃš -->
             <div class="collapse navbar-collapse" id="navbarNav">
 
-                <!-- LINKS DE NAVEGACIÓN -->
+                <!-- LINKS DE NAVEGACIÃ“N -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?action=hombre">Hombre</a>
@@ -34,10 +34,10 @@
                     </li>
                 </ul>
 
-                <!-- BARRA DE BÚSQUEDA -->
+                <!-- BARRA DE BÃšSQUEDA -->
                 <form class="d-flex me-3 search-bar" action="index.php" method="get">
                     <input type="hidden" name="action" value="ProductsByName">
-                    <input class="form-control" type="search" name="Nombre" placeholder="¿Qué estás buscando?" aria-label="Buscar productos">
+                    <input class="form-control" type="search" name="Nombre" placeholder="Que estas buscando?" aria-label="Buscar productos">
                     <button class="btn btn-search" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -59,15 +59,20 @@
                             Bienvenid@, <?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>
                         </span>
 
-                        <!-- CERRAR SESIÓN -->
-                        <a href="index.php?action=logout" class="text-white me-3" title="Cerrar sesión">
+                        <!-- PERFIL -->
+                        <a href="index.php?action=perfil" class="text-white me-3" title="Perfil">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+
+                        <!-- CERRAR SESIÃ“N -->
+                        <a href="index.php?action=logout" class="text-white me-3" title="Cerrar sesiÃ³n">
                             <i class="bi bi-box-arrow-right"></i>
                         </a>
 
                     <?php else: ?>
 
-                        <!-- INICIAR SESIÓN -->
-                        <a href="index.php?action=login" class="text-white me-3" title="Iniciar sesión">
+                        <!-- INICIAR SESIÃ“N -->
+                        <a href="index.php?action=login" class="text-white me-3" title="Iniciar sesiÃ³n">
                             <i class="bi bi-person"></i>
                         </a>
 
@@ -84,3 +89,4 @@
         </div>
     </nav>
 </header>
+

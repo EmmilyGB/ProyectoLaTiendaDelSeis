@@ -24,7 +24,14 @@ class CategoriaController {
 
     // === ADMIN: mostrar lista en panel ===
     public function listCategoriaAdmin() {
-        $categorias = $this->CategoriaModel->getCategoria();
+        $perPage = 20;
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $total = $this->CategoriaModel->countCategoria();
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $categorias = $this->CategoriaModel->getCategoriaPaged($perPage, $offset);
+        $pagination = ['page' => $page, 'totalPages' => $totalPages];
         include __DIR__ . '/../views/list_categoria.php';
     }
 
@@ -64,7 +71,14 @@ class CategoriaController {
             exit;
         }
 
-        $categorias = $this->CategoriaModel->getCategoria();
+        $perPage = 20;
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $total = $this->CategoriaModel->countCategoria();
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $categorias = $this->CategoriaModel->getCategoriaPaged($perPage, $offset);
+        $pagination = ['page' => $page, 'totalPages' => $totalPages];
         include __DIR__ . '/../views/manage_categorias.php';
     }
 

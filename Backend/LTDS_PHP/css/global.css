@@ -1,6 +1,31 @@
-/* =========================================================
+﻿/* =========================================================
     ESTILOS DEL HEADER
    ========================================================= */
+html, body {
+    min-height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #000;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-header {
+    margin: 0;
+}
+
+.custom-header .navbar {
+    margin: 0;
+}
+
+footer.footer-section {
+    margin-top: auto;
+}
+
 .custom-header {
     background-color: #7a0d0d;
     /* Color base */
@@ -9,9 +34,10 @@
     background-size: cover;
     background-position: center;
     color: white;
+    padding: 0;
 }
 
-/* Botón hamburguesa estilo circular */
+/* BotÃ³n hamburguesa estilo circular */
 .navbar-toggler {
     width: 48px;
     height: 48px;
@@ -25,13 +51,13 @@
     transition: all 0.3s ease;
 }
 
-/* Hover con efecto más fuerte */
+/* Hover con efecto mÃ¡s fuerte */
 .navbar-toggler:hover {
     box-shadow: 0 0 15px 4px red;
     transform: scale(1.05);
 }
 
-/* Ícono hamburguesa personalizado */
+/* Ãcono hamburguesa personalizado */
 .navbar-toggler-icon {
     background-image: none;            /* Quitamos el default */
     width: 24px;
@@ -40,7 +66,7 @@
     position: relative;
 }
 
-/* Líneas superior e inferior */
+/* LÃ­neas superior e inferior */
 .navbar-toggler-icon::before,
 .navbar-toggler-icon::after {
     content: "";
@@ -73,7 +99,7 @@
 }
 
 /* =========================================================
-    MENÚ DE NAVEGACIÓN
+    MENÃš DE NAVEGACIÃ“N
    ========================================================= */
 .nav-link {
     color: white !important;
@@ -88,7 +114,7 @@
 }
 
 /* =========================================================
-    BARRA DE BÚSQUEDA
+    BARRA DE BÃšSQUEDA
    ========================================================= */
 .search-bar input {
     background-color: rgba(255, 255, 255, 0.2);
@@ -114,7 +140,7 @@
 }
 
 /* =========================================================
-    ÍCONOS
+    ÃCONOS
    ========================================================= */
 .iconos a {
     transition: color 0.3s ease;
@@ -129,7 +155,7 @@
     font-size: 1.3rem;
 }
 
-/* ===== FAVORITO (corazón) ===== */
+/* ===== FAVORITO (corazÃ³n) ===== */
 .favorite-toggle {
     display: inline-flex;
     align-items: center;
@@ -184,7 +210,7 @@
     background: rgba(255,255,255,0.08) !important;
 }
 
-/* Corazón en tarjetas de producto: más grande y rojo */
+/* CorazÃ³n en tarjetas de producto: mÃ¡s grande y rojo */
 .product-card .favorite-toggle {
     width: 48px;
     height: 48px;
@@ -220,15 +246,16 @@
     }
 }
 
-/* Reducir tamaño de los iconos de favorito en pantallas muy pequeñas */
+/* Reducir tamaÃ±o de los iconos de favorito en pantallas muy pequeÃ±as */
 @media (max-width: 576px) {
     .favorite-toggle { width: 34px; height: 34px; }
     .product-card .favorite-toggle { width: 40px; height: 40px; font-size: 1.05rem; }
 }
 
-/* Imágenes del carrusel en frontend (responsive y con aspect-ratio) */
+/* ImÃ¡genes del carrusel en frontend (responsive y con aspect-ratio) */
 .carousel-product-img { width:100%; aspect-ratio: 4/3; object-fit:cover; }
 @media (max-width:576px) { .carousel-product-img { aspect-ratio: 1.6/1; } }
+
 
 
 
@@ -253,13 +280,13 @@
     max-width: 100%;
 }
 
-/* Títulos */
+/* TÃ­tulos */
 .footer-title {
     font-weight: 700;
     color: #fff;
 }
 
-/* Línea roja debajo de los títulos */
+/* LÃ­nea roja debajo de los tÃ­tulos */
 .footer-line {
     width: 100%;
     height: 3px;
@@ -278,7 +305,7 @@
     color: #d00000;
 }
 
-/* Enlaces de información */
+/* Enlaces de informaciÃ³n */
 .footer-info li a {
     color: #fff;
     text-decoration: none;
@@ -331,7 +358,7 @@
     border: 1.5px solid rgba(255, 255, 255, 0.5); /* borde blanco suave */
     border-radius: 999px;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.18); /* 🔥 blanco transparente */
+    background-color: rgba(255, 255, 255, 0.18); /* ðŸ”¥ blanco transparente */
     backdrop-filter: blur(6px);                 /* efecto vidrio */
     -webkit-backdrop-filter: blur(6px);
 }
@@ -348,7 +375,7 @@
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Botón lupa */
+/* BotÃ³n lupa */
 .search-bar .btn-search {
     background-color: transparent !important;
     border: none !important;

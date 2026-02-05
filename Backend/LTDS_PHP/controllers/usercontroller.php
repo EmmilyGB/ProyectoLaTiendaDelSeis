@@ -35,8 +35,19 @@ class Usercontroller {
                 $_POST['Rol']
             );
 
-            if ($result === "duplicate") {
-                header("Location: index.php?action=error_duplicate");
+            if ($result === "duplicate_doc") {
+                $_SESSION['error'] = "El número de documento ya está registrado";
+                header("Location: index.php?action=insertuser");
+                exit;
+            }
+            if ($result === "duplicate_email") {
+                $_SESSION['error'] = "El correo ya está registrado";
+                header("Location: index.php?action=insertuser");
+                exit;
+            }
+            if ($result === "duplicate_both") {
+                $_SESSION['error'] = "El correo y el número de documento ya están registrados";
+                header("Location: index.php?action=insertuser");
                 exit;
             }
 
@@ -48,6 +59,15 @@ class Usercontroller {
     // LISTAR
     public function listar() {
         return $this->Usermodel->listarUsuariosWithDocAndRole();
+    }
+
+    public function listarPaged($page, $perPage) {
+        $total = $this->Usermodel->countUsuarios();
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $items = $this->Usermodel->listarUsuariosWithDocAndRolePaged($perPage, $offset);
+        return ['items' => $items, 'total' => $total, 'page' => $page, 'totalPages' => $totalPages];
     }
 
     public function UsersByName() {
@@ -63,6 +83,15 @@ class Usercontroller {
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['%' . $NombreCom . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function UsersByNamePaged($NombreCom, $page, $perPage) {
+        $total = $this->Usermodel->countUsuariosByName($NombreCom);
+        $totalPages = max(1, (int)ceil($total / $perPage));
+        $page = max(1, min($page, $totalPages));
+        $offset = ($page - 1) * $perPage;
+        $items = $this->Usermodel->listarUsuariosByNamePaged($NombreCom, $perPage, $offset);
+        return ['items' => $items, 'total' => $total, 'page' => $page, 'totalPages' => $totalPages];
     }
 
 
