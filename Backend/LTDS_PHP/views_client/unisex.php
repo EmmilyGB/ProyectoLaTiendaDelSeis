@@ -16,9 +16,7 @@
 
 <body>
 
-<!-- ===== HEADER ===== -->
 <?php include __DIR__ . '/partials/header.php'; ?>
-
 
 <!-- BANNER -->
 <div class="banner-categoria-hombre">
@@ -27,24 +25,51 @@
 
 <!-- ===== PRODUCTOS ===== -->
 <div class="container my-4">
-    <!-- FILTROS -->
-    <form method="get" action="index.php" class="mb-3 d-flex gap-2 align-items-center">
+
+    <!-- FILTROS + ORDENAR (MISMA FILA) -->
+    <form method="get" action="index.php" class="row g-2 align-items-center mb-3">
         <input type="hidden" name="action" value="unisex">
-        <select name="IdColor" class="form-select" style="width:180px;">
-            <option value="">Todos los colores</option>
-            <?php foreach ($colores as $color): ?>
-                <option value="<?= $color['IdColor'] ?>" <?= (isset($_GET['IdColor']) && $_GET['IdColor']==$color['IdColor'])? 'selected':'' ?>><?= htmlspecialchars($color['NomColor']) ?></option>
-            <?php endforeach; ?>
-        </select>
 
-        <select name="IdTalla" class="form-select" style="width:180px;">
-            <option value="">Todas las tallas</option>
-            <?php foreach ($tallas as $talla): ?>
-                <option value="<?= $talla['IdTalla'] ?>" <?= (isset($_GET['IdTalla']) && $_GET['IdTalla']==$talla['IdTalla'])? 'selected':'' ?>><?= htmlspecialchars($talla['NomTalla']) ?></option>
-            <?php endforeach; ?>
-        </select>
+        <!-- COLOR -->
+        <div class="col-auto">
+            <select name="IdColor" class="form-select">
+                <option value="">Todos los colores</option>
+                <?php foreach ($colores as $color): ?>
+                    <option value="<?= $color['IdColor'] ?>" <?= (isset($_GET['IdColor']) && $_GET['IdColor']==$color['IdColor'])? 'selected':'' ?>>
+                        <?= htmlspecialchars($color['NomColor']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-        <button class="btn btn-primary filter-btn">Filtrar</button>
+        <!-- TALLA -->
+        <div class="col-auto">
+            <select name="IdTalla" class="form-select">
+                <option value="">Todas las tallas</option>
+                <?php foreach ($tallas as $talla): ?>
+                    <option value="<?= $talla['IdTalla'] ?>" <?= (isset($_GET['IdTalla']) && $_GET['IdTalla']==$talla['IdTalla'])? 'selected':'' ?>>
+                        <?= htmlspecialchars($talla['NomTalla']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- BOTÓN FILTRAR -->
+        <div class="col-auto">
+            <button class="btn btn-primary filter-btn">Filtrar</button>
+        </div>
+
+        <!-- ORDENAR POR -->
+        <div class="col-auto ms-auto">
+            <select name="orderBy" class="form-select" onchange="this.form.submit()">
+                <option value="">Ordenar por</option>
+                <option value="precio_asc" <?= (isset($_GET['orderBy']) && $_GET['orderBy']=='precio_asc')? 'selected':'' ?>>Precio: Bajo - Alto</option>
+                <option value="precio_desc" <?= (isset($_GET['orderBy']) && $_GET['orderBy']=='precio_desc')? 'selected':'' ?>>Precio: Alto - Bajo</option>
+                <option value="nombre_asc" <?= (isset($_GET['orderBy']) && $_GET['orderBy']=='nombre_asc')? 'selected':'' ?>>Nombre: A - Z</option>
+                <option value="nombre_desc" <?= (isset($_GET['orderBy']) && $_GET['orderBy']=='nombre_desc')? 'selected':'' ?>>Nombre: Z - A</option>
+                <option value="mas_vendido" <?= (isset($_GET['orderBy']) && $_GET['orderBy']=='mas_vendido')? 'selected':'' ?>>Más vendido</option>
+            </select>
+        </div>
     </form>
 
     <?php if (empty($productos)): ?>
@@ -52,79 +77,41 @@
     <?php else: ?>
 
     <div class="row g-3">
-
         <?php foreach ($productos as $producto): ?>
-
         <div class="col-6 col-md-4 product-col">
             <div class="card product-card h-100 position-relative">
 
                 <div class="position-absolute" style="top:8px; right:8px;">
                     <?php if (isset($_SESSION['usuario']) && $favoritoController->isFavorito($producto['IdProducto'])): ?>
-                        <a href="index.php?action=removeFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-filled" aria-label="Quitar favorito"><i class="bi bi-heart-fill"></i></a>
+                        <a href="index.php?action=removeFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-filled">
+                            <i class="bi bi-heart-fill"></i>
+                        </a>
                     <?php else: ?>
-                        <a href="index.php?action=addFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-empty" aria-label="Agregar favorito"><i class="bi bi-heart"></i></a>
+                        <a href="index.php?action=addFavorite&id=<?= $producto['IdProducto'] ?>" class="favorite-toggle favorite-empty">
+                            <i class="bi bi-heart"></i>
+                        </a>
                     <?php endif; ?>
                 </div>
 
                 <a href="index.php?action=verProducto&id=<?= $producto['IdProducto'] ?>" class="text-decoration-none">
-                    <img 
-                        src="uploads/<?= htmlspecialchars($producto['Foto']) ?>" 
-                        class="card-img-top img-fluid"
-                        alt="<?= htmlspecialchars($producto['Nombre']) ?>"
-                    >
+                    <img src="uploads/<?= htmlspecialchars($producto['Foto']) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($producto['Nombre']) ?>">
 
                     <div class="card-body text-center">
-                        <h6 class="product-name mb-1">
-                            <?= htmlspecialchars($producto['Nombre']) ?>
-                        </h6>
-
-                        <p class="product-price mb-0">
-                            $<?= number_format($producto['Precio'], 0, ',', '.') ?>
-                        </p>
+                        <h6 class="product-name mb-1"><?= htmlspecialchars($producto['Nombre']) ?></h6>
+                        <p class="product-price mb-0">$<?= number_format($producto['Precio'], 0, ',', '.') ?></p>
                     </div>
                 </a>
 
             </div>
         </div>
-
         <?php endforeach; ?>
-
     </div>
 
     <?php endif; ?>
 </div>
 
-<?php if (!empty($pagination) && $pagination['totalPages'] > 1): ?>
-    <?php
-    if (!function_exists('pageUrl')) {
-        function pageUrl($page) {
-            $params = $_GET;
-            $params['page'] = $page;
-            return 'index.php?' . http_build_query($params);
-        }
-    }
-    ?>
-    <nav class="my-4">
-        <ul class="pagination justify-content-center">
-            <li class="page-item <?= ($pagination['page'] <= 1) ? 'disabled' : '' ?>">
-                <a class="page-link" href="<?= ($pagination['page'] <= 1) ? '#' : pageUrl($pagination['page'] - 1) ?>">«</a>
-            </li>
-            <?php for ($i = 1; $i <= $pagination['totalPages']; $i++): ?>
-                <li class="page-item <?= ($i === $pagination['page']) ? 'active' : '' ?>">
-                    <a class="page-link" href="<?= pageUrl($i) ?>"><?= $i ?></a>
-                </li>
-            <?php endfor; ?>
-            <li class="page-item <?= ($pagination['page'] >= $pagination['totalPages']) ? 'disabled' : '' ?>">
-                <a class="page-link" href="<?= ($pagination['page'] >= $pagination['totalPages']) ? '#' : pageUrl($pagination['page'] + 1) ?>">»</a>
-            </li>
-        </ul>
-    </nav>
-<?php endif; ?>
-
-<!-- ===== FOOTER ===== -->
 <?php include __DIR__ . '/partials/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

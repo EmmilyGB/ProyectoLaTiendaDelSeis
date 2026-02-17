@@ -59,6 +59,33 @@
     box-shadow: 0 0 10px rgba(255, 26, 26, 0.4);
 }
 
+/* Botón mis pedidos */
+.mis-pedidos-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background-color: #d00000;
+    border: none;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(208, 0, 0, 0.2);
+    transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.mis-pedidos-btn:hover {
+    color: #fff !important;
+    background-color: #a00000;
+    transform: translateY(-3px);
+}
+
+.mis-pedidos-btn i {
+    font-size: 1rem;
+}
+
 /* Enlaces inferiores */
 .registro-card a {
     text-decoration: none;

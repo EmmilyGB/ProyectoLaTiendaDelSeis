@@ -1,0 +1,229 @@
+.home-alt {
+    background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(190, 0, 0, 0.28), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(255, 255, 255, 0.08), transparent 55%),
+        #070707;
+}
+
+.alt-variant-switch {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.alt-variant-label {
+    color: #f3d3d3;
+    font-weight: 600;
+}
+
+.alt-hero {
+    position: relative;
+    padding: 80px 0 60px;
+    overflow: hidden;
+}
+
+
+.alt-hero-bg-shape {
+    position: absolute;
+    right: -80px;
+    top: -120px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(208, 0, 0, 0.5), rgba(255, 120, 120, 0.2));
+    filter: blur(10px);
+}
+
+.alt-kicker {
+    color: #ffd2d2;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.alt-title {
+    color: #fff;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.alt-subtitle {
+    color: #d2d2d2;
+    font-size: 1.05rem;
+    max-width: 620px;
+}
+
+.alt-btn-main {
+    background: #d00000;
+    border: none;
+    color: #fff;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 700;
+}
+
+.alt-btn-main:hover { background: #a00000; color: #fff; }
+
+.alt-btn-ghost {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 600;
+}
+
+.alt-btn-ghost:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+.alt-hero-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 18px;
+    color: #fff;
+    backdrop-filter: blur(6px);
+}
+
+.alt-chip {
+    text-decoration: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(208, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+}
+
+.alt-chip:hover { background: #a00000; color: #fff; }
+
+.alt-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.alt-stats strong {
+    display: block;
+    font-size: 1.15rem;
+    color: #fff;
+}
+
+.alt-stats span {
+    font-size: 0.8rem;
+    color: #d9d9d9;
+}
+
+.alt-featured {
+    padding-top: 10px;
+}
+
+.alt-section-title {
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+.alt-link-more {
+    color: #ffb6b6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.alt-link-more:hover { color: #fff; }
+
+.alt-product-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease;
+}
+
+.alt-product-card:hover {
+    transform: translateY(-4px);
+}
+
+.alt-product-image-wrap {
+    background: linear-gradient(145deg, #f2f2f2, #e7e7e7);
+    padding: 16px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alt-product-image {
+    max-height: 210px;
+    object-fit: contain;
+}
+
+.alt-product-name {
+    color: #171717;
+    font-weight: 700;
+}
+
+.alt-product-price {
+    color: #b10000;
+    font-size: 1.08rem;
+    font-weight: 800;
+}
+
+.alt-btn-small {
+    background: #121212;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.alt-btn-small:hover { background: #000; color: #fff; }
+
+.alt-indicators [data-bs-target] {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background-color: #ff7878;
+}
+
+.alt-indicators .active { background-color: #fff; }
+
+.alt-control {
+    width: 8%;
+}
+
+.alt-control .carousel-control-prev-icon,
+.alt-control .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 999px;
+    background-size: 55% 55%;
+}
+
+.alt-brands {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+}
+
+.alt-brand-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #ececec;
+    min-height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alt-brand-card img {
+    max-width: 78%;
+    max-height: 55px;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .alt-hero {
+        padding: 60px 0 30px;
+    }
+
+    .alt-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}

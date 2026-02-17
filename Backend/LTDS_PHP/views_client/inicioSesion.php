@@ -52,6 +52,9 @@
                 <a href="index.php?action=crearCuenta" class="text-danger">
                     ¿No tienes cuenta? Crear cuenta
                 </a>
+                <a href="index.php?action=olvido" class="text-danger d-block mt-2">
+        ¿Olvidaste tu contraseña?
+    </a>
             </div>
 
         </form>

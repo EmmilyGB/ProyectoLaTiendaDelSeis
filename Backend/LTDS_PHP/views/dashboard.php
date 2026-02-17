@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 1) {
   header("Location: index.php?action=login");
   exit;
@@ -12,33 +12,20 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard</title>
 
-  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
   <link rel="stylesheet" href="css/dashboard.css">
-
 </head>
 
 <body>
-
-
-
   <div class="center-wrapper">
     <div class="wrapper-box">
-
-      <!-- LOGO + TÍTULO -->
       <div class="dashboard-header">
         <img src="img/logo.png" alt="Logo" class="dashboard-logo">
         <h1 class="dashboard-title">DASHBOARD</h1>
       </div>
 
-      <!-- BOTONES -->
       <div class="button-column">
-
-        <!-- === MENÚ USUARIO === -->
         <button class="btn-dashboard main-btn" data-bs-toggle="collapse" data-bs-target="#usuarioMenu">
           <i class="bi bi-person-fill"></i>
           <span>Usuario</span>
@@ -46,7 +33,6 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
         </button>
 
         <div id="usuarioMenu" class="collapse menu-box">
-
           <form action="index.php" method="get">
             <button type="submit" name="action" value="insertuser" class="btn-dashboard sub-btn">
               <i class="bi bi-person-plus-fill"></i>
@@ -67,10 +53,8 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
               <span>Lista Usuarios</span>
             </button>
           </form>
-
         </div>
 
-        <!-- === MENÚ PRODUCTO === -->
         <button class="btn-dashboard main-btn" data-bs-toggle="collapse" data-bs-target="#productoMenu">
           <i class="bi bi-box-seam"></i>
           <span>Producto</span>
@@ -78,16 +62,11 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
         </button>
 
         <div id="productoMenu" class="collapse menu-box">
-
           <form action="index.php" method="get">
             <button type="submit" name="action" value="insertProdu" class="btn-dashboard sub-btn">
               <i class="bi bi-box-seam"></i>
               <span>Insertar Producto</span>
             </button>
-          </form>
-
-          <form action="index.php" method="get">
-            <!-- 'Agregar Marca' removed per request; use 'Gestionar Marcas' only -->
           </form>
 
           <form action="index.php" method="get">
@@ -104,12 +83,10 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
             </button>
           </form>
 
-        
-          <!-- Gestión de Categorías y Marcas dentro del menú Producto -->
           <form action="index.php" method="get">
             <button type="submit" name="action" value="manageCategorias" class="btn-dashboard sub-btn">
               <i class="bi bi-tags"></i>
-              <span>Gestionar Categorías</span>
+              <span>Gestionar Categorias</span>
             </button>
           </form>
 
@@ -127,14 +104,21 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
             </button>
           </form>
 
-        <!-- === MENÚ FACTURA (NUEVO) === -->
-        <button class="btn-dashboard" data-bs-toggle="collapse" data-bs-target="#facturaMenu">
-          <i class="bi bi-receipt"></i>
-          <span>Factura</span>
+          <form action="index.php" method="get">
+            <button type="submit" name="action" value="manageOfertas" class="btn-dashboard sub-btn">
+              <i class="bi bi-percent"></i>
+              <span>Gestionar Ofertas</span>
+            </button>
+          </form>
+        </div>
+
+        <button class="btn-dashboard main-btn" data-bs-toggle="collapse" data-bs-target="#facturaMenu">
+          <i class="bi bi-bag-check"></i>
+          <span>Pedidos</span>
+          <i class="bi bi-chevron-down ms-auto"></i>
         </button>
 
         <div id="facturaMenu" class="collapse menu-box">
-
           <form action="index.php" method="get">
             <button type="submit" name="action" value="insertFactura" class="btn-dashboard sub-btn">
               <i class="bi bi-receipt"></i>
@@ -145,22 +129,20 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
           <form action="index.php" method="get">
             <button type="submit" name="action" value="listFactura" class="btn-dashboard sub-btn">
               <i class="bi bi-journal-text"></i>
-              <span>Lista Facturas</span>
+              <span>Gestionar Pedidos</span>
             </button>
           </form>
-
         </div>
-
       </div>
 
-      <div class="d-flex justify-content-center mb-3">
-          <a href="index.php?action=logout" class="btn btn-danger">
-              <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-          </a>
+      <div class="d-flex justify-content-center mb-3 mt-4">
+        <a href="index.php?action=logout" class="btn btn-danger">
+          <i class="bi bi-box-arrow-right"></i> Cerrar sesion
+        </a>
       </div>
+    </div>
+  </div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

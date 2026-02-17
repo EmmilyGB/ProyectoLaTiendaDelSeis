@@ -20,8 +20,10 @@ class DetalleFacturaModel {
     }
 
     public function getDetallesByFactura($IdFactura) {
-        $query = "SELECT d.*, p.Nombre, p.Precio FROM {$this->table} d
+        $query = "SELECT d.*, p.Nombre, p.Precio, t.NomTalla AS Talla, c.NomColor AS Color FROM {$this->table} d
                 LEFT JOIN producto p ON d.IdProducto = p.IdProducto
+                LEFT JOIN talla t ON p.IdTalla = t.IdTalla
+                LEFT JOIN color c ON p.IdColor = c.IdColor
                 WHERE d.IdFactura = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$IdFactura]);

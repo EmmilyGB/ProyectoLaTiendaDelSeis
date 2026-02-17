@@ -81,7 +81,7 @@ class Usermodel {
     }
 
     /**
-     * Obtener usuario por correo (sin verificar contraseÃ±a)
+     * Obtener usuario por correo (sin verificar contraseña)
      */
     public function getUsuarioByCorreo($correo) {
         $sql = "SELECT u.*, r.NameRol 
@@ -197,8 +197,55 @@ class Usermodel {
         $stmt = $this->conn->prepare("DELETE FROM usuario WHERE NumDoc = ?");
         $stmt->execute([$id]);
     }
+ /* ======================
+    ACTULIZAR PERFIL
+    ====================== */
+    
+    /**
+     * Verificar si un correo está disponible para un usuario específico
+     * (excluyendo su propio NumDoc)
+     */
+    public function correoDisponiblePara($correo, $numDocActual) {
+        $sql = "SELECT COUNT(*) as count FROM usuario 
+                WHERE Correo = ? AND NumDoc != ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$correo, $numDocActual]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count'] == 0; // true si está disponible
+    }
 
+    /**
+     * Actualizar perfil de usuario
+     */
+    public function actualizarPerfil($numDoc, $nombreCom, $correo, $passwordNueva, $tel, $direccion) {
+        if (!empty($passwordNueva)) {
+            // Si hay nueva contraseña, actualizarla también
+            $hash = password_hash($passwordNueva, PASSWORD_DEFAULT);
+            $sql = "UPDATE usuario SET 
+                    NombreCom = ?, 
+                    Correo = ?, 
+                    Password = ?, 
+                    Tel = ?, 
+                    Direccion = ?
+                    WHERE NumDoc = ?";
+            $params = [$nombreCom, $correo, $hash, $tel, $direccion, $numDoc];
+        } else {
+            // Sin cambio de contraseña
+            $sql = "UPDATE usuario SET 
+                    NombreCom = ?, 
+                    Correo = ?, 
+                    Tel = ?, 
+                    Direccion = ?
+                    WHERE NumDoc = ?";
+            $params = [$nombreCom, $correo, $tel, $direccion, $numDoc];
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return true;
+    }
 
 
 }
+
 

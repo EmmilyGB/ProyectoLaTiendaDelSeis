@@ -1,0 +1,4 @@
+config.php
+logs/
+*.log
+vendor/

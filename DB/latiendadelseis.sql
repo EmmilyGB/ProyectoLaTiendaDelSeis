@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-02-2026 a las 07:17:20
+-- Tiempo de generación: 17-02-2026 a las 06:35:49
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -125,7 +125,10 @@ INSERT INTO `detallefactura` (`IdDetalle`, `IdFactura`, `IdProducto`, `Cantidad`
 (17, 14, 9, 2, 455500, 911000),
 (18, 14, 10, 1, 550000, 550000),
 (19, 15, 9, 1, 455500, 455500),
-(20, 15, 10, 2, 550000, 1100000);
+(20, 15, 10, 2, 550000, 1100000),
+(21, 16, 9, 2, 455500, 911000),
+(22, 16, 13, 1, 455500, 455500),
+(23, 17, 10, 2, 550000, 1100000);
 
 -- --------------------------------------------------------
 
@@ -183,6 +186,7 @@ CREATE TABLE `factura` (
   `FechaFactura` date DEFAULT NULL,
   `NumDoc` int(11) DEFAULT NULL,
   `Total` int(11) DEFAULT NULL,
+  `Estado` varchar(20) NOT NULL DEFAULT 'Pendiente',
   `Inhabilitado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -190,14 +194,16 @@ CREATE TABLE `factura` (
 -- Volcado de datos para la tabla `factura`
 --
 
-INSERT INTO `factura` (`IdFactura`, `FechaFactura`, `NumDoc`, `Total`, `Inhabilitado`) VALUES
-(9, '2026-02-04', 1102346558, 1141000, 0),
-(10, '2026-02-04', 1102346558, 1555500, 0),
-(11, '2026-02-04', 1102346558, 2070000, 0),
-(12, '2026-02-04', 1102346558, 500000, 0),
-(13, '2026-02-04', 1102346558, 1461000, 0),
-(14, '2026-02-04', 1104578992, 1461000, 0),
-(15, '2026-02-04', 1106634561, 1555500, 1);
+INSERT INTO `factura` (`IdFactura`, `FechaFactura`, `NumDoc`, `Total`, `Estado`, `Inhabilitado`) VALUES
+(9, '2026-02-04', 1102346558, 1141000, 'Pendiente', 0),
+(10, '2026-02-04', 1102346558, 1555500, 'Pendiente', 0),
+(11, '2026-02-04', 1102346558, 2070000, 'Pendiente', 0),
+(12, '2026-02-04', 1102346558, 500000, 'Pendiente', 0),
+(13, '2026-02-04', 1102346558, 1461000, 'Pendiente', 0),
+(14, '2026-02-04', 1104578992, 1461000, 'Pendiente', 0),
+(15, '2026-02-04', 1106634561, 1555500, 'Pendiente', 1),
+(16, '2026-02-16', 999999999, 1366500, 'Pendiente', 0),
+(17, '2026-02-16', 2147483647, 1100000, 'Enviado', 0);
 
 -- --------------------------------------------------------
 
@@ -250,6 +256,26 @@ INSERT INTO `marca` (`IdMarca`, `NomMarca`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `oferta_producto`
+--
+
+CREATE TABLE `oferta_producto` (
+  `Id` int(11) NOT NULL,
+  `IdProducto` int(11) NOT NULL,
+  `PrecioOferta` decimal(10,2) NOT NULL,
+  `ActualizadoEn` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `oferta_producto`
+--
+
+INSERT INTO `oferta_producto` (`Id`, `IdProducto`, `PrecioOferta`, `ActualizadoEn`) VALUES
+(1, 10, 250000.00, '2026-02-17 04:59:25');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `producto`
 --
 
@@ -261,23 +287,45 @@ CREATE TABLE `producto` (
   `IdTalla` int(11) DEFAULT NULL,
   `IdColor` int(11) DEFAULT NULL,
   `Stock` int(11) DEFAULT NULL,
-  `Oferta` int(1) DEFAULT NULL,
   `Foto` varchar(250) DEFAULT NULL,
   `IdCategoria` int(11) DEFAULT NULL,
   `IdMarca` int(11) DEFAULT NULL,
-  `Descripcion` varchar(300) DEFAULT NULL,
-  `UdMedida` varchar(10) DEFAULT NULL
+  `Descripcion` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `IdTalla`, `IdColor`, `Stock`, `Oferta`, `Foto`, `IdCategoria`, `IdMarca`, `Descripcion`, `UdMedida`) VALUES
-(9, 'Puma speedcat', 'Gamusa', 455500, 2, 8, 2, 0, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di', '0'),
-(10, 'Adidas Campus', 'Gamusa', 550000, 2, 8, 4, 0, '1767649658_CampusZ.png', 1, 2, 'zapatillas de gamusa', '0'),
-(11, 'Lattafa Yara 100ml', 'Vidrio', 230000, 1, 11, 0, 0, '1767649733_YaraP.png', 2, 1, 'perfume de mujer', '100ml'),
-(12, 'onitsuka tiger', 'cuerina', 500000, 2, 10, 0, 0, '1770243174_default.png', 2, 9, 'zapatillas de cuerina', '0');
+INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `IdTalla`, `IdColor`, `Stock`, `Foto`, `IdCategoria`, `IdMarca`, `Descripcion`) VALUES
+(9, 'Puma speedcat', 'Gamusa', 455500, 2, 8, 3, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di'),
+(10, 'Adidas Campus', 'Gamusa', 550000, 2, 8, 2, '1767649658_CampusZ.png', 1, 2, 'zapatillas de gamusa'),
+(11, 'Lattafa Yara 100ml', 'Vidrio', 230000, 1, 11, 0, '1767649733_YaraP.png', 2, 1, 'perfume de mujer'),
+(12, 'onitsuka tiger', 'cuerina', 500000, 2, 10, 0, '1770243174_default.png', 2, 9, 'zapatillas de cuerina'),
+(13, 'Puma speedcat', 'Gamusa', 455500, 3, 8, 4, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di'),
+(17, 'Adidas Campus', 'Gamusa', 550000, 3, 8, 5, '1767649658_CampusZ.png', 1, 2, 'zapatillas de gamusa');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto_foto`
+--
+
+CREATE TABLE `producto_foto` (
+  `IdFoto` int(11) NOT NULL,
+  `IdProducto` int(11) NOT NULL,
+  `RutaFoto` varchar(255) NOT NULL,
+  `Orden` int(11) NOT NULL DEFAULT 0,
+  `EsPrincipal` tinyint(1) NOT NULL DEFAULT 0,
+  `FechaRegistro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `producto_foto`
+--
+
+INSERT INTO `producto_foto` (`IdFoto`, `IdProducto`, `RutaFoto`, `Orden`, `EsPrincipal`, `FechaRegistro`) VALUES
+(1, 10, '1771296771_0_Captura_de_pantalla_2026-02-16_215232.png', 1, 0, '2026-02-17 02:52:51');
 
 -- --------------------------------------------------------
 
@@ -372,7 +420,8 @@ INSERT INTO `usuario` (`NumDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Dire
 (1102346558, 'Cliente nuevo', 'cliente_nuevo@gmail.com', '$2y$10$Ie7gr.0X2NZoXRJMEgxim.v6KnHymhX2XfV8tb83hShhVq4szpPVq', '3154798662', 'prueba cliente colombia', 3, 2),
 (1104578992, 'Usuario nuevo', 'Usuario@gmail.com', '$2y$10$fd92aX3j7e0alYCFKsgRAen1ZKgTWuv230d5L1VDcaB96tWXD4aca', '514278963', 'Manzana p casa 7 praderas del norte', 3, 2),
 (1106634561, 'Danna Sofia Buritica', 'danfia.bl02@gmail.com', '$2y$10$mmKkwEzXWAPkUpN7axUYR.wpffwgK5ChV.P/Xyr77Nr1yA6wDfyh6', '3126074544', 'Manzana p casa 7 praderas del norte', 2, 2),
-(1107546225, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', '$2y$10$683SCZfOZnHtgSdmguVjgugRUB3JG1W7m.r74CocpnM/MWE.LQV76', '312456789', '2do jardín verde', 2, 2);
+(1107546225, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', '$2y$10$683SCZfOZnHtgSdmguVjgugRUB3JG1W7m.r74CocpnM/MWE.LQV76', '312456789', '2do jardín verde', 2, 2),
+(2147483647, 'Harvey caicedo', 'Harvey@gmail.com', '$2y$10$nbzdFfKK1P2rzq0j6141KueTimbxTjKn04BEqv/IkJfCWYt0XLo5m', '123456789', 'dfghj,.', 3, 2);
 
 --
 -- Índices para tablas volcadas
@@ -452,6 +501,13 @@ ALTER TABLE `marca`
   ADD PRIMARY KEY (`IdMarca`);
 
 --
+-- Indices de la tabla `oferta_producto`
+--
+ALTER TABLE `oferta_producto`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `IdProducto` (`IdProducto`);
+
+--
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
@@ -460,6 +516,13 @@ ALTER TABLE `producto`
   ADD KEY `IdTalla` (`IdTalla`),
   ADD KEY `IdCategoria` (`IdCategoria`),
   ADD KEY `IdColor` (`IdColor`);
+
+--
+-- Indices de la tabla `producto_foto`
+--
+ALTER TABLE `producto_foto`
+  ADD PRIMARY KEY (`IdFoto`),
+  ADD KEY `idx_producto_foto_producto` (`IdProducto`);
 
 --
 -- Indices de la tabla `rol`
@@ -513,7 +576,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `detallesalida`
@@ -537,7 +600,7 @@ ALTER TABLE `entrada`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
@@ -552,10 +615,22 @@ ALTER TABLE `marca`
   MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `oferta_producto`
+--
+ALTER TABLE `oferta_producto`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT de la tabla `producto_foto`
+--
+ALTER TABLE `producto_foto`
+  MODIFY `IdFoto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -623,6 +698,12 @@ ALTER TABLE `producto`
   ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`IdTalla`) REFERENCES `talla` (`IdTalla`),
   ADD CONSTRAINT `producto_ibfk_3` FOREIGN KEY (`IdCategoria`) REFERENCES `categoria` (`IdCategoria`),
   ADD CONSTRAINT `producto_ibfk_4` FOREIGN KEY (`IdColor`) REFERENCES `color` (`IdColor`);
+
+--
+-- Filtros para la tabla `producto_foto`
+--
+ALTER TABLE `producto_foto`
+  ADD CONSTRAINT `fk_producto_foto_producto` FOREIGN KEY (`IdProducto`) REFERENCES `producto` (`IdProducto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuario`

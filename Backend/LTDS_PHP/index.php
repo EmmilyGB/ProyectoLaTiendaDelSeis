@@ -1,434 +1,483 @@
 ﻿<?php
-ob_start();  // Buffering para evitar output antes de headers
+ob_start();
 
-/* =========================
-    BOOTSTRAP
-    ========================= */
 require_once __DIR__ . '/bootstrap.php';
 
-/* =========================
-    REQUIRES
-    ========================= */
-    require_once __DIR__ . '/controllers/AuthController.php';
-    require_once __DIR__ . '/controllers/Usercontroller.php';
-    require_once __DIR__ . '/controllers/Tipodocumcontroller.php';
-    require_once __DIR__ . '/controllers/RolController.php';
+require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/controllers/olvidarController.php';
+require_once __DIR__ . '/controllers/Usercontroller.php';
+require_once __DIR__ . '/controllers/Tipodocumcontroller.php';
+require_once __DIR__ . '/controllers/RolController.php';
+require_once __DIR__ . '/controllers/Producontroller.php';
+require_once __DIR__ . '/controllers/CategoriaController.php';
+require_once __DIR__ . '/controllers/ColorController.php';
+require_once __DIR__ . '/controllers/MarcaController.php';
+require_once __DIR__ . '/controllers/TallaController.php';
+require_once __DIR__ . '/controllers/FavoritoController.php';
+require_once __DIR__ . '/controllers/FacturaController.php';
+require_once __DIR__ . '/controllers/OfertaController.php';
 
-    require_once __DIR__ . '/controllers/Producontroller.php';
-    require_once __DIR__ . '/controllers/CategoriaController.php';
-    require_once __DIR__ . '/controllers/ColorController.php';
-    require_once __DIR__ . '/controllers/MarcaController.php';
-    require_once __DIR__ . '/controllers/TallaController.php';
-    require_once __DIR__ . '/controllers/FavoritoController.php';
+$authController = new AuthController();
+$olvidarController = new olvidarController((new Database())->getConnection());
+$userController = new Usercontroller();
+$tipodocumController = new Tipodocumcontroller();
+$rolController = new RolController();
+$produController = new Producontroller();
+$categoriaController = new CategoriaController();
+$colorController = new ColorController();
+$marcaController = new MarcaController();
+$tallaController = new TallaController();
+$favoritoController = new FavoritoController();
+$facturaController = new FacturaController();
 
-    require_once __DIR__ . '/controllers/FacturaController.php';
+$action = $_GET['action'] ?? 'home';
 
-    /* =========================
-    CONTROLADORES
-    ========================= */
-    $authController      = new AuthController();
-    $userController      = new Usercontroller();
-    $tipodocumController = new Tipodocumcontroller();
-    $rolController       = new RolController();
+$adminActions = [
+    'dashboard',
+    'insertuser', 'listUser', 'UsersByName', 'editUser', 'updateUser', 'deleteUser',
+    'insertProdu', 'listProduct', 'ProductsByName', 'editProduct', 'updateProduct',
+    'updateProductTallas', 'deleteProduct', 'deleteProductVariante', 'deleteProductFoto',
+    'setProductFotoPrincipal',
+    'manageCategorias', 'insertCategoria', 'listCategoriaAdmin', 'editCategoria',
+    'updateCategoria', 'deleteCategoria',
+    'manageMarcas', 'insertMarca', 'deleteMarca',
+    'manageCarrusel', 'saveCarrusel', 'manageOfertas', 'saveOfertas',
+    'listFactura', 'viewFactura', 'viewFacturaPdf', 'deleteFactura',
+    'inhabilitarFactura', 'updatePedidoEstado'
+];
 
-    $Producontroller     = new Producontroller();
-    $categoriaController = new CategoriaController();
-    $colorController     = new ColorController();
-    $marcaController     = new MarcaController();
-    $tallaController     = new TallaController();
-    $favoritoController  = new FavoritoController();
+$authActions = [
+    'verCarrito', 'addToCart', 'updateCart', 'removeFromCart', 'finalizarCompra',
+    'misFavoritos', 'addFavorite', 'removeFavorite',
+    'logout', 'insertFactura', 'saveFactura', 'misPedidos', 'verMiPedido', 'verMiPedidoPdf'
+];
 
-    $facturaController   = new FacturaController();
+if (!isset($_SESSION['usuario']) && (in_array($action, $adminActions, true) || in_array($action, $authActions, true))) {
+    header('Location: index.php?action=login');
+    exit;
+}
 
-    /* =========================
-    ACCIÃ“N
-    ========================= */
-    $action = $_GET['action'] ?? 'home';
+if (isset($_SESSION['usuario'])) {
+    $rolUsuario = (int)($_SESSION['usuario']['Rol'] ?? 0);
+    if (in_array($action, $adminActions, true) && $rolUsuario !== 1) {
+        header('Location: index.php?action=home');
+        exit;
+    }
+}
 
-    /* =========================
-    PROTECCIÃ“N DE RUTAS
-    ========================= */
+$loadCatalogPage = function (?string $categoriaNombre, bool $soloOferta, string $viewPath) use (
+    $colorController,
+    $tallaController,
+    $categoriaController,
+    $produController,
+    $favoritoController
+) {
+    $colores = $colorController->listColor();
+    $tallas = $tallaController->listTalla();
 
-    // SOLO ADMIN
-    $adminActions = [
-        'dashboard',
-        'insertuser','listUser','UsersByName','editUser','updateUser','deleteUser',
-        'insertProdu','listProduct','ProductsByName','editProduct','updateProduct','deleteProduct',
-        'manageCategorias','insertCategoria','listCategoriaAdmin','editCategoria','updateCategoria','deleteCategoria',
-        'manageMarcas','insertMarca','deleteMarca',
-        'listFactura','viewFactura','viewFacturaPdf','deleteFactura','inhabilitarFactura'
-    ];
-
-    // REQUIEREN LOGIN
-    $authActions = [
-        'verCarrito','addToCart','updateCart','removeFromCart','finalizarCompra',
-        'misFavoritos','addFavorite','removeFavorite',
-        'logout','insertFactura','saveFactura'
-    ];
-
-    // NO LOGUEADO
-    if (!isset($_SESSION['usuario'])) {
-        if (in_array($action, $adminActions) || in_array($action, $authActions)) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+    $catId = null;
+    if ($categoriaNombre !== null) {
+        $cat = $categoriaController->getCategoriaByName($categoriaNombre);
+        $catId = $cat ? $cat['IdCategoria'] : null;
     }
 
-    // LOGUEADO PERO NO ADMIN
-    if (isset($_SESSION['usuario'])) {
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    $perPage = 30;
+    $orderBy = $_GET['orderBy'] ?? null;
 
-        $rolUsuario = (int) $_SESSION['usuario']['Rol'];
+    $result = $produController->listarByFiltersPaged(
+        $catId,
+        $_GET['IdColor'] ?? null,
+        $_GET['IdTalla'] ?? null,
+        $soloOferta,
+        $page,
+        $perPage,
+        $orderBy
+    );
 
-        if (in_array($action, $adminActions) && $rolUsuario !== 1) {
-            header("Location: index.php?action=home");
-            exit;
-        }
-    }
+    $productos = $result['items'];
+    $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
 
+    include $viewPath;
+};
 
-    /* =========================
-    ROUTER
-    ========================= */
-    switch ($action) {
-
-        /* ===== CLIENTE / PÃšBLICO ===== */
-        case 'home':
-            // Intent: mostrar productos del carrusel si existen, si no usar listado general
-            require_once __DIR__ . '/model/CarruselModel.php';
-            $carruselModel = new CarruselModel((new Database())->getConnection());
-            $ids = $carruselModel->getAll();
-            if (!empty($ids)) {
-                $productos = $Producontroller->getProductsByIds($ids);
-            } else {
-                $productos = $Producontroller->listar();
-            }
-            include 'views_client/home.php';
-            break;
-
-        case 'verProducto':
-            $Producontroller->verProducto();
-            break;
-
-        case 'misFavoritos':
-            $favoritoController->showFavorites();
-            break;
-        case 'addFavorite':
-            $favoritoController->add();
-            break;
-        case 'removeFavorite':
-            $favoritoController->remove();
-            break;
-
-        case 'verCarrito':
-            $facturaController->verCarrito();
-            break;
-
-        case 'addToCart':
-            $facturaController->addToCart();
-            break;
-
-        case 'updateCart':
-            $facturaController->updateCart();
-            break;
-
-        case 'removeFromCart':
-            $facturaController->removeFromCart();
-            break;
-        
-        case 'finalizarCompra':
-            $facturaController->finalizarCompra();
-            break;
-
-        case 'faq':
-            include 'views_client/FAQ.php';
-            break;
-
-        case 'guiaTallas':
-            include 'views_client/guiaTallas.php';
-            break;
-
-        case 'hombre':
-            $colores = $colorController->listColor();
-            $tallas = $tallaController->listTalla();
-            // Mapeo por nombre de categorÃ­a: 'Hombre'
-            $cat = $categoriaController->getCategoriaByName('Hombre');
-            $catId = $cat ? $cat['IdCategoria'] : null;
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 30;
-            $result = $Producontroller->listarByFiltersPaged($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false, $page, $perPage);
-            $productos = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views_client/hombre.php';
-            break;
-
-        case 'mujer':
-            $colores = $colorController->listColor();
-            $tallas = $tallaController->listTalla();
-            // Mapeo por nombre de categorÃ­a: 'Mujer'
-            $cat = $categoriaController->getCategoriaByName('Mujer');
-            $catId = $cat ? $cat['IdCategoria'] : null;
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 30;
-            $result = $Producontroller->listarByFiltersPaged($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false, $page, $perPage);
-            $productos = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views_client/mujer.php';
-            break;
-
-        case 'unisex':
-            $colores = $colorController->listColor();
-            $tallas = $tallaController->listTalla();
-            // Mapeo por nombre de categorÃ­a: 'Unisex' (si existe)
-            $cat = $categoriaController->getCategoriaByName('Unisex');
-            $catId = $cat ? $cat['IdCategoria'] : null;
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 30;
-            $result = $Producontroller->listarByFiltersPaged($catId, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, false, $page, $perPage);
-            $productos = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views_client/unisex.php';
-            break;
-
-        case 'ofertas':
-            $colores = $colorController->listColor();
-            $tallas = $tallaController->listTalla();
-            // Ofertas: mostrar productos con oferta en cualquier categorÃ­a
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 30;
-            $result = $Producontroller->listarByFiltersPaged(null, $_GET['IdColor'] ?? null, $_GET['IdTalla'] ?? null, true, $page, $perPage);
-            $productos = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views_client/ofertas.php';
-            break;
-
-        /* ===== CARRUSEL ===== */
-        case 'manageCarrusel':
-            require_once __DIR__ . '/controllers/CarruselController.php';
-            $carruselCtrl = new CarruselController();
-            $carruselCtrl->manageCarrusel();
-            break;
-
-        case 'saveCarrusel':
-            require_once __DIR__ . '/controllers/CarruselController.php';
-            $carruselCtrl = new CarruselController();
-            $carruselCtrl->saveCarrusel();
-            break;
-
-
-        /* ===== LOGIN / REGISTRO ===== */
-        case 'perfil':
-            $authController->perfil();
-            break;
-
-        case 'updatePerfil':
-            $authController->actualizarPerfil();
-            break;
-
-        case 'login':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $authController->login();
-            } else {
-                include 'views_client/inicioSesion.php';
-            }
-            break;
-
-        case 'crearCuenta':
-            $authController->crearCuenta();
-            break;
-
-        case 'register' :
-            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-                $authController->register();     
-            }else {
-                $authController->crearCuenta();
-            }
+switch ($action) {
+    case 'home':
+        require_once __DIR__ . '/model/CarruselModel.php';
+        $carruselModel = new CarruselModel((new Database())->getConnection());
+        $ids = $carruselModel->getAll();
+        $productos = !empty($ids) ? $produController->getProductsByIds($ids) : $produController->listar();
+        include 'views_client/home.php';
         break;
 
-        case 'insertuser':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $userController->insertuser();
-            } else {
-                $roles = $rolController->listRoles();
-                $docums = $tipodocumController->listTipoDocum();
-                include 'views/insert_user.php';
-            }
-            break;
+    case 'homeAlt':
+        require_once __DIR__ . '/model/CarruselModel.php';
+        $carruselModel = new CarruselModel((new Database())->getConnection());
+        $ids = $carruselModel->getAll();
+        $productos = !empty($ids) ? $produController->getProductsByIds($ids) : $produController->listar();
+        include 'views_client/home_alt.php';
+        break;
 
-        case 'UsersByName':
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 20;
-            $NombreCom = $_GET['NombreCom'] ?? '';
-            $result = $userController->UsersByNamePaged($NombreCom, $page, $perPage);
-            $usuarios = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views/list_UserByName.php';
-            break;
+    case 'verProducto':
+        $produController->verProducto();
+        break;
 
-        case 'editUser':
-            $userController->editarFormulario();
-            break;
+    case 'misFavoritos':
+        $favoritoController->showFavorites();
+        break;
 
-        case 'updateUser':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $userController->actualizarUsuario();
-            } else {
-                header("Location: index.php?action=listUser");
-            }
-            break;
+    case 'addFavorite':
+        $favoritoController->add();
+        break;
 
-        case 'deleteUser':
-            $userController->eliminarUsuario();
-            break;
+    case 'removeFavorite':
+        $favoritoController->remove();
+        break;
 
-        case 'listUser':
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 20;
-            $result = $userController->listarPaged($page, $perPage);
-            $usuarios = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views/list_user.php';
-            break;
+    case 'verCarrito':
+        $facturaController->verCarrito();
+        break;
 
-        case 'logout':
-            $authController->logout();
-            break;
+    case 'addToCart':
+        $facturaController->addToCart();
+        break;
 
-        /* ===== ADMIN ===== */
-        case 'dashboard':
-            include 'views/dashboard.php';
-            break;
+    case 'updateCart':
+        $facturaController->updateCart();
+        break;
 
-        // === PRODUCTOS ===
-        case 'insertProdu':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $Producontroller->insertProdu();
-            } else {
-                $categorias = $categoriaController->listCategoria();
-                $colores = $colorController->listColor();
-                $tallas = $tallaController->listTalla();
-                $marcas = $marcaController->listMarca();
-                include 'views/insert_product.php';
-            }
-            break;
+    case 'removeFromCart':
+        $facturaController->removeFromCart();
+        break;
 
-        // GestiÃ³n unificada de categorÃ­as y marcas desde el panel de producto
-        case 'manageCategorias':
-            $categoriaController->manageCategorias();
-            break;
+    case 'finalizarCompra':
+        $facturaController->finalizarCompra();
+        break;
 
-        case 'manageMarcas':
-            $marcaController->manageMarcas();
-            break;
+    case 'misPedidos':
+        $facturaController->misPedidos();
+        break;
 
-        case 'deleteMarca':
-            $marcaController->deleteMarca();
-            break;
+    case 'verMiPedido':
+        $facturaController->verMiPedido();
+        break;
 
-        /* ===== CATEGORÃAS (ADMIN) ===== */
-        case 'insertCategoria':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $categoriaController->insertCategoria();
-            } else {
-                $categoriaController->insertForm();
-            }
-            break;
+    case 'verMiPedidoPdf':
+        $facturaController->verMiPedidoPdf();
+        break;
 
-        case 'listCategoriaAdmin':
-            $categoriaController->listCategoriaAdmin();
-            break;
+    case 'faq':
+        include 'views_client/FAQ.php';
+        break;
 
-        case 'editCategoria':
-            $categoriaController->editForm();
-            break;
+    case 'guiaTallas':
+        include 'views_client/guiaTallas.php';
+        break;
 
-        case 'updateCategoria':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $categoriaController->updateCategoria();
-            } else {
-                header('Location: index.php?action=listCategoriaAdmin');
-            }
-            break;
+    case 'hombre':
+        $loadCatalogPage('Hombre', false, 'views_client/hombre.php');
+        break;
 
-        case 'deleteCategoria':
-            $categoriaController->deleteCategoria();
-            break;
+    case 'mujer':
+        $loadCatalogPage('Mujer', false, 'views_client/mujer.php');
+        break;
 
-        case 'insertMarca':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $marcaController->insertMarca();
-            } else {
-                $marcaController->insertMarca();
-            }
-            break;
+    case 'unisex':
+        $loadCatalogPage('Unisex', false, 'views_client/unisex.php');
+        break;
 
-        case 'listProduct':
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 20;
-            $result = $Producontroller->listarPaged($page, $perPage);
-            $productos = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views/list_product.php';
-            break;
+    case 'ofertas':
+        $colores = $colorController->listColor();
+        $tallas = $tallaController->listTalla();
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 30;
+        $orderBy = $_GET['orderBy'] ?? null;
+        $result = $produController->listarOfertasPaged(
+            $_GET['IdColor'] ?? null,
+            $_GET['IdTalla'] ?? null,
+            $page,
+            $perPage,
+            $orderBy
+        );
+        $productos = $result['items'];
+        $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
+        include 'views_client/ofertas.php';
+        break;
 
-        case 'ProductsByName':
-            $page = max(1, (int)($_GET['page'] ?? 1));
-            $perPage = 20;
-            $Nombre = $_GET['Nombre'] ?? '';
-            $result = $Producontroller->ProductsByNamePaged($Nombre, $page, $perPage);
-            $productos = $result['items'];
-            $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
-            include 'views/list_ProduByName.php';
-            break;
+    case 'buscarProductos':
+        $busqueda = $_GET['busqueda'] ?? '';
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 30;
+        $orderBy = $_GET['orderBy'] ?? null;
+        $result = $produController->ProductsByNamePaged($busqueda, $page, $perPage, $orderBy);
+        $productos = $result['items'];
+        $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
+        include 'views_client/buscar.php';
+        break;
 
-        case 'editProduct':
-            $Producontroller->editarFormulario();
-            break;
+    case 'manageCarrusel':
+        require_once __DIR__ . '/controllers/CarruselController.php';
+        (new CarruselController())->manageCarrusel();
+        break;
 
-        case 'updateProduct':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $Producontroller->actualizarProducto();
-            } else {
-                header("Location: index.php?action=listProduct");
-            }
-            break;
+    case 'saveCarrusel':
+        require_once __DIR__ . '/controllers/CarruselController.php';
+        (new CarruselController())->saveCarrusel();
+        break;
 
-        case 'deleteProduct':
-            $Producontroller->eliminarProducto();
-            break;
+    case 'manageOfertas':
+        (new OfertaController())->manageOfertas();
+        break;
 
-        // === FACTURAS ===
-        case 'insertFactura':
-            $facturaController->formCrear();
-            break;
+    case 'saveOfertas':
+        (new OfertaController())->saveOfertas();
+        break;
 
-        case 'saveFactura':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $facturaController->guardarFactura();
-            } else {
-                header("Location: index.php?action=insertFactura");
-            }
-            break;
+    case 'perfil':
+        $authController->perfil();
+        break;
 
-        case 'listFactura':
-            $facturaController->listar();
-            break;
+    case 'updatePerfil':
+        $authController->actualizarPerfil();
+        break;
 
-        case 'viewFactura':
-            $facturaController->verFactura();
-            break;
-        case 'viewFacturaPdf':
-            $facturaController->verFacturaPdf();
-            break;
+    case 'login':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $authController->login();
+        } else {
+            include 'views_client/inicioSesion.php';
+        }
+        break;
 
-        case 'deleteFactura':
-            $facturaController->eliminarFactura();
-            break;
-        case 'inhabilitarFactura':
-            $facturaController->inhabilitarFactura();
-            break;
+    case 'crearCuenta':
+        $authController->crearCuenta();
+        break;
 
-        default:
-            header("Location: index.php?action=home");
-            exit;
-    }
+    case 'register':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $authController->register();
+        } else {
+            $authController->crearCuenta();
+        }
+        break;
 
+    case 'insertuser':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userController->insertuser();
+        } else {
+            $roles = $rolController->listRoles();
+            $docums = $tipodocumController->listTipoDocum();
+            include 'views/insert_user.php';
+        }
+        break;
+
+    case 'UsersByName':
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $NombreCom = $_GET['NombreCom'] ?? '';
+        $result = $userController->UsersByNamePaged($NombreCom, $page, $perPage);
+        $usuarios = $result['items'];
+        $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
+        include 'views/list_UserByName.php';
+        break;
+
+    case 'editUser':
+        $userController->editarFormulario();
+        break;
+
+    case 'updateUser':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userController->actualizarUsuario();
+        } else {
+            header('Location: index.php?action=listUser');
+        }
+        break;
+
+    case 'deleteUser':
+        $userController->eliminarUsuario();
+        break;
+
+    case 'listUser':
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $result = $userController->listarPaged($page, $perPage);
+        $usuarios = $result['items'];
+        $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
+        include 'views/list_user.php';
+        break;
+
+    case 'logout':
+        $authController->logout();
+        break;
+
+    case 'olvido':
+        $olvidarController->mostrarFormulario();
+        break;
+
+    case 'enviar-reset':
+        $olvidarController->enviarEmail();
+        break;
+
+    case 'reset':
+        $olvidarController->mostrarReset();
+        break;
+
+    case 'cambiar-password':
+        $olvidarController->cambiarPassword();
+        break;
+
+    case 'dashboard':
+        include 'views/dashboard.php';
+        break;
+
+    case 'insertProdu':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $produController->insertProdu();
+        } else {
+            $categorias = $categoriaController->listCategoria();
+            $colores = $colorController->listColor();
+            $tallas = $tallaController->listTalla();
+            $marcas = $marcaController->listMarca();
+            include 'views/insert_product.php';
+        }
+        break;
+
+    case 'manageCategorias':
+        $categoriaController->manageCategorias();
+        break;
+
+    case 'manageMarcas':
+        $marcaController->manageMarcas();
+        break;
+
+    case 'deleteMarca':
+        $marcaController->deleteMarca();
+        break;
+
+    case 'insertCategoria':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $categoriaController->insertCategoria();
+        } else {
+            $categoriaController->insertForm();
+        }
+        break;
+
+    case 'listCategoriaAdmin':
+        $categoriaController->listCategoriaAdmin();
+        break;
+
+    case 'editCategoria':
+        $categoriaController->editForm();
+        break;
+
+    case 'updateCategoria':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $categoriaController->updateCategoria();
+        } else {
+            header('Location: index.php?action=listCategoriaAdmin');
+        }
+        break;
+
+    case 'deleteCategoria':
+        $categoriaController->deleteCategoria();
+        break;
+
+    case 'insertMarca':
+        $marcaController->insertMarca();
+        break;
+
+    case 'listProduct':
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $result = $produController->listarPaged($page, $perPage);
+        $productos = $result['items'];
+        $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
+        include 'views/list_product.php';
+        break;
+
+    case 'ProductsByName':
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $Nombre = $_GET['Nombre'] ?? '';
+        $result = $produController->ProductsByNamePaged($Nombre, $page, $perPage);
+        $productos = $result['items'];
+        $pagination = ['page' => $result['page'], 'totalPages' => $result['totalPages']];
+        include 'views/list_ProduByName.php';
+        break;
+
+    case 'editProduct':
+        $produController->editarFormulario();
+        break;
+
+    case 'updateProduct':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $produController->actualizarProducto();
+        } else {
+            header('Location: index.php?action=listProduct');
+        }
+        break;
+
+    case 'updateProductTallas':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $produController->actualizarTallasStock();
+        } else {
+            header('Location: index.php?action=listProduct');
+        }
+        break;
+
+    case 'deleteProduct':
+        $produController->eliminarProducto();
+        break;
+
+    case 'deleteProductVariante':
+        $produController->eliminarVarianteDesdeEdicion();
+        break;
+
+    case 'deleteProductFoto':
+        $produController->eliminarFotoProducto();
+        break;
+
+    case 'setProductFotoPrincipal':
+        $produController->marcarFotoPrincipal();
+        break;
+
+    case 'insertFactura':
+        $facturaController->formCrear();
+        break;
+
+    case 'saveFactura':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $facturaController->guardarFactura();
+        } else {
+            header('Location: index.php?action=insertFactura');
+        }
+        break;
+
+    case 'listFactura':
+        $facturaController->listar();
+        break;
+
+    case 'viewFactura':
+        $facturaController->verFactura();
+        break;
+
+    case 'viewFacturaPdf':
+        $facturaController->verFacturaPdf();
+        break;
+
+    case 'deleteFactura':
+        $facturaController->eliminarFactura();
+        break;
+
+    case 'inhabilitarFactura':
+        $facturaController->inhabilitarFactura();
+        break;
+
+    case 'updatePedidoEstado':
+        $facturaController->actualizarEstadoPedido();
+        break;
+
+    default:
+        header('Location: index.php?action=home');
+        exit;
+}

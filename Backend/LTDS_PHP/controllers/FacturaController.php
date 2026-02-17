@@ -13,6 +13,7 @@ class FacturaController {
     private $detalleModel;
     private $productoModel;
     private $userModel;
+    private $estadosPedido = ['Pendiente', 'En proceso', 'Enviado', 'Finalizado', 'Cancelado', 'Devuelto'];
 
     public function __construct() {
         $database = new Database();
@@ -72,6 +73,7 @@ class FacturaController {
         $pdf->SetFont('Arial', '', 11);
         $pdf->Cell(0, 6, utf8_decode('Factura #: ' . $factura['IdFactura']), 0, 1);
         $pdf->Cell(0, 6, utf8_decode('Fecha: ' . $factura['FechaFactura']), 0, 1);
+        $pdf->Cell(0, 6, utf8_decode('Estado pedido: ' . ($factura['Estado'] ?? 'Pendiente')), 0, 1);
         $pdf->Cell(0, 6, utf8_decode('Cliente: ' . $clienteNombre), 0, 1);
         if ($clienteCorreo) {
             $pdf->Cell(0, 6, utf8_decode('Correo: ' . $clienteCorreo), 0, 1);
@@ -86,7 +88,8 @@ class FacturaController {
 
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->SetFillColor(230, 230, 230);
-        $pdf->Cell(90, 8, utf8_decode('Producto'), 1, 0, 'L', true);
+        $pdf->Cell(65, 8, utf8_decode('Producto'), 1, 0, 'L', true);
+        $pdf->Cell(25, 8, utf8_decode('Talla/Color'), 1, 0, 'L', true);
         $pdf->Cell(20, 8, utf8_decode('Cant.'), 1, 0, 'C', true);
         $pdf->Cell(35, 8, utf8_decode('Precio'), 1, 0, 'R', true);
         $pdf->Cell(35, 8, utf8_decode('Subtotal'), 1, 1, 'R', true);
@@ -98,9 +101,12 @@ class FacturaController {
             $cantidad = $item['Cantidad'] ?? 0;
             $precio = $item['PrecioUnitario'] ?? 0;
             $sub = $item['Subtotal'] ?? ($precio * $cantidad);
+            $talla = $item['Talla'] ?? '-';
+            $color = $item['Color'] ?? '-';
             $subtotal += $sub;
 
-            $pdf->Cell(90, 8, utf8_decode($nombre), 1);
+            $pdf->Cell(65, 8, utf8_decode($nombre), 1);
+            $pdf->Cell(25, 8, utf8_decode($talla . ' / ' . $color), 1);
             $pdf->Cell(20, 8, $cantidad, 1, 0, 'C');
             $pdf->Cell(35, 8, number_format($precio, 0, ',', '.'), 1, 0, 'R');
             $pdf->Cell(35, 8, number_format($sub, 0, ',', '.'), 1, 1, 'R');
@@ -200,7 +206,22 @@ class FacturaController {
         $offset = ($page - 1) * $perPage;
         $facturas = $this->facturaModel->listarFacturasPaged($perPage, $offset);
         $pagination = ['page' => $page, 'totalPages' => $totalPages];
+        $estadosPedido = $this->estadosPedido;
         include __DIR__ . '/../views/list_factura.php';
+    }
+
+    public function actualizarEstadoPedido() {
+        $id = (int)($_POST['IdFactura'] ?? 0);
+        $estado = trim($_POST['Estado'] ?? '');
+        if ($id <= 0 || !in_array($estado, $this->estadosPedido, true)) {
+            $_SESSION['error'] = 'Datos de estado inválidos';
+            header("Location: index.php?action=listFactura");
+            exit;
+        }
+        $this->facturaModel->actualizarEstado($id, $estado);
+        $_SESSION['success'] = 'Estado del pedido actualizado';
+        header("Location: index.php?action=listFactura");
+        exit;
     }
 
     // Ver factura completa con detalles
@@ -240,9 +261,7 @@ class FacturaController {
         $detalles = $this->detalleModel->getDetallesByFactura($id);
         $pdfPath = $this->getFacturaPdfPath($id);
 
-        if (!file_exists($pdfPath)) {
-            $this->buildFacturaPdf($factura, $detalles, false, $pdfPath);
-        }
+        $this->buildFacturaPdf($factura, $detalles, false, $pdfPath);
 
         if (file_exists($pdfPath)) {
             header('Content-Type: application/pdf');
@@ -325,7 +344,7 @@ public function inhabilitarFactura() {
 public function verCarrito()
 {
     $cart = $_SESSION['cart'] ?? [];
-    include __DIR__ . '/../views_client/carrito.php';
+    include __DIR__ . '/../views_client/Carrito.php';
 }
 
 public function addToCart()
@@ -358,6 +377,14 @@ public function addToCart()
         exit;
     }
 
+    if ($selectedTalla === null && isset($p['IdTalla'])) {
+        $selectedTalla = $p['IdTalla'];
+    }
+    if ($selectedColor === null && isset($p['IdColor'])) {
+        $selectedColor = $p['IdColor'];
+    }
+    $nomTalla = $selectedTalla ? $this->productoModel->getNomTallaById((int)$selectedTalla) : null;
+
     // Inicializar carrito si no existe
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
@@ -383,6 +410,7 @@ public function addToCart()
         // Asegurar que la foto y atributos siempre estén
         $_SESSION['cart'][$id]['Foto'] = $p['Foto'];
         if ($selectedTalla) $_SESSION['cart'][$id]['IdTalla'] = $selectedTalla;
+        if ($nomTalla) $_SESSION['cart'][$id]['NomTalla'] = $nomTalla;
         if ($selectedColor) $_SESSION['cart'][$id]['IdColor'] = $selectedColor;
 
     } else {
@@ -406,6 +434,7 @@ public function addToCart()
             'Foto'            => $p['Foto'],
             'Subtotal'        => $p['Precio'] * $cantidad,
             'IdTalla'         => $selectedTalla,
+            'NomTalla'        => $nomTalla,
             'IdColor'         => $selectedColor
         ];
     }
@@ -541,6 +570,70 @@ public function finalizarCompra()
     $pdfPath = $this->getFacturaPdfPath($idFactura);
     $this->buildFacturaPdf($factura, $detalles, true, $pdfPath);
     exit;
+}
+
+public function misPedidos()
+{
+    $sessionUser = $_SESSION['usuario'] ?? null;
+    if (!$sessionUser) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    $numDoc = $sessionUser['NumDoc'];
+    $perPage = 10;
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    $total = $this->facturaModel->countPedidosByCliente($numDoc);
+    $totalPages = max(1, (int)ceil($total / $perPage));
+    $page = max(1, min($page, $totalPages));
+    $offset = ($page - 1) * $perPage;
+    $pedidos = $this->facturaModel->listarPedidosByClientePaged($numDoc, $perPage, $offset);
+    $pagination = ['page' => $page, 'totalPages' => $totalPages];
+    include __DIR__ . '/../views_client/mis_pedidos.php';
+}
+
+public function verMiPedido()
+{
+    $sessionUser = $_SESSION['usuario'] ?? null;
+    if (!$sessionUser) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    $id = intval($_GET['id'] ?? 0);
+    $numDoc = $sessionUser['NumDoc'];
+    $factura = $this->facturaModel->getFacturaByIdAndCliente($id, $numDoc);
+    if (!$factura) {
+        $_SESSION['error'] = "Pedido no encontrado.";
+        header("Location: index.php?action=misPedidos");
+        exit;
+    }
+    $detalles = $this->detalleModel->getDetallesByFactura($id);
+    include __DIR__ . '/../views_client/ver_mi_pedido.php';
+}
+
+public function verMiPedidoPdf()
+{
+    $sessionUser = $_SESSION['usuario'] ?? null;
+    if (!$sessionUser) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    $id = intval($_GET['id'] ?? 0);
+    $numDoc = $sessionUser['NumDoc'];
+    $factura = $this->facturaModel->getFacturaByIdAndCliente($id, $numDoc);
+    if (!$factura) {
+        header("Location: index.php?action=misPedidos");
+        exit;
+    }
+    $detalles = $this->detalleModel->getDetallesByFactura($id);
+    $pdfPath = $this->getFacturaPdfPath($id);
+        $this->buildFacturaPdf($factura, $detalles, false, $pdfPath);
+    if (file_exists($pdfPath)) {
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="factura_' . $id . '.pdf"');
+        readfile($pdfPath);
+        exit;
+    }
+    $this->buildFacturaPdf($factura, $detalles, true, null);
 }
 
 }

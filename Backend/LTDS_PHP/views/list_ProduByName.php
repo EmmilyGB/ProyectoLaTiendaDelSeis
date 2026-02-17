@@ -57,11 +57,9 @@
                         <th>Nombre</th>
                         <th>Precio</th>
                         <th>Material</th>
-                        <th>Talla</th>
-                        <th>Ud Medida</th>
+                        <th>Tallas/Stock</th>
                         <th>Color</th>
                         <th>Stock</th>
-                        <th>Oferta</th>
                         <th>Categoría</th>
                         <th>Marca</th>
                         <th>Descripción</th>
@@ -77,11 +75,9 @@
                     <td><?= htmlspecialchars($p['Nombre']) ?></td>
                     <td>$<?= number_format($p['Precio'], 0, ',', '.') ?></td>
                     <td><?= htmlspecialchars($p['Material']) ?></td>
-                        <td><?= htmlspecialchars($p['Talla'] ?? $p['IdTalla']) ?></td>
-                    <td><?= htmlspecialchars($p['UdMedida']) ?></td>
+                        <td><?= htmlspecialchars($p['TallasStock'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($p['Color'] ?? $p['IdColor']) ?></td>
                     <td><?= $p['Stock'] ?></td>
-                    <td><?= $p['Oferta'] ?></td>
                         <td><?= htmlspecialchars($p['Categoria'] ?? $p['IdCategoria']) ?></td>
                         <td><?= htmlspecialchars($p['Marca'] ?? $p['IdMarca']) ?></td>
                     <td><?= htmlspecialchars($p['Descripcion']) ?></td>

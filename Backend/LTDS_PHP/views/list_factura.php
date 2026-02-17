@@ -8,6 +8,21 @@
 </head>
 <body>
 <div class="wrapper-box">
+    <?php
+    if (!function_exists('estadoBadgeClass')) {
+        function estadoBadgeClass($estado) {
+            $map = [
+                'Pendiente' => 'text-bg-warning',
+                'En proceso' => 'text-bg-info',
+                'Enviado' => 'text-bg-primary',
+                'Finalizado' => 'text-bg-success',
+                'Cancelado' => 'text-bg-danger',
+                'Devuelto' => 'text-bg-secondary',
+            ];
+            return $map[$estado] ?? 'text-bg-dark';
+        }
+    }
+    ?>
 
     <!-- BotÃ³n volver al Dashboard -->
     <form action="index.php?action=dashboard" method="post">
@@ -19,6 +34,13 @@
     <h2>Facturas</h2>
     <a href="index.php?action=insertFactura" class="btn btn-primary mb-3">Crear nueva factura</a>
 
+    <?php if (!empty($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
+    <?php endif; ?>
+    <?php if (!empty($_SESSION['error'])): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
+    <?php endif; ?>
+
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -27,6 +49,7 @@
                     <th>Fecha</th>
                     <th>Cliente</th>
                     <th>Total</th>
+                    <th>Estado Pedido</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -37,6 +60,23 @@
                     <td><?= $f['FechaFactura'] ?></td>
                     <td><?= htmlspecialchars($f['NombreCom'] ?? 'Sin nombre') ?></td>
                     <td>$<?= number_format($f['Total'], 0, ',', '.') ?></td>
+                    <td>
+                        <form action="index.php?action=updatePedidoEstado" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="IdFactura" value="<?= (int)$f['IdFactura'] ?>">
+                            <select name="Estado" class="form-select form-select-sm">
+                                <?php foreach ($estadosPedido as $estado): ?>
+                                    <option value="<?= htmlspecialchars($estado) ?>" <?= (($f['Estado'] ?? 'Pendiente') === $estado) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($estado) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Guardar</button>
+                        </form>
+                        <div class="mt-2">
+                            <?php $estadoActual = $f['Estado'] ?? 'Pendiente'; ?>
+                            <span class="badge <?= estadoBadgeClass($estadoActual) ?>"><?= htmlspecialchars($estadoActual) ?></span>
+                        </div>
+                    </td>
 
                     
                     <td>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -30,11 +30,11 @@
     <h1 class="mb-3">Tu carrito</h1>
 
     <div class="notice">
-        ⚠️ Los productos en el carrito no se apartan.
+        âš ï¸ Los productos en el carrito no se apartan.
     </div>
 
     <?php if (empty($cart)): ?>
-        <p class="text-center mt-4">Tu carrito está vacío</p>
+        <p class="text-center mt-4">Tu carrito estÃ¡ vacÃ­o</p>
     <?php else: ?>
 
         <?php 
@@ -48,19 +48,24 @@
 
             <!-- IMAGEN -->
             <div class="col-4 col-md-2 text-center">
-                <img src="uploads/<?= htmlspecialchars($item['Foto'] ?? 'img/default.png') ?>"
+                <img src="uploads/<?= htmlspecialchars($item['Foto'] ?? 'default.png') ?>"
                     class="img-fluid cart-img">
             </div>
 
             <!-- NOMBRE -->
             <div class="col-8 col-md-4">
                 <h2 class="item-title"><?= htmlspecialchars($item['Nombre']) ?></h2>
+                <?php if (!empty($item['NomTalla'])): ?>
+                    <div class="small text-muted">Talla: <?= htmlspecialchars($item['NomTalla']) ?></div>
+                <?php elseif (!empty($item['IdTalla'])): ?>
+                    <div class="small text-muted">Talla: <?= htmlspecialchars($item['IdTalla']) ?></div>
+                <?php endif; ?>
             </div>
 
             <!-- CANTIDAD -->
             <div class="col-6 col-md-3 d-flex align-items-center justify-content-md-center gap-2">
                 <a href="index.php?action=updateCart&id=<?= $item['IdProducto'] ?>&op=minus"
-                class="qty-btn">−</a>
+                class="qty-btn">âˆ’</a>
 
                 <span class="fw-bold"><?= $item['Cantidad'] ?></span>
 
@@ -76,7 +81,7 @@
             <!-- ELIMINAR -->
             <div class="col-2 col-md-1 text-end">
                 <a href="index.php?action=removeFromCart&id=<?= $item['IdProducto'] ?>"
-                class="remove-btn">✕</a>
+                class="remove-btn">âœ•</a>
             </div>
 
         </div>
@@ -106,3 +111,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

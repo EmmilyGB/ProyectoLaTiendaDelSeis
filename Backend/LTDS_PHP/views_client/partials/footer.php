@@ -42,7 +42,7 @@
                 <ul class="list-unstyled footer-info">
                     <li><a href="index.php?action=faq">Preguntas frecuentes</a></li>
                     <li><a href="index.php?action=guiaTallas">Guía de tallas</a></li>
-                    <li><a href="index.php?action=devoluciones">Devoluciones</a></li>
+                    <li><a href="https://wa.me/573187916563?text=Hola%20quiero%20hacer%20una%20Devoluci%C3%B3n">Devoluciones</a></li>
                 </ul>
             </div>
 

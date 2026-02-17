@@ -39,20 +39,7 @@
       <label class="form-label">Material</label>
       <input type="text" name="Material" value="<?= htmlspecialchars($producto['Material']) ?>" class="form-control mb-2" required>
 
-      <!-- TALLA -->
-      <label class="form-label">Talla</label>
-      <select name="IdTalla" class="form-select mb-2" required>
-        <option value="">Seleccione talla</option>
-        <?php foreach ($tallas as $talla): ?>
-          <option value="<?= $talla['IdTalla']; ?>"
-            <?= ($talla['IdTalla'] == $producto['IdTalla']) ? 'selected' : '' ?>>
-            <?= htmlspecialchars($talla['NomTalla']); ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-
-      <label class="form-label">Unidad Medida</label>
-      <input type="text" name="UdMedida" value="<?= htmlspecialchars($producto['UdMedida']) ?>" class="form-control mb-2" required>
+      <div class="small text-muted mb-2">La talla se administra en la sección "Tallas y stock del mismo modelo".</div>
 
       <!-- COLOR -->
       <label class="form-label">Color</label>
@@ -68,9 +55,6 @@
 
       <label class="form-label">Stock</label>
       <input type="number" name="Stock" value="<?= $producto['Stock'] ?>" class="form-control mb-2" required>
-
-      <label class="form-label">Oferta</label>
-      <input type="number" name="Oferta" value="<?= $producto['Oferta'] ?>" class="form-control mb-2">
 
       <!-- CATEGORÍA -->
       <label class="form-label">Categoría</label>
@@ -109,10 +93,96 @@
       <label class="form-label">Subir nueva foto</label>
       <input type="file" name="Foto" class="form-control mb-3">
 
+      <label class="form-label">Agregar fotos adicionales</label>
+      <input type="file" name="Fotos[]" class="form-control mb-3" accept="image/*" multiple>
+
+      <?php if (!empty($fotosProducto)): ?>
+        <div class="mb-3">
+          <label class="form-label">Galería actual</label>
+          <div class="d-flex flex-wrap gap-2">
+            <?php foreach ($fotosProducto as $fp): ?>
+              <div class="border rounded p-2 text-center">
+                <img src="uploads/<?= htmlspecialchars($fp['RutaFoto']) ?>" class="img-thumbnail mb-2" style="width:90px;height:90px;object-fit:cover;">
+                <div>
+                  <?php if (!empty($fp['EsPrincipal'])): ?>
+                    <span class="badge bg-success mb-2">Principal</span><br>
+                  <?php else: ?>
+                    <a href="index.php?action=setProductFotoPrincipal&idBase=<?= (int)$producto['IdProducto'] ?>&idFoto=<?= (int)$fp['IdFoto'] ?>"
+                       class="btn btn-sm btn-outline-success mb-2">Principal</a><br>
+                  <?php endif; ?>
+                  <a href="index.php?action=deleteProductFoto&idBase=<?= (int)$producto['IdProducto'] ?>&idFoto=<?= (int)$fp['IdFoto'] ?>"
+                     class="btn btn-sm btn-outline-danger"
+                     onclick="return confirm('¿Eliminar esta foto?')">Eliminar</a>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      <?php endif; ?>
+
       <button type="submit" class="btn-dashboard w-100 mb-3">
         <i class="bi bi-pencil-square"></i> Actualizar Producto
       </button>
 
+    </form>
+
+    <hr class="my-4">
+
+    <h2 class="h5 mb-3">Tallas y stock del mismo modelo</h2>
+    <form action="index.php?action=updateProductTallas" method="POST" class="form-column">
+      <input type="hidden" name="IdProducto" value="<?= $producto['IdProducto'] ?>">
+
+      <div class="table-responsive mb-3">
+        <table class="table table-bordered align-middle">
+          <thead>
+            <tr>
+              <th>Talla</th>
+              <th>Stock</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($variantes as $v): ?>
+            <tr>
+              <td><?= htmlspecialchars($v['NomTalla']) ?></td>
+              <td style="max-width:140px;">
+                <input type="number"
+                       min="0"
+                       name="stock_variante[<?= (int)$v['IdProducto'] ?>]"
+                       value="<?= (int)$v['Stock'] ?>"
+                       class="form-control">
+              </td>
+              <td class="text-center">
+                <?php if ((int)$v['IdProducto'] !== (int)$producto['IdProducto']): ?>
+                  <a href="index.php?action=deleteProductVariante&idBase=<?= (int)$producto['IdProducto'] ?>&idVariante=<?= (int)$v['IdProducto'] ?>"
+                     class="btn btn-sm btn-outline-danger"
+                     onclick="return confirm('¿Eliminar esta talla del modelo?')">
+                    Eliminar
+                  </a>
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+
+      <label class="form-label">Agregar nueva talla</label>
+      <select name="NuevaIdTalla" class="form-select mb-2">
+        <option value="">No agregar talla</option>
+        <?php foreach ($tallas as $talla): ?>
+          <option value="<?= $talla['IdTalla']; ?>">
+            <?= htmlspecialchars($talla['NomTalla']); ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
+
+      <label class="form-label">Stock de nueva talla</label>
+      <input type="number" min="0" name="NuevoStock" class="form-control mb-3" placeholder="Ej: 5">
+
+      <button type="submit" class="btn-dashboard w-100 mb-3">
+        <i class="bi bi-box-seam"></i> Guardar tallas y stock
+      </button>
     </form>
 
     <form action="index.php?action=dashboard" method="post">

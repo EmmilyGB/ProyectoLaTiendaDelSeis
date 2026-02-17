@@ -14,57 +14,80 @@
 <?php include __DIR__ . '/partials/header.php'; ?>
 
 <section class="registro-section d-flex justify-content-center align-items-center">
-<div class="registro-card p-4 shadow">
+    <div class="registro-card p-4 shadow">
 
-<h2 class="text-center mb-4">Crear cuenta</h2>
+        <h2 class="text-center mb-4">Crear cuenta</h2>
 
-<!-- MOSTRAR ERRORES -->
-<?php if (!empty($_SESSION['error'])): ?>
-<div class="alert alert-danger text-center">
-    <?= $_SESSION['error']; unset($_SESSION['error']); ?>
-</div>
-<?php endif; ?>
+        <!-- MOSTRAR ERRORES -->
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="alert alert-danger text-center">
+                <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
 
-<form action="index.php?action=register" method="POST">
+        <form action="index.php?action=register" method="POST">
 
-    <input type="text" name="NumDoc" class="form-control mb-2" placeholder="Número de documento" required>
+            <!-- Número de documento -->
+            <div class="mb-2">
+                <input type="text" name="NumDoc" class="form-control" placeholder="Número de documento" required>
+            </div>
 
- <!-- Tipo de Documento --> 
- <div class="mb-3">
-                <label for="tipodoc" class="form-label">Tipo de Documento*</label>
-                <select class="form-control" name="TipoDoc">
-                    <option value="">Selecciona una opción</option> 
+            <!-- Tipo de documento -->
+            <div class="mb-3">
+                <label class="form-label">Tipo de Documento*</label>
+                <select class="form-control" name="TipoDoc" required>
+                    <option value="">Selecciona una opción</option>
                     <?php foreach ($tipoDocs as $tipoDoc): ?>
-                        <option value="<?php echo htmlspecialchars($tipoDoc['IdTipoDocum']); ?>">
-                            <?php echo htmlspecialchars($tipoDoc['TipoDoc']); ?>
+                        <option value="<?= htmlspecialchars($tipoDoc['IdTipoDocum']); ?>">
+                            <?= htmlspecialchars($tipoDoc['TipoDoc']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-    <input type="text" name="NombreCom" class="form-control mb-2" placeholder="Nombre completo" required>
+            <!-- Nombre completo -->
+            <div class="mb-2">
+                <input type="text" name="NombreCom" class="form-control" placeholder="Nombre completo" required>
+            </div>
 
-    <input type="email" name="Correo" class="form-control mb-2" placeholder="Correo electrónico" required>
+            <!-- Correo -->
+            <div class="mb-2">
+                <input type="email" name="Correo" class="form-control" placeholder="Correo electrónico" required>
+            </div>
 
-    <input type="password" name="Password" class="form-control mb-2" placeholder="Contraseña" required>
-    
-    <input type="password" id="passConfirm" class="form-control" name="PasswordConfirm" placeholder="confirma tu contraseña">
+            <!-- Contraseña -->
+            <div class="mb-2">
+                <input type="password" name="Password" class="form-control" placeholder="Contraseña" required>
+            </div>
 
-    <input type="text" name="Telefono" class="form-control mb-2" placeholder="Teléfono" required>
+            <!-- Confirmar contraseña -->
+            <div class="mb-2">
+                <input type="password" name="PasswordConfirm" class="form-control" placeholder="Confirma tu contraseña" required>
+            </div>
 
-    <input type="text" name="Direccion" class="form-control mb-3" placeholder="Dirección" required>
+            <!-- Teléfono -->
+            <div class="mb-2">
+                <input type="text" name="Telefono" class="form-control" placeholder="Teléfono" required>
+            </div>
 
-    <!-- ROL OCULTO (CLIENTE = 2) -->
-    <input type="hidden" name="IdRol" value="2">
+            <!-- Dirección -->
+            <div class="mb-3">
+                <input type="text" name="Direccion" class="form-control" placeholder="Dirección" required>
+            </div>
 
-    <button type="submit" class="btn btn-danger w-100">Registrarme</button>
-</form>
+            <!-- ROL OCULTO -->
+            <input type="hidden" name="IdRol" value="2">
 
-<div class="text-center mt-3">
-    <a href="index.php?action=login" class="text-danger">¿Ya tienes cuenta? Inicia sesión</a>
-</div>
+            <button type="submit" class="btn btn-danger w-100">Registrarme</button>
+        </form>
 
-</div>
+        <div class="text-center mt-3">
+            <a href="index.php?action=login" class="text-danger">
+                ¿Ya tienes cuenta? Inicia sesión
+            </a>
+        </div>
+
+    </div>
 </section>
 
 <?php include __DIR__ . '/partials/footer.php'; ?>

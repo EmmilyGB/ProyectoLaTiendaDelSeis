@@ -34,10 +34,10 @@
                     </li>
                 </ul>
 
-                <!-- BARRA DE BÃšSQUEDA -->
+                <!-- BARRA DE BÚSQUEDA -->
                 <form class="d-flex me-3 search-bar" action="index.php" method="get">
-                    <input type="hidden" name="action" value="ProductsByName">
-                    <input class="form-control" type="search" name="Nombre" placeholder="Que estas buscando?" aria-label="Buscar productos">
+                    <input type="hidden" name="action" value="buscarProductos">
+                    <input class="form-control" type="search" name="busqueda" placeholder="Que estas buscando?" aria-label="Buscar productos">
                     <button class="btn btn-search" type="submit">
                         <i class="bi bi-search"></i>
                     </button>

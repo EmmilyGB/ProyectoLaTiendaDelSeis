@@ -32,21 +32,21 @@ class AuthController {
         $correo   = trim(strtolower($_POST['Correo'] ?? ''));
         $password = $_POST['Password'] ?? '';
 
-        // Obtener usuario por correo para distinguir ausencia de usuario vs contraseÃ±a incorrecta
+        // Obtener usuario por correo para distinguir ausencia de usuario vs contraseña incorrecta
         $user = $this->userModel->getUsuarioByCorreo($correo);
 
         if (!$user) {
             error_log(date('[Y-m-d H:i:s]') . " LOGIN: no user for {$correo}\n", 3, __DIR__ . '/../logs/login_debug.log');
-            $_SESSION['error'] = "Correo o contraseÃ±a incorrectos";
+            $_SESSION['error'] = "Correo o contraseña incorrectos";
             header("Location: index.php?action=login");
             exit;
         }
 
         if (!password_verify($password, $user['Password'])) {
-            // No registramos la contraseÃ±a, solo el intento
+            // No registramos la contraseña, solo el intento
             $partialHash = substr($user['Password'], 0, 12);
             error_log(date('[Y-m-d H:i:s]') . " LOGIN: password mismatch for {$correo} hash_prefix={$partialHash}\n", 3, __DIR__ . '/../logs/login_debug.log');
-            $_SESSION['error'] = "Correo o contraseÃ±a incorrectos";
+            $_SESSION['error'] = "Correo o contraseña incorrectos";
             header("Location: index.php?action=login");
             exit;
         }
@@ -119,7 +119,7 @@ class AuthController {
             exit;
         }
         if ($_POST['Password'] !== $_POST['PasswordConfirm']) {
-            $_SESSION['error'] = "Las contraseÃ±as no coinciden";
+            $_SESSION['error'] = "Las contraseñas no coinciden";
             header("Location: index.php?action=crearCuenta");
             exit;
         }

@@ -19,7 +19,12 @@
 <section class="registro-section d-flex align-items-center justify-content-center">
     <div class="registro-card p-4 shadow" style="max-width:520px; width:100%;">
 
-        <h2 class="text-center mb-4">Mi perfil</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Mi perfil</h2>
+            <a href="index.php?action=misPedidos" class="mis-pedidos-btn">
+                <i class="bi bi-bag-check"></i> Mis pedidos
+            </a>
+        </div>
 
         <?php if (!empty($_SESSION['error'])): ?>
             <div class="alert alert-danger text-center">
