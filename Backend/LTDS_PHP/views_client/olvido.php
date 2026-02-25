@@ -10,15 +10,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/inicioSesion.css">
+    <link rel="stylesheet" href="css/olvido.css">
 </head>
 
 <body>
 
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-<section class="registro-section d-flex align-items-center justify-content-center min-vh-100 py-4">
-    <div class="registro-card p-4 shadow mw-100 mx-auto" style="max-width: 400px;">
+<section class="registro-section d-flex align-items-center justify-content-center">
+    <div class="registro-card p-4 shadow">  <!-- sin mw-100, sin style inline -->
 
         <h2 class="text-center mb-4">Recuperar contraseña</h2>
 

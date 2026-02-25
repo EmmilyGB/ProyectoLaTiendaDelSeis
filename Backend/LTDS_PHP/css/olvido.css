@@ -1,0 +1,113 @@
+/* =========================================================
+🔑 FORMULARIO DE RECUPERAR CONTRASEÑA
+   ========================================================= */
+
+/* Fondo principal */
+.registro-section {
+    min-height: calc(100vh - 70px); /* descuenta el header */
+    background: linear-gradient(to bottom, #000000, #3a0000);
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* Tarjeta blanca del formulario */
+.registro-card {
+    background-color: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+    padding: 2rem;
+}
+
+/* Título */
+.registro-card h2 {
+    color: #b30000;
+    font-weight: 700;
+}
+
+/* Campos de texto */
+.registro-card .form-control {
+    background-color: #dddddd;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.registro-card .form-control:focus {
+    box-shadow: 0 0 5px rgba(179, 0, 0, 0.5);
+    outline: none;
+}
+
+/* Checkbox */
+.form-check-label {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* Botón principal */
+.registro-card .btn-danger {
+    background-color: #b30000;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.registro-card .btn-danger:hover {
+    background-color: #ff1a1a;
+    box-shadow: 0 0 10px rgba(255, 26, 26, 0.4);
+}
+
+/* Botón mis pedidos */
+.mis-pedidos-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background-color: #d00000;
+    border: none;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(208, 0, 0, 0.2);
+    transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.mis-pedidos-btn:hover {
+    color: #fff !important;
+    background-color: #a00000;
+    transform: translateY(-3px);
+}
+
+.mis-pedidos-btn i {
+    font-size: 1rem;
+}
+
+/* Enlaces inferiores */
+.registro-card a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.registro-card a:hover {
+    color: #ff1a1a;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .registro-card {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+}

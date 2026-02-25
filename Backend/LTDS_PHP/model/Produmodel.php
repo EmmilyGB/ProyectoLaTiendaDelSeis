@@ -49,6 +49,16 @@ class Produmodel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getPrecioOfertaById($id)
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT PrecioOferta FROM oferta_producto WHERE IdProducto = ? LIMIT 1"
+        );
+        $stmt->execute([(int)$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? (float)$row['PrecioOferta'] : null;
+    }
+
     public function getNomTallaById($idTalla)
     {
         $stmt = $this->conn->prepare("SELECT NomTalla FROM talla WHERE IdTalla = ? LIMIT 1");
@@ -228,12 +238,22 @@ class Produmodel {
     }
 
     // ELIMINAR
-    public function eliminarProducto($id)
-    {
-        $query = "DELETE FROM $this->table_name WHERE IdProducto=?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$id]);
-    }
+ public function eliminarProducto($id)
+{
+    // Obtener todos los IdProducto de todas las variantes del mismo modelo
+    $stmt = $this->conn->prepare("SELECT IdProducto FROM producto WHERE Nombre = (SELECT Nombre FROM producto WHERE IdProducto = ? LIMIT 1)");
+    $stmt->execute([$id]);
+    $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    if (empty($ids)) return;
+
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+    $this->conn->prepare("DELETE FROM favoritos WHERE IdProducto IN ($placeholders)")->execute($ids);
+    $this->conn->prepare("DELETE FROM detallefactura WHERE IdProducto IN ($placeholders)")->execute($ids);
+    $this->conn->prepare("DELETE FROM oferta_producto WHERE IdProducto IN ($placeholders)")->execute($ids);
+    $this->conn->prepare("DELETE FROM producto WHERE IdProducto IN ($placeholders)")->execute($ids);
+}
 
     // LISTAR
     public function listarProductos()
@@ -474,6 +494,7 @@ class Produmodel {
         FROM detallefactura
         GROUP BY IdProducto
     ) dv ON p.IdProducto = dv.IdProducto
+    LEFT JOIN oferta_producto op ON op.IdProducto = p.IdProducto
     WHERE 1=1";
 
     $params = [];
@@ -494,7 +515,8 @@ class Produmodel {
     }
 
     $sql .= " GROUP BY p.Nombre, p.Precio, p.Material, c.NomColor, ca.NomCategoria, m.NomMarca,
-                    p.Descripcion, p.Foto, p.IdColor, p.IdCategoria, p.IdMarca";
+                    p.Descripcion, p.Foto, p.IdColor, p.IdCategoria, p.IdMarca
+              HAVING MAX(op.IdProducto) IS NULL";
     
     $sql .= " $orderClause LIMIT ? OFFSET ?";
 
@@ -518,7 +540,7 @@ class Produmodel {
                     COALESCE(p.Descripcion, ''), COALESCE(p.Foto, '')
                 ))
                 FROM producto p
-                WHERE 1=1";
+                WHERE p.IdProducto NOT IN (SELECT IdProducto FROM oferta_producto)";
         $params = [];
 
         if (!empty($idCategoria)) {

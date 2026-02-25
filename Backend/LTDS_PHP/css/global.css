@@ -15,7 +15,7 @@ body {
 }
 
 .custom-header {
-    margin: 0;
+    margin-top: -25;
 }
 
 .custom-header .navbar {

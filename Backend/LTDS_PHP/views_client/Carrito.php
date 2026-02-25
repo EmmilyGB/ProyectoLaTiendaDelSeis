@@ -30,11 +30,11 @@
     <h1 class="mb-3">Tu carrito</h1>
 
     <div class="notice">
-        âš ï¸ Los productos en el carrito no se apartan.
+        Los productos en el carrito no se apartan.
     </div>
 
     <?php if (empty($cart)): ?>
-        <p class="text-center mt-4">Tu carrito estÃ¡ vacÃ­o</p>
+        <p class="text-center mt-4">Tu carrito está vacío</p>
     <?php else: ?>
 
         <?php 
@@ -65,7 +65,7 @@
             <!-- CANTIDAD -->
             <div class="col-6 col-md-3 d-flex align-items-center justify-content-md-center gap-2">
                 <a href="index.php?action=updateCart&id=<?= $item['IdProducto'] ?>&op=minus"
-                class="qty-btn">âˆ’</a>
+                class="qty-btn">-</a>
 
                 <span class="fw-bold"><?= $item['Cantidad'] ?></span>
 
@@ -75,13 +75,20 @@
 
             <!-- PRECIO -->
             <div class="col-4 col-md-2 fw-bold text-md-end">
-                $<?= number_format($item['Subtotal'], 0, ',', '.') ?>
+                <?php if (!empty($item['EnOferta'])): ?>
+    <div class="text-muted fw-normal" style="text-decoration:line-through; font-size:.85em;">
+        $<?= number_format($item['PrecioOriginal'] * $item['Cantidad'], 0, ',', '.') ?>
+    </div>
+    <div class="text-danger">$<?= number_format($item['Subtotal'], 0, ',', '.') ?></div>
+<?php else: ?>
+    $<?= number_format($item['Subtotal'], 0, ',', '.') ?>
+<?php endif; ?>
             </div>
 
             <!-- ELIMINAR -->
             <div class="col-2 col-md-1 text-end">
                 <a href="index.php?action=removeFromCart&id=<?= $item['IdProducto'] ?>"
-                class="remove-btn">âœ•</a>
+                class="remove-btn">x</a>
             </div>
 
         </div>

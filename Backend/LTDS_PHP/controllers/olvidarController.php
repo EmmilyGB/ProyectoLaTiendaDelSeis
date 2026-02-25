@@ -127,50 +127,57 @@ class olvidarController {
         exit;
     }
     
-private function enviarEmailRecuperacion($destinatario, $resetLink, $nombreUsuario) {
-    // Importar PHPMailer
-    require_once __DIR__ . '/../vendor/phpmailer/src/PHPMailer.php';
-    require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
-    require_once __DIR__ . '/../vendor/phpmailer/src/Exception.php';
-    
-    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-    
-    try {
-        // Configuración del servidor SMTP (Gmail)
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = MI_CORREO;        
-        $mail->Password   = MI_PASSWORD;        
-        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+    private function enviarEmailRecuperacion($destinatario, $resetLink, $nombreUsuario) {
+        // Importar PHPMailer
+        require_once __DIR__ . '/../vendor/phpmailer/src/PHPMailer.php';
+        require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
+        require_once __DIR__ . '/../vendor/phpmailer/src/Exception.php';
         
-        // Remitente y destinatario
-        $mail->setFrom('noreply@latiendadelseis.com', 'La Tienda del Seis');
-        $mail->addAddress($destinatario, $nombreUsuario);
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         
-        // Contenido del correo
-        $mail->CharSet = 'UTF-8';
-        $mail->isHTML(false); // Texto plano
-        $mail->Subject = 'Recuperación de contraseña - La Tienda del Seis';
-        
-        $mensaje = "Hola " . $nombreUsuario . ",\n\n";
-        $mensaje .= "Recibimos una solicitud para restablecer tu contraseña.\n\n";
-        $mensaje .= "Haz clic en el siguiente enlace para crear una nueva contraseña:\n\n";
-        $mensaje .= $resetLink . "\n\n";
-        $mensaje .= "Este enlace expira en 1 hora.\n\n";
-        $mensaje .= "Si no solicitaste este cambio, puedes ignorar este correo.\n\n";
-        $mensaje .= "Saludos,\nLa Tienda del Seis";
-        
-        $mail->Body = $mensaje;
-        
-        $mail->send();
-        return true;
-        
-    } catch (Exception $e) {
-        // Registrar error
-        error_log("Error al enviar email: {$mail->ErrorInfo}");
-        return false;
+        try {
+            // Configuración del servidor SMTP (Gmail)
+            $mail->isSMTP();
+            $mail->Host       = SMTP_HOST;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = SMTP_USER;
+            $mail->Password   = SMTP_PASS;        
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = SMTP_PORT;
+            
+            // Remitente y destinatario
+            $mail->setFrom(SMTP_FROM, SMTP_NAME);
+            $mail->addAddress($destinatario, $nombreUsuario);
+            
+            // Contenido del correo
+            $mail->CharSet = 'UTF-8';
+            $mail->isHTML(false);
+            $mail->Subject = 'Recuperación de contraseña - La Tienda del Seis';
+            
+            $mensaje = "Hola " . $nombreUsuario . ",\n\n";
+            $mensaje .= "Recibimos una solicitud para restablecer tu contraseña.\n\n";
+            $mensaje .= "Haz clic en el siguiente enlace para crear una nueva contraseña:\n\n";
+            $mensaje .= $resetLink . "\n\n";
+            $mensaje .= "Este enlace expira en 1 hora.\n\n";
+            $mensaje .= "Si no solicitaste este cambio, puedes ignorar este correo.\n\n";
+            $mensaje .= "Saludos,\nLa Tienda del Seis";
+            
+            $mail->Body = $mensaje;
+            
+            if (!$mail->send()) {
+                error_log("Error al enviar email: {$mail->ErrorInfo}");
+                echo 'Error: ' . $mail->ErrorInfo;
+                return false;
+            }
+            
+            echo 'Correo enviado exitosamente';
+            return true;
+            
+        } catch (Exception $e) {
+            error_log("Error al enviar email: {$mail->ErrorInfo}");
+            echo 'Error Exception: ' . $e->getMessage();
+            return false;
+        }
     }
 }
-}
+?>

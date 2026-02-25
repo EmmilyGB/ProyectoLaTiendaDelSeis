@@ -492,6 +492,7 @@ private function listarByFiltersPaged_Internal($idCategoria = null, $idColor = n
         }
 
         $producto = $this->Produmodel->getProductoById($id);
+        $precioOferta = $this->Produmodel->getPrecioOfertaById($id);
 
         if (!$producto) {
             echo "Producto no encontrado";

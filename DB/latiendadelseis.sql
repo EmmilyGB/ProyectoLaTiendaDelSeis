@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 17-02-2026 a las 06:35:49
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 25-02-2026 a las 21:16:14
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.25
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -114,21 +114,7 @@ CREATE TABLE `detallefactura` (
 --
 
 INSERT INTO `detallefactura` (`IdDetalle`, `IdFactura`, `IdProducto`, `Cantidad`, `PrecioUnitario`, `Subtotal`) VALUES
-(9, 9, 9, 2, 455500, 911000),
-(10, 9, 11, 1, 230000, 230000),
-(11, 10, 9, 1, 455500, 455500),
-(12, 10, 10, 2, 550000, 1100000),
-(13, 11, 11, 9, 230000, 2070000),
-(14, 12, 12, 1, 500000, 500000),
-(15, 13, 10, 1, 550000, 550000),
-(16, 13, 9, 2, 455500, 911000),
-(17, 14, 9, 2, 455500, 911000),
-(18, 14, 10, 1, 550000, 550000),
-(19, 15, 9, 1, 455500, 455500),
-(20, 15, 10, 2, 550000, 1100000),
-(21, 16, 9, 2, 455500, 911000),
-(22, 16, 13, 1, 455500, 455500),
-(23, 17, 10, 2, 550000, 1100000);
+(37, 26, 28, 1, 150000, 150000);
 
 -- --------------------------------------------------------
 
@@ -203,7 +189,16 @@ INSERT INTO `factura` (`IdFactura`, `FechaFactura`, `NumDoc`, `Total`, `Estado`,
 (14, '2026-02-04', 1104578992, 1461000, 'Pendiente', 0),
 (15, '2026-02-04', 1106634561, 1555500, 'Pendiente', 1),
 (16, '2026-02-16', 999999999, 1366500, 'Pendiente', 0),
-(17, '2026-02-16', 2147483647, 1100000, 'Enviado', 0);
+(17, '2026-02-16', 2147483647, 1100000, 'Enviado', 0),
+(18, '2026-02-17', 1105466149, 550000, 'Finalizado', 0),
+(19, '2026-02-18', 1105466149, 1785500, 'Finalizado', 0),
+(20, '2026-02-18', 1105466149, 1880000, 'En proceso', 0),
+(21, '2026-02-18', 1105466149, 920000, 'Pendiente', 0),
+(22, '2026-02-19', 1105466149, 455500, 'Pendiente', 0),
+(23, '2026-02-23', 1105466149, 500000, 'Pendiente', 0),
+(24, '2026-02-23', 1105466149, 1649700, 'Pendiente', 0),
+(25, '2026-02-25', 1105466149, 549900, 'Pendiente', 0),
+(26, '2026-02-25', 1105466149, 150000, 'Pendiente', 0);
 
 -- --------------------------------------------------------
 
@@ -223,10 +218,7 @@ CREATE TABLE `favoritos` (
 --
 
 INSERT INTO `favoritos` (`Id`, `NumDoc`, `IdProducto`, `created_at`) VALUES
-(6, '1107845661', 9, '2026-01-30 02:24:54'),
-(7, '1107845661', 10, '2026-01-30 02:24:55'),
-(10, '1102346558', 9, '2026-02-04 15:53:49'),
-(11, '1107546225', 9, '2026-02-04 16:52:19');
+(18, '1105466149', 19, '2026-02-23 17:26:15');
 
 -- --------------------------------------------------------
 
@@ -251,7 +243,8 @@ INSERT INTO `marca` (`IdMarca`, `NomMarca`) VALUES
 (5, 'Nike'),
 (6, 'Converse'),
 (7, 'Asics'),
-(9, 'onitsuka');
+(9, 'onitsuka'),
+(10, 'Jordan');
 
 -- --------------------------------------------------------
 
@@ -271,7 +264,27 @@ CREATE TABLE `oferta_producto` (
 --
 
 INSERT INTO `oferta_producto` (`Id`, `IdProducto`, `PrecioOferta`, `ActualizadoEn`) VALUES
-(1, 10, 250000.00, '2026-02-17 04:59:25');
+(18, 28, 150000.00, '2026-02-25 18:59:33');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `NumDoc` varchar(50) NOT NULL,
+  `Token` varchar(255) NOT NULL,
+  `ExpiresAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `NumDoc`, `Token`, `ExpiresAt`) VALUES
+(16, '1105466149', 'd36d50b2f2db3cbded9f102bb980456ce2238d9bca1565e8140ac2501e0b3da1', '2026-02-19 19:42:44');
 
 -- --------------------------------------------------------
 
@@ -298,12 +311,13 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`IdProducto`, `Nombre`, `Material`, `Precio`, `IdTalla`, `IdColor`, `Stock`, `Foto`, `IdCategoria`, `IdMarca`, `Descripcion`) VALUES
-(9, 'Puma speedcat', 'Gamusa', 455500, 2, 8, 3, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di'),
-(10, 'Adidas Campus', 'Gamusa', 550000, 2, 8, 2, '1767649658_CampusZ.png', 1, 2, 'zapatillas de gamusa'),
-(11, 'Lattafa Yara 100ml', 'Vidrio', 230000, 1, 11, 0, '1767649733_YaraP.png', 2, 1, 'perfume de mujer'),
-(12, 'onitsuka tiger', 'cuerina', 500000, 2, 10, 0, '1770243174_default.png', 2, 9, 'zapatillas de cuerina'),
-(13, 'Puma speedcat', 'Gamusa', 455500, 3, 8, 4, '1767504850_Zapatillas.jpg', 1, 1, 'Los PUMA Club II llevan el estilo urbano a otro nivel con su diseño inspirado en la cultura de las gradas. Confeccionadas en ante de alta calidad y una duradera suela de goma, estos tenis ofrecen una comodidad excepcional que te acompaña desde la mañana hasta la noche. Cada paso refleja un estilo di'),
-(17, 'Adidas Campus', 'Gamusa', 550000, 3, 8, 5, '1767649658_CampusZ.png', 1, 2, 'zapatillas de gamusa');
+(28, 'New Balance 550', 'cuerina', 550000, 2, 7, 10, '1772045953_Captura_de_pantalla_2026-02-23_153001.png', 1, 4, 'Las New Balance 550 son zapatillas que debutaron en 1989 y han dejado una huella en el baloncesto y la moda. Originalmente lanzadas como zapatillas de baloncesto, han resurgido como un modelo emblemático, combinando un diseño retro con comodidad moderna.\r\n'),
+(29, 'Jordan 3 J Balvín ', 'Cuero', 660000, 2, 7, 10, '1772049618_1220961_01.jpg.webp', 1, 10, 'El J Balvin x Air Jordan 3 Retro \'Medellín Sunset\' reúne a los socios creativos en una combinación de colores tropical de la icónica silueta. Inspirado en las impresionantes puestas de sol de la ciudad natal de J Balvin, Medellín, Colombia, esta edición especial AJ3 presenta una parte superior de cu'),
+(30, 'Jordan 3 J Balvín ', 'Cuero', 660000, 3, 7, 10, '1772049618_1220961_01.jpg.webp', 1, 10, 'El J Balvin x Air Jordan 3 Retro \'Medellín Sunset\' reúne a los socios creativos en una combinación de colores tropical de la icónica silueta. Inspirado en las impresionantes puestas de sol de la ciudad natal de J Balvin, Medellín, Colombia, esta edición especial AJ3 presenta una parte superior de cu'),
+(31, 'Jordan 3 J Balvín ', 'Cuero', 660000, 4, 7, 10, '1772049618_1220961_01.jpg.webp', 1, 10, 'El J Balvin x Air Jordan 3 Retro \'Medellín Sunset\' reúne a los socios creativos en una combinación de colores tropical de la icónica silueta. Inspirado en las impresionantes puestas de sol de la ciudad natal de J Balvin, Medellín, Colombia, esta edición especial AJ3 presenta una parte superior de cu'),
+(32, 'Jordan 3 J Balvín ', 'Cuero', 660000, 5, 7, 10, '1772049618_1220961_01.jpg.webp', 1, 10, 'El J Balvin x Air Jordan 3 Retro \'Medellín Sunset\' reúne a los socios creativos en una combinación de colores tropical de la icónica silueta. Inspirado en las impresionantes puestas de sol de la ciudad natal de J Balvin, Medellín, Colombia, esta edición especial AJ3 presenta una parte superior de cu'),
+(33, 'New Balance 550', 'cuerina', 550000, 3, 7, 10, '1772045953_Captura_de_pantalla_2026-02-23_153001.png', 1, 4, 'Las New Balance 550 son zapatillas que debutaron en 1989 y han dejado una huella en el baloncesto y la moda. Originalmente lanzadas como zapatillas de baloncesto, han resurgido como un modelo emblemático, combinando un diseño retro con comodidad moderna.\r\n'),
+(34, ' Knu Skool Vans | Chunky Train', 'Gamusa', 700000, 5, 8, 10, '1772049966_Knu-Skool-Suede-Shoe.jpg', 3, 3, ' California el 16 de marzo. Van Doren Rubber Company es único en que fabrica zapatos en las mismas instalaciones y los vende directamente al público. En esa primera mañana, 12 clientes compran zapatos, que se hicieron ese día y quedan listos para recoger esa misma tarde VANS #44 DECK SHOES, AHORA CO');
 
 -- --------------------------------------------------------
 
@@ -325,7 +339,7 @@ CREATE TABLE `producto_foto` (
 --
 
 INSERT INTO `producto_foto` (`IdFoto`, `IdProducto`, `RutaFoto`, `Orden`, `EsPrincipal`, `FechaRegistro`) VALUES
-(1, 10, '1771296771_0_Captura_de_pantalla_2026-02-16_215232.png', 1, 0, '2026-02-17 02:52:51');
+(2, 29, '1772049618_0_3333.jpg', 1, 0, '2026-02-25 20:00:18');
 
 -- --------------------------------------------------------
 
@@ -419,6 +433,7 @@ INSERT INTO `usuario` (`NumDoc`, `NombreCom`, `Correo`, `Password`, `Tel`, `Dire
 (999999999, 'Administrador Auto', 'admin_auto@gmail.com', '$2y$10$OR0cqmh9aYAnj9yE.axiz.EKaI9mopVCZaGr4WPAzyBkVskXvfqVO', '3154798662', 'holhol', 1, 1),
 (1102346558, 'Cliente nuevo', 'cliente_nuevo@gmail.com', '$2y$10$Ie7gr.0X2NZoXRJMEgxim.v6KnHymhX2XfV8tb83hShhVq4szpPVq', '3154798662', 'prueba cliente colombia', 3, 2),
 (1104578992, 'Usuario nuevo', 'Usuario@gmail.com', '$2y$10$fd92aX3j7e0alYCFKsgRAen1ZKgTWuv230d5L1VDcaB96tWXD4aca', '514278963', 'Manzana p casa 7 praderas del norte', 3, 2),
+(1105466149, 'sebastian vargas', 'sebastianvargas2246@gmail.com', '$2y$10$zfGCKeeXbPWQp/L1jwq7AO2JUGN/9sNISql7h.U0EWQEz.5d28zKa', '123', 'Mz B casa 14', 3, 2),
 (1106634561, 'Danna Sofia Buritica', 'danfia.bl02@gmail.com', '$2y$10$mmKkwEzXWAPkUpN7axUYR.wpffwgK5ChV.P/Xyr77Nr1yA6wDfyh6', '3126074544', 'Manzana p casa 7 praderas del norte', 2, 2),
 (1107546225, 'Emmily Giraldo Buritica', 'emmilygiraldo0208@gmail.com', '$2y$10$683SCZfOZnHtgSdmguVjgugRUB3JG1W7m.r74CocpnM/MWE.LQV76', '312456789', '2do jardín verde', 2, 2),
 (2147483647, 'Harvey caicedo', 'Harvey@gmail.com', '$2y$10$nbzdFfKK1P2rzq0j6141KueTimbxTjKn04BEqv/IkJfCWYt0XLo5m', '123456789', 'dfghj,.', 3, 2);
@@ -508,6 +523,14 @@ ALTER TABLE `oferta_producto`
   ADD UNIQUE KEY `IdProducto` (`IdProducto`);
 
 --
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `NumDoc` (`NumDoc`),
+  ADD KEY `Token` (`Token`);
+
+--
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
@@ -576,7 +599,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `IdDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `detallesalida`
@@ -600,37 +623,43 @@ ALTER TABLE `entrada`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `IdFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IdMarca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `oferta_producto`
 --
 ALTER TABLE `oferta_producto`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `producto_foto`
 --
 ALTER TABLE `producto_foto`
-  MODIFY `IdFoto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdFoto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

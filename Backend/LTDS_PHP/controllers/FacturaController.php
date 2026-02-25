@@ -426,17 +426,25 @@ public function addToCart()
         }
 
         // Agregar producto nuevo al carrito
-        $_SESSION['cart'][$id] = [
-            'IdProducto'      => $id,
-            'Nombre'          => $p['Nombre'],
-            'PrecioUnitario'  => $p['Precio'],
-            'Cantidad'        => $cantidad,
-            'Foto'            => $p['Foto'],
-            'Subtotal'        => $p['Precio'] * $cantidad,
-            'IdTalla'         => $selectedTalla,
-            'NomTalla'        => $nomTalla,
-            'IdColor'         => $selectedColor
-        ];
+       // Agregar producto nuevo al carrito
+$precioOferta = $this->productoModel->getPrecioOfertaById($id);
+$precioFinal = ($precioOferta !== null && $precioOferta < (float)$p['Precio'])
+    ? $precioOferta
+    : (float)$p['Precio'];
+
+$_SESSION['cart'][$id] = [
+    'IdProducto'      => $id,
+    'Nombre'          => $p['Nombre'],
+    'PrecioOriginal'  => (float)$p['Precio'],
+    'PrecioUnitario'  => $precioFinal,
+    'EnOferta'        => $precioOferta !== null && $precioOferta < (float)$p['Precio'],
+    'Cantidad'        => $cantidad,
+    'Foto'            => $p['Foto'],
+    'Subtotal'        => $precioFinal * $cantidad,
+    'IdTalla'         => $selectedTalla,
+    'NomTalla'        => $nomTalla,
+    'IdColor'         => $selectedColor
+];
     }
 
     if ($this->wantsJson()) {

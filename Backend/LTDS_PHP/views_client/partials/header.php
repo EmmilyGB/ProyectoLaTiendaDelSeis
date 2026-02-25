@@ -32,12 +32,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?action=ofertas">Ofertas</a>
                     </li>
+                    <?php if (isset($_SESSION['usuario']['Rol']) && $_SESSION['usuario']['Rol'] === 1): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=dashboard">Dashboard</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
+
 
                 <!-- BARRA DE BÚSQUEDA -->
                 <form class="d-flex me-3 search-bar" action="index.php" method="get">
                     <input type="hidden" name="action" value="buscarProductos">
-                    <input class="form-control" type="search" name="busqueda" placeholder="Que estas buscando?" aria-label="Buscar productos">
+                    <input class="form-control" type="search" name="busqueda" placeholder="Que estas buscando?"
+                        aria-label="Buscar productos">
                     <button class="btn btn-search" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -54,27 +61,29 @@
                     <!-- USUARIO -->
                     <?php if (!empty($_SESSION['usuario'])): ?>
 
-                        <!-- BIENVENIDA -->
-                        <span class="text-white me-3 small">
-                            Bienvenid@, <?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>
-                        </span>
+                    <!-- BIENVENIDA -->
+                    <span class="text-white me-3 small">
+                        Bienvenid@, <?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>
+                    </span>
 
-                        <!-- PERFIL -->
-                        <a href="index.php?action=perfil" class="text-white me-3" title="Perfil">
-                            <i class="bi bi-person-circle"></i>
-                        </a>
+                    <!-- PERFIL -->
+                    <a href="index.php?action=perfil" class="text-white me-3" title="Perfil">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
 
-                        <!-- CERRAR SESIÃ“N -->
-                        <a href="index.php?action=logout" class="text-white me-3" title="Cerrar sesiÃ³n">
-                            <i class="bi bi-box-arrow-right"></i>
-                        </a>
+
+
+                    <!-- CERRAR SESIÃ“N -->
+                    <a href="index.php?action=logout" class="text-white me-3" title="Cerrar sesiÃ³n">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
 
                     <?php else: ?>
 
-                        <!-- INICIAR SESIÃ“N -->
-                        <a href="index.php?action=login" class="text-white me-3" title="Iniciar sesiÃ³n">
-                            <i class="bi bi-person"></i>
-                        </a>
+                    <!-- INICIAR SESIÃ“N -->
+                    <a href="index.php?action=login" class="text-white me-3" title="Iniciar sesiÃ³n">
+                        <i class="bi bi-person"></i>
+                    </a>
 
                     <?php endif; ?>
 
@@ -89,4 +98,3 @@
         </div>
     </nav>
 </header>
-

@@ -74,7 +74,18 @@
                         <span class="fw-bold ms-2">4.5</span>
                     </div>
 
-                    <h4 class="fw-bold">COP <?= number_format($producto['Precio'], 0, ',', '.') ?></h4>
+                    <?php
+    $precioOriginal = (float)$producto['Precio'];
+    $tieneOferta = isset($precioOferta) && $precioOferta !== null && $precioOferta < $precioOriginal;
+?>
+<?php if ($tieneOferta): ?>
+    <h4 class="text-muted fw-normal" style="text-decoration:line-through; font-size:1rem;">
+        COP <?= number_format($precioOriginal, 0, ',', '.') ?>
+    </h4>
+    <h4 class="fw-bold text-danger">COP <?= number_format($precioOferta, 0, ',', '.') ?></h4>
+<?php else: ?>
+    <h4 class="fw-bold">COP <?= number_format($precioOriginal, 0, ',', '.') ?></h4>
+<?php endif; ?>
                     <?php
                         $disponible = false;
                         $idSeleccionado = (int)$producto['IdProducto'];
@@ -161,9 +172,14 @@
                             <a href="index.php?action=guiaTallas" class="size-guide-link">Guía de tallas</a>
                         </div>
 
+                        <div id="sinStockMsg" class="alert alert-warning mt-3 mb-0 py-2 d-none" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                            Esta talla no está disponible en este momento.
+                        </div>
+
                         <div class="row mt-4 align-items-center">
                             <div class="col-8">
-                                <button type="submit" class="btn-cart">Agregar al carrito</button>
+                                <button type="submit" id="btnAgregarCarrito" class="btn-cart">Agregar al carrito</button>
                             </div>
                             <div class="col-4 text-end">
                                 <?php if (isset($isFavorito) && $isFavorito): ?>
@@ -239,6 +255,9 @@
           qtyPlus.disabled = current >= max;
         }
 
+        const sinStockMsg = document.getElementById('sinStockMsg');
+        const btnCarrito = document.getElementById('btnAgregarCarrito');
+
         function syncVariant() {
           const opt = sel.options[sel.selectedIndex];
           const stock = parseInt(opt.getAttribute('data-stock') || '0', 10);
@@ -249,6 +268,20 @@
           if (stock <= 0) qty.value = 1;
           if (parseInt(qty.value || '1', 10) > stock && stock > 0) qty.value = stock;
           hiddenTalla.value = idTalla;
+
+          // Mostrar mensaje y deshabilitar botón si no hay stock en la talla seleccionada
+          if (stock <= 0) {
+            sinStockMsg.classList.remove('d-none');
+            btnCarrito.disabled = true;
+            btnCarrito.style.opacity = '0.5';
+            btnCarrito.style.cursor = 'not-allowed';
+          } else {
+            sinStockMsg.classList.add('d-none');
+            btnCarrito.disabled = false;
+            btnCarrito.style.opacity = '';
+            btnCarrito.style.cursor = '';
+          }
+
           syncQtyButtons();
         }
         const selectedStock = parseInt(sel.options[sel.selectedIndex].getAttribute('data-stock') || '0', 10);
@@ -294,4 +327,3 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </body>
 </html>
-
