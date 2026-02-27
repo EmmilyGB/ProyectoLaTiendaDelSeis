@@ -40,8 +40,78 @@ class FacturaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function listarFacturasFilteredPaged($search, $estado, $limit, $offset) {
+        $params = [];
+        $where = [];
+
+        if ($search !== '') {
+            $params[':searchLike'] = '%' . $search . '%';
+            $params[':searchDigits'] = '%' . preg_replace('/\D+/', '', $search) . '%';
+            $where[] = "(CAST(f.IdFactura AS CHAR) LIKE :searchLike
+                    OR CAST(f.FechaFactura AS CHAR) LIKE :searchLike
+                    OR u.NombreCom LIKE :searchLike
+                    OR CAST(f.Total AS CHAR) LIKE :searchLike
+                    OR REPLACE(REPLACE(REPLACE(CAST(f.Total AS CHAR), '.', ''), ',', ''), ' ', '') LIKE :searchDigits)";
+        }
+
+        if ($estado !== '') {
+            $params[':estado'] = $estado;
+            $where[] = "f.Estado = :estado";
+        }
+
+        $query = "SELECT f.*, u.NombreCom FROM {$this->table} f
+                LEFT JOIN usuario u ON f.NumDoc = u.NumDoc";
+        if (!empty($where)) {
+            $query .= " WHERE " . implode(' AND ', $where);
+        }
+        $query .= " ORDER BY f.IdFactura DESC
+                LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->conn->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function countFacturas() {
         $stmt = $this->conn->prepare("SELECT COUNT(*) FROM {$this->table}");
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function countFacturasFiltered($search, $estado) {
+        $params = [];
+        $where = [];
+
+        if ($search !== '') {
+            $params[':searchLike'] = '%' . $search . '%';
+            $params[':searchDigits'] = '%' . preg_replace('/\D+/', '', $search) . '%';
+            $where[] = "(CAST(f.IdFactura AS CHAR) LIKE :searchLike
+                    OR CAST(f.FechaFactura AS CHAR) LIKE :searchLike
+                    OR u.NombreCom LIKE :searchLike
+                    OR CAST(f.Total AS CHAR) LIKE :searchLike
+                    OR REPLACE(REPLACE(REPLACE(CAST(f.Total AS CHAR), '.', ''), ',', ''), ' ', '') LIKE :searchDigits)";
+        }
+
+        if ($estado !== '') {
+            $params[':estado'] = $estado;
+            $where[] = "f.Estado = :estado";
+        }
+
+        $query = "SELECT COUNT(*) FROM {$this->table} f
+                LEFT JOIN usuario u ON f.NumDoc = u.NumDoc";
+        if (!empty($where)) {
+            $query .= " WHERE " . implode(' AND ', $where);
+        }
+
+        $stmt = $this->conn->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        }
         $stmt->execute();
         return (int)$stmt->fetchColumn();
     }

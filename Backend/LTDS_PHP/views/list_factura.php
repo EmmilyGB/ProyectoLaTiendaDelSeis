@@ -24,15 +24,43 @@
     }
     ?>
 
-    <!-- BotÃ³n volver al Dashboard -->
+    <!-- Boton volver al Dashboard -->
     <form action="index.php?action=dashboard" method="post">
         <button type="submit" class="btn-dashboard">
             <i class="bi bi-arrow-left-circle-fill"></i> Volver al Dashboard
         </button>
     </form>    
 
-    <h2>Facturas</h2>
+    <h2>Pedidos</h2>
     <a href="index.php?action=insertFactura" class="btn btn-primary mb-3">Crear nueva factura</a>
+    <form action="index.php" method="get" class="row g-2 mb-3 align-items-center">
+        <input type="hidden" name="action" value="listFactura">
+        <div class="col-md-6">
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Buscar por ID, fecha, cliente o total"
+                value="<?= htmlspecialchars($_GET['q'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+            >
+        </div>
+        <div class="col-md-3">
+            <select name="estado" class="form-select">
+                <option value="">Todos los estados</option>
+                <?php foreach ($estadosPedido as $estado): ?>
+                    <option value="<?= htmlspecialchars($estado, ENT_QUOTES, 'UTF-8') ?>" <?= (($_GET['estado'] ?? '') === $estado) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($estado) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </div>
+        <div class="col-auto">
+            <a href="index.php?action=listFactura" class="btn btn-outline-secondary">Limpiar</a>
+        </div>
+    </form>
 
     <?php if (!empty($_SESSION['success'])): ?>
         <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
@@ -54,57 +82,63 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($facturas as $f): ?>
-                <tr class="<?= !empty($f['Inhabilitado']) ? 'table-warning' : '' ?>">
-                    <td><?= $f['IdFactura'] ?></td>
-                    <td><?= $f['FechaFactura'] ?></td>
-                    <td><?= htmlspecialchars($f['NombreCom'] ?? 'Sin nombre') ?></td>
-                    <td>$<?= number_format($f['Total'], 0, ',', '.') ?></td>
-                    <td>
-                        <form action="index.php?action=updatePedidoEstado" method="post" class="d-flex gap-2">
-                            <input type="hidden" name="IdFactura" value="<?= (int)$f['IdFactura'] ?>">
-                            <select name="Estado" class="form-select form-select-sm">
-                                <?php foreach ($estadosPedido as $estado): ?>
-                                    <option value="<?= htmlspecialchars($estado) ?>" <?= (($f['Estado'] ?? 'Pendiente') === $estado) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($estado) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Guardar</button>
-                        </form>
-                        <div class="mt-2">
-                            <?php $estadoActual = $f['Estado'] ?? 'Pendiente'; ?>
-                            <span class="badge <?= estadoBadgeClass($estadoActual) ?>"><?= htmlspecialchars($estadoActual) ?></span>
-                        </div>
-                    </td>
+                <?php if (empty($facturas)): ?>
+                    <tr>
+                        <td colspan="6" class="text-center">No se encontraron pedidos con ese criterio.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($facturas as $f): ?>
+                    <tr class="<?= !empty($f['Inhabilitado']) ? 'table-warning' : '' ?>">
+                        <td><?= $f['IdFactura'] ?></td>
+                        <td><?= $f['FechaFactura'] ?></td>
+                        <td><?= htmlspecialchars($f['NombreCom'] ?? 'Sin nombre') ?></td>
+                        <td>$<?= number_format($f['Total'], 0, ',', '.') ?></td>
+                        <td>
+                            <form action="index.php?action=updatePedidoEstado" method="post" class="d-flex gap-2">
+                                <input type="hidden" name="IdFactura" value="<?= (int)$f['IdFactura'] ?>">
+                                <select name="Estado" class="form-select form-select-sm">
+                                    <?php foreach ($estadosPedido as $estado): ?>
+                                        <option value="<?= htmlspecialchars($estado) ?>" <?= (($f['Estado'] ?? 'Pendiente') === $estado) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($estado) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Guardar</button>
+                            </form>
+                            <div class="mt-2">
+                                <?php $estadoActual = $f['Estado'] ?? 'Pendiente'; ?>
+                                <span class="badge <?= estadoBadgeClass($estadoActual) ?>"><?= htmlspecialchars($estadoActual) ?></span>
+                            </div>
+                        </td>
 
-                    
-                    <td>
+                        
+                        <td>
 
-                        <!-- Ver factura -->
-                        <a href="index.php?action=viewFactura&id=<?= $f['IdFactura'] ?>" class="btn btn-sm btn-info">
-                            Detalle de factura
-                        </a>
-
-                        <!-- Ver PDF -->
-                        <a href="index.php?action=viewFacturaPdf&id=<?= $f['IdFactura'] ?>" class="btn btn-sm btn-secondary" target="_blank" rel="noopener">
-                            Ver PDF
-                        </a>
-
-                        <!-- Inhabilitar factura (o eliminar si no tiene productos) -->
-                        <?php if (!empty($f['Inhabilitado'])): ?>
-                            <button type="button" class="btn btn-sm btn-warning" disabled>Inhabilitada</button>
-                        <?php else: ?>
-                            <a href="index.php?action=inhabilitarFactura&id=<?= $f['IdFactura'] ?>"
-                            class="btn btn-sm btn-warning"
-                            onclick="return confirm('¿Seguro que deseas inhabilitar esta factura? Si no tiene productos, se eliminará.');">
-                                Inhabilitar
+                            <!-- Ver factura -->
+                            <a href="index.php?action=viewFactura&id=<?= $f['IdFactura'] ?>" class="btn btn-sm btn-info">
+                                Detalle de factura
                             </a>
-                        <?php endif; ?>
-</td>
 
-                </tr>
-                <?php endforeach; ?>
+                            <!-- Ver PDF -->
+                            <a href="index.php?action=viewFacturaPdf&id=<?= $f['IdFactura'] ?>" class="btn btn-sm btn-secondary" target="_blank" rel="noopener">
+                                Ver PDF
+                            </a>
+
+                            <!-- Inhabilitar factura (o eliminar si no tiene productos) -->
+                            <?php if (!empty($f['Inhabilitado'])): ?>
+                                <button type="button" class="btn btn-sm btn-warning" disabled>Inhabilitada</button>
+                            <?php else: ?>
+                                <a href="index.php?action=inhabilitarFactura&id=<?= $f['IdFactura'] ?>"
+                                class="btn btn-sm btn-warning"
+                                onclick="return confirm('¿Seguro que deseas inhabilitar esta factura? Si no tiene productos, se eliminará.');">
+                                    Inhabilitar
+                                </a>
+                            <?php endif; ?>
+    </td>
+
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

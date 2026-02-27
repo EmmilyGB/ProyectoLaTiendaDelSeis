@@ -25,12 +25,30 @@ class FacturaController {
     }
 
     private function wantsJson() {
+        if (isset($_REQUEST['format']) && $_REQUEST['format'] === 'json') {
+            return true;
+        }
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            return true;
+        }
         return isset($_SERVER['HTTP_ACCEPT']) && stripos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
     }
 
     private function sendJson($payload) {
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($payload);
+        exit;
+    }
+
+    private function redirectAction($defaultAction) {
+        $action = $_REQUEST['redirect'] ?? $defaultAction;
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $action)) {
+            $action = $defaultAction;
+        }
+        header("Location: index.php?action={$action}");
         exit;
     }
 
@@ -139,6 +157,23 @@ class FacturaController {
         // traer productos y clientes
         $productos = $this->productoModel->listarProductos();
         $clientes = $this->userModel->listarUsuariosWithDocAndRole();
+        $variantesPorProducto = [];
+        foreach ($productos as $p) {
+            $idBase = (int)($p['IdProducto'] ?? 0);
+            if ($idBase <= 0) {
+                continue;
+            }
+            $variantes = $this->productoModel->getVariantesByProductoBase($idBase);
+            if (empty($variantes)) {
+                $variantes = [[
+                    'IdProducto' => $idBase,
+                    'IdTalla' => $p['IdTalla'] ?? null,
+                    'NomTalla' => $p['Talla'] ?? 'Unica',
+                    'Stock' => (int)($p['Stock'] ?? 0),
+                ]];
+            }
+            $variantesPorProducto[$idBase] = $variantes;
+        }
         include __DIR__ . '/../views/insert_factura.php';
     }
 
@@ -200,11 +235,16 @@ class FacturaController {
     public function listar() {
         $perPage = 20;
         $page = max(1, (int)($_GET['page'] ?? 1));
-        $total = $this->facturaModel->countFacturas();
+        $search = trim($_GET['q'] ?? '');
+        $estado = trim($_GET['estado'] ?? '');
+        if (!in_array($estado, $this->estadosPedido, true)) {
+            $estado = '';
+        }
+        $total = $this->facturaModel->countFacturasFiltered($search, $estado);
         $totalPages = max(1, (int)ceil($total / $perPage));
         $page = max(1, min($page, $totalPages));
         $offset = ($page - 1) * $perPage;
-        $facturas = $this->facturaModel->listarFacturasPaged($perPage, $offset);
+        $facturas = $this->facturaModel->listarFacturasFilteredPaged($search, $estado, $perPage, $offset);
         $pagination = ['page' => $page, 'totalPages' => $totalPages];
         $estadosPedido = $this->estadosPedido;
         include __DIR__ . '/../views/list_factura.php';
@@ -347,7 +387,7 @@ public function verCarrito()
     include __DIR__ . '/../views_client/Carrito.php';
 }
 
-public function addToCart()
+    public function addToCart()
 {
     // Asegurar sesión
     // session started in bootstrap
@@ -362,8 +402,7 @@ public function addToCart()
         if ($this->wantsJson()) {
             $this->sendJson(['ok' => false, 'msg' => 'Producto inválido']);
         }
-        header("Location: index.php");
-        exit;
+        $this->redirectAction('home');
     }
 
     // Obtener producto desde BD
@@ -373,8 +412,7 @@ public function addToCart()
         if ($this->wantsJson()) {
             $this->sendJson(['ok' => false, 'msg' => 'Producto no encontrado']);
         }
-        header("Location: index.php");
-        exit;
+        $this->redirectAction('home');
     }
 
     if ($selectedTalla === null && isset($p['IdTalla'])) {
@@ -399,8 +437,7 @@ public function addToCart()
             if ($this->wantsJson()) {
                 $this->sendJson(['ok' => false, 'msg' => $_SESSION['error']]);
             }
-            header("Location: index.php?action=verCarrito");
-            exit;
+            $this->redirectAction('verCarrito');
         }
 
         $_SESSION['cart'][$id]['Cantidad'] = $currentQty + $cantidad;
@@ -421,8 +458,7 @@ public function addToCart()
             if ($this->wantsJson()) {
                 $this->sendJson(['ok' => false, 'msg' => $_SESSION['error']]);
             }
-            header('Location: index.php');
-            exit;
+            $this->redirectAction('home');
         }
 
         // Agregar producto nuevo al carrito
@@ -450,9 +486,7 @@ $_SESSION['cart'][$id] = [
     if ($this->wantsJson()) {
         $this->sendJson(['ok' => true, 'cart' => $_SESSION['cart']]);
     }
-    // Redirigir al carrito
-    header("Location: index.php?action=verCarrito");
-    exit;
+    $this->redirectAction('verCarrito');
 }
 
 public function updateCart()
@@ -506,8 +540,7 @@ public function removeFromCart()
         $this->sendJson(['ok' => true, 'cart' => $_SESSION['cart'] ?? []]);
     }
 
-    header("Location: index.php?action=verCarrito");
-    exit;
+    $this->redirectAction('verCarrito');
 }
 
 

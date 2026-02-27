@@ -135,11 +135,14 @@ if (!isset($_SESSION['usuario']) || (int)($_SESSION['usuario']['Rol'] ?? 0) !== 
         </div>
       </div>
 
-      <div class="d-flex justify-content-center mb-3 mt-4">
-        <a href="index.php?action=logout" class="btn btn-danger">
-          <i class="bi bi-box-arrow-right"></i> Cerrar sesion
-        </a>
-      </div>
+      <div class="d-flex justify-content-center gap-2 mb-3 mt-4">
+    <a href="index.php?action=home" class="btn btn-secondary">
+        <i class="bi bi-shop"></i> Ver catálogo
+    </a>
+    <a href="index.php?action=logout" class="btn btn-danger">
+        <i class="bi bi-box-arrow-right"></i> Cerrar sesion
+    </a>
+</div>
     </div>
   </div>
 

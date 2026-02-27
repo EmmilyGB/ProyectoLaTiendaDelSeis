@@ -29,7 +29,6 @@
         <div class="hero-content">
             <h1>La tienda del seis</h1>
             <p>Perfumes y zapatillas 100% originales</p>
-            <a href="#productos" class="btn btn-dark mt-3">Ver productos</a>
         </div>
     </section>
 

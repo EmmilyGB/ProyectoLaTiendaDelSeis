@@ -194,9 +194,11 @@ class Usermodel {
     }
 
     public function eliminarUsuario($id) {
-        $stmt = $this->conn->prepare("DELETE FROM usuario WHERE NumDoc = ?");
-        $stmt->execute([$id]);
-    }
+    $this->conn->prepare("DELETE FROM detallefactura WHERE IdFactura IN (SELECT IdFactura FROM factura WHERE NumDoc = ?)")->execute([$id]);
+    $this->conn->prepare("DELETE FROM factura WHERE NumDoc = ?")->execute([$id]);
+    $this->conn->prepare("DELETE FROM favoritos WHERE NumDoc = ?")->execute([$id]);
+    $this->conn->prepare("DELETE FROM usuario WHERE NumDoc = ?")->execute([$id]);
+}
  /* ======================
     ACTULIZAR PERFIL
     ====================== */
